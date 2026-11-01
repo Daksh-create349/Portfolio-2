@@ -2,237 +2,55 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 
-export type GrokFace =
-  | "Attentive"
-  | "Surprised"
-  | "Excited"
-  | "Happy"
-  | "Laughing"
-  | "Angry"
-  | "Sad"
-  | "Scared"
-  | "Suspicious"
-  | "Confused"
-  | "Curious"
-  | "Proud"
-  | "Shy"
-  | "Unimpressed"
-  | "Sleepy"
-  | "Neutral";
-
-const GROK_FACES: Record<
-  GrokFace,
-  {
-    leftEye: { d: string; transform: string };
-    rightEye: { d: string; transform: string };
-  }
-> = {
-  Attentive: {
-    leftEye: {
-      d: "M-10.5 -11.5A10.5 10.5 0 0 1 0 -22L0 -22A10.5 10.5 0 0 1 10.5 -11.5L10.5 11.5A10.5 10.5 0 0 1 0 22L0 22A10.5 10.5 0 0 1 -10.5 11.5Z",
-      transform: "matrix(0.98,-0.1,0.09,0.99,-17.3,-9.14)",
-    },
-    rightEye: {
-      d: "M-10.5 -11.5A10.5 10.5 0 0 1 0 -22L0 -22A10.5 10.5 0 0 1 10.5 -11.5L10.5 11.5A10.5 10.5 0 0 1 0 22L0 22A10.5 10.5 0 0 1 -10.5 11.5Z",
-      transform: "matrix(0.92,-0.04,0.09,0.99,37.32,-13.26)",
-    },
+// Official Grok Bot "Attentive" Eye Definition from grokbots.ai
+const ATTENTIVE_EYES = {
+  leftEye: {
+    d: "M-10.5 -11.5A10.5 10.5 0 0 1 0 -22L0 -22A10.5 10.5 0 0 1 10.5 -11.5L10.5 11.5A10.5 10.5 0 0 1 0 22L0 22A10.5 10.5 0 0 1 -10.5 11.5Z",
+    transform: "matrix(0.98,-0.1,0.09,0.99,-17.3,-9.14)",
   },
-  Surprised: {
-    leftEye: {
-      d: "M-22.5 -1A22.5 22.5 0 0 1 0 -23.5L0 -23.5A22.5 22.5 0 0 1 22.5 -1L22.5 1A22.5 22.5 0 0 1 0 23.5L0 23.5A22.5 22.5 0 0 1 -22.5 1Z",
-      transform: "matrix(0.97,0,0,1,-24.16,2.34)",
-    },
-    rightEye: {
-      d: "M-22.5 -1A22.5 22.5 0 0 1 0 -23.5L0 -23.5A22.5 22.5 0 0 1 22.5 -1L22.5 1A22.5 22.5 0 0 1 0 23.5L0 23.5A22.5 22.5 0 0 1 -22.5 1Z",
-      transform: "matrix(0.91,-0.01,0,1,40.71,1.98)",
-    },
-  },
-  Excited: {
-    leftEye: {
-      d: "M-20 -8A20 20 0 0 1 0 -28L0 -28A20 20 0 0 1 20 -8L20 8A20 20 0 0 1 0 28L0 28A20 20 0 0 1 -20 8Z",
-      transform: "matrix(0.97,-0.11,0.15,0.97,-20.2,20.28)",
-    },
-    rightEye: {
-      d: "M-20 -8A20 20 0 0 1 0 -28L0 -28A20 20 0 0 1 20 -8L20 8A20 20 0 0 1 0 28L0 28A20 20 0 0 1 -20 8Z",
-      transform: "matrix(0.87,0.1,-0.18,0.98,45.93,19.92)",
-    },
-  },
-  Happy: {
-    leftEye: {
-      d: "M-13.5 0A8.5 8.5 0 0 1 -5 -8.5L5 -8.5A8.5 8.5 0 0 1 13.5 0L13.5 0A8.5 8.5 0 0 1 5 8.5L-5 8.5A8.5 8.5 0 0 1 -13.5 0Z",
-      transform: "matrix(0.96,0.18,-0.21,0.97,-17.54,-17.58)",
-    },
-    rightEye: {
-      d: "M-13.5 0A8.5 8.5 0 0 1 -5 -8.5L5 -8.5A8.5 8.5 0 0 1 13.5 0L13.5 0A8.5 8.5 0 0 1 5 8.5L-5 8.5A8.5 8.5 0 0 1 -13.5 0Z",
-      transform: "matrix(0.88,-0.19,0.25,0.96,40.5,-17.9)",
-    },
-  },
-  Laughing: {
-    leftEye: {
-      d: "M-17 0A6.5 6.5 0 0 1 -10.5 -6.5L10.5 -6.5A6.5 6.5 0 0 1 17 0L17 0A6.5 6.5 0 0 1 10.5 6.5L-10.5 6.5A6.5 6.5 0 0 1 -17 0Z",
-      transform: "matrix(0.93,0.24,-0.3,0.93,-21.13,-25.55)",
-    },
-    rightEye: {
-      d: "M-17 0A6.5 6.5 0 0 1 -10.5 -6.5L10.5 -6.5A6.5 6.5 0 0 1 17 0L17 0A6.5 6.5 0 0 1 10.5 6.5L-10.5 6.5A6.5 6.5 0 0 1 -17 0Z",
-      transform: "matrix(0.85,-0.25,0.34,0.93,40.33,-25.88)",
-    },
-  },
-  Angry: {
-    leftEye: {
-      d: "M-17 0A7.5 7.5 0 0 1 -9.5 -7.5L9.5 -7.5A7.5 7.5 0 0 1 17 0L17 0A7.5 7.5 0 0 1 9.5 7.5L-9.5 7.5A7.5 7.5 0 0 1 -17 0Z",
-      transform: "matrix(0.86,0.45,-0.47,0.88,-20.85,-14.29)",
-    },
-    rightEye: {
-      d: "M-17 0A7.5 7.5 0 0 1 -9.5 -7.5L9.5 -7.5A7.5 7.5 0 0 1 17 0L17 0A7.5 7.5 0 0 1 9.5 7.5L-9.5 7.5A7.5 7.5 0 0 1 -17 0Z",
-      transform: "matrix(0.79,-0.46,0.48,0.88,37.4,-14.61)",
-    },
-  },
-  Sad: {
-    leftEye: {
-      d: "M-11 -9A11 11 0 0 1 0 -20L0 -20A11 11 0 0 1 11 -9L11 9A11 11 0 0 1 0 20L0 20A11 11 0 0 1 -11 9Z",
-      transform: "matrix(0.87,-0.42,0.45,0.89,-19.21,19)",
-    },
-    rightEye: {
-      d: "M-11 -9A11 11 0 0 1 0 -20L0 -20A11 11 0 0 1 11 -9L11 9A11 11 0 0 1 0 20L0 20A11 11 0 0 1 -11 9Z",
-      transform: "matrix(0.82,0.41,-0.45,0.89,35.72,18.7)",
-    },
-  },
-  Scared: {
-    leftEye: {
-      d: "M-20 -10A20 20 0 0 1 0 -30L0 -30A20 20 0 0 1 20 -10L20 10A20 20 0 0 1 0 30L0 30A20 20 0 0 1 -20 10Z",
-      transform: "matrix(0.96,0.1,-0.02,0.95,-28.69,29.62)",
-    },
-    rightEye: {
-      d: "M-20 -10A20 20 0 0 1 0 -30L0 -30A20 20 0 0 1 20 -10L20 10A20 20 0 0 1 0 30L0 30A20 20 0 0 1 -20 10Z",
-      transform: "matrix(0.91,-0.11,-0.02,0.95,41.19,29.26)",
-    },
-  },
-  Suspicious: {
-    leftEye: {
-      d: "M-10.5 -9.5A10.5 10.5 0 0 1 0 -20L0 -20A10.5 10.5 0 0 1 10.5 -9.5L10.5 9.5A10.5 10.5 0 0 1 0 20L0 20A10.5 10.5 0 0 1 -10.5 9.5Z",
-      transform: "matrix(0.99,-0.14,0.14,0.98,-3.41,-9.86)",
-    },
-    rightEye: {
-      d: "M-11 0A7.5 7.5 0 0 1 -3.5 -7.5L3.5 -7.5A7.5 7.5 0 0 1 11 0L11 0A7.5 7.5 0 0 1 3.5 7.5L-3.5 7.5A7.5 7.5 0 0 1 -11 0Z",
-      transform: "matrix(0.86,-0.07,0.14,0.98,49.56,-15.87)",
-    },
-  },
-  Confused: {
-    leftEye: {
-      d: "M-10 -12A10 10 0 0 1 0 -22L0 -22A10 10 0 0 1 10 -12L10 12A10 10 0 0 1 0 22L0 22A10 10 0 0 1 -10 12Z",
-      transform: "matrix(0.87,-0.21,0.13,0.97,-47.29,-11.63)",
-    },
-    rightEye: {
-      d: "M-14 0A8.5 8.5 0 0 1 -5.5 -8.5L5.5 -8.5A8.5 8.5 0 0 1 14 0L14 0A8.5 8.5 0 0 1 5.5 8.5L-5.5 8.5A8.5 8.5 0 0 1 -14 0Z",
-      transform: "matrix(0.92,0.39,-0.38,0.92,7.63,-4.06)",
-    },
-  },
-  Curious: {
-    leftEye: {
-      d: "M-12 -11A12 12 0 0 1 0 -23L0 -23A12 12 0 0 1 12 -11L12 11A12 12 0 0 1 0 23L0 23A12 12 0 0 1 -12 11Z",
-      transform: "matrix(0.94,-0.35,0.35,0.92,3.09,19.64)",
-    },
-    rightEye: {
-      d: "M-10 -9A10 10 0 0 1 0 -19L0 -19A10 10 0 0 1 10 -9L10 9A10 10 0 0 1 0 19L0 19A10 10 0 0 1 -10 9Z",
-      transform: "matrix(0.76,-0.42,0.32,0.91,55.78,4.75)",
-    },
-  },
-  Proud: {
-    leftEye: {
-      d: "M-15 0A7.5 7.5 0 0 1 -7.5 -7.5L7.5 -7.5A7.5 7.5 0 0 1 15 0L15 0A7.5 7.5 0 0 1 7.5 7.5L-7.5 7.5A7.5 7.5 0 0 1 -15 0Z",
-      transform: "matrix(0.95,0.2,-0.26,0.93,-17.95,-30.48)",
-    },
-    rightEye: {
-      d: "M-15 0A7.5 7.5 0 0 1 -7.5 -7.5L7.5 -7.5A7.5 7.5 0 0 1 15 0L15 0A7.5 7.5 0 0 1 7.5 7.5L-7.5 7.5A7.5 7.5 0 0 1 -15 0Z",
-      transform: "matrix(0.86,-0.21,0.33,0.93,40.08,-30.79)",
-    },
-  },
-  Shy: {
-    leftEye: {
-      d: "M-8.5 -6.5A8.5 8.5 0 0 1 0 -15L0 -15A8.5 8.5 0 0 1 8.5 -6.5L8.5 6.5A8.5 8.5 0 0 1 0 15L0 15A8.5 8.5 0 0 1 -8.5 6.5Z",
-      transform: "matrix(0.84,-0.07,0.18,0.97,-50.45,23.7)",
-    },
-    rightEye: {
-      d: "M-8.5 -6.5A8.5 8.5 0 0 1 0 -15L0 -15A8.5 8.5 0 0 1 8.5 -6.5L8.5 6.5A8.5 8.5 0 0 1 0 15L0 15A8.5 8.5 0 0 1 -8.5 6.5Z",
-      transform: "matrix(0.98,-0.17,0.18,0.97,-4.94,17.67)",
-    },
-  },
-  Unimpressed: {
-    leftEye: {
-      d: "M-15 0A6 6 0 0 1 -9 -6L9 -6A6 6 0 0 1 15 0L15 0A6 6 0 0 1 9 6L-9 6A6 6 0 0 1 -15 0Z",
-      transform: "matrix(0.81,-0.02,-0.02,1,-58.66,-6.04)",
-    },
-    rightEye: {
-      d: "M-15 0A6 6 0 0 1 -9 -6L9 -6A6 6 0 0 1 15 0L15 0A6 6 0 0 1 9 6L-9 6A6 6 0 0 1 -15 0Z",
-      transform: "matrix(1,0.01,-0.02,1,-6.87,-6.34)",
-    },
-  },
-  Sleepy: {
-    leftEye: {
-      d: "M-10 -11A10 10 0 0 1 0 -21L0 -21A10 10 0 0 1 10 -11L10 11A10 10 0 0 1 0 21L0 21A10 10 0 0 1 -10 11Z",
-      transform: "matrix(0.99,-0.01,0.04,0.45,-13.97,13.81)",
-    },
-    rightEye: {
-      d: "M-10 -11A10 10 0 0 1 0 -21L0 -21A10 10 0 0 1 10 -11L10 11A10 10 0 0 1 0 21L0 21A10 10 0 0 1 -10 11Z",
-      transform: "matrix(0.91,-0.04,0.04,0.45,40.59,10.65)",
-    },
-  },
-  Neutral: {
-    leftEye: {
-      d: "M-9.3 -11.3A9.3 9.3 0 0 1 0 -20.6L0 -20.6A9.3 9.3 0 0 1 9.3 -11.3L9.3 11.3A9.3 9.3 0 0 1 0 20.6L0 20.6A9.3 9.3 0 0 1 -9.3 11.3Z",
-      transform: "matrix(0.87,-0.33,0.45,0.84,21.42,-43.32)",
-    },
-    rightEye: {
-      d: "M-9.3 -11.3A9.3 9.3 0 0 1 0 -20.6L0 -20.6A9.3 9.3 0 0 1 9.3 -11.3L9.3 11.3A9.3 9.3 0 0 1 0 20.6L0 20.6A9.3 9.3 0 0 1 -9.3 11.3Z",
-      transform: "matrix(0.64,-0.06,0.45,0.84,62.98,-53.9)",
-    },
+  rightEye: {
+    d: "M-10.5 -11.5A10.5 10.5 0 0 1 0 -22L0 -22A10.5 10.5 0 0 1 10.5 -11.5L10.5 11.5A10.5 10.5 0 0 1 0 22L0 22A10.5 10.5 0 0 1 -10.5 11.5Z",
+    transform: "matrix(0.92,-0.04,0.09,0.99,37.32,-13.26)",
   },
 };
 
-const INTERACTIVE_REACTIONS: GrokFace[] = [
-  "Attentive",
-  "Happy",
-  "Surprised",
-  "Excited",
-  "Laughing",
-  "Curious",
-  "Proud",
-  "Suspicious",
-  "Angry",
-  "Shy",
-];
-
 export function GrokCompanion() {
   const [mounted, setMounted] = useState(false);
-  const [currentFace, setCurrentFace] = useState<GrokFace>("Attentive");
   const [blink, setBlink] = useState(1);
 
-  // Direct DOM refs for instant, butter-smooth 60fps tracking without React rerender lag
+  // Direct DOM refs for instant 60/120fps tracking without React re-render overhead
   const botRef = useRef<HTMLDivElement>(null);
   const eyesGroupRef = useRef<SVGGElement>(null);
   const headContainerRef = useRef<HTMLDivElement>(null);
-
-  const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const faceResetTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const lastMousePos = useRef({ x: 0, y: 0, time: 0 });
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Direct face switch without extra transitions or delays
-  const setFaceDirect = useCallback((face: GrokFace, autoResetMs = 0) => {
-    if (faceResetTimerRef.current) clearTimeout(faceResetTimerRef.current);
-    setCurrentFace(face);
-
-    if (autoResetMs > 0 && face !== "Attentive") {
-      faceResetTimerRef.current = setTimeout(() => {
-        setCurrentFace("Attentive");
-      }, autoResetMs);
-    }
+  // Natural eyelid blinking
+  const triggerBlink = useCallback(() => {
+    setBlink(0.06);
+    setTimeout(() => {
+      setBlink(1);
+    }, 110);
   }, []);
 
-  // Active cursor tracking directly targeting eyes and 3D head angle
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const scheduleBlink = () => {
+      const delay = Math.random() * 3000 + 2200;
+      timeoutId = setTimeout(() => {
+        triggerBlink();
+        scheduleBlink();
+      }, delay);
+    };
+
+    scheduleBlink();
+    return () => clearTimeout(timeoutId);
+  }, [triggerBlink]);
+
+  // Active cursor tracking — eyes directly and visibly follow mouse coordinates
   useEffect(() => {
     let rafId: number;
 
@@ -248,8 +66,8 @@ export function GrokCompanion() {
         const deltaY = e.clientY - botCenterY;
         const dist = Math.hypot(deltaX, deltaY);
 
-        // Ample eye travel distance in SVG coordinate space (250x250)
-        // With max 24px horizontal and 20px vertical, eyes visibly aim straight at cursor
+        // SVG coordinate space is 250x250.
+        // Travel limits (maxEyeX = 24, maxEyeY = 20) make gaze direction distinctly clear across screen
         const maxEyeX = 24;
         const maxEyeY = 20;
         const normX = deltaX / Math.max(dist, 1);
@@ -259,7 +77,7 @@ export function GrokCompanion() {
         const targetEyeX = normX * maxEyeX * travelFactor;
         const targetEyeY = normY * maxEyeY * travelFactor;
 
-        // Apply directly to eyes container
+        // Directly translate eye cut-outs inside SVG mask
         if (eyesGroupRef.current) {
           eyesGroupRef.current.setAttribute(
             "transform",
@@ -267,8 +85,8 @@ export function GrokCompanion() {
           );
         }
 
-        // Apply 3D perspective head tilt facing the cursor
-        const maxTilt = 18;
+        // Subtle 3D perspective tilt facing the cursor
+        const maxTilt = 16;
         const tiltX = Math.max(-maxTilt, Math.min(maxTilt, (deltaX / window.innerWidth) * maxTilt));
         const tiltY = Math.max(-maxTilt, Math.min(maxTilt, -(deltaY / window.innerHeight) * maxTilt));
 
@@ -277,31 +95,6 @@ export function GrokCompanion() {
             2
           )}deg) rotateY(${tiltX.toFixed(2)}deg)`;
         }
-
-        // Velocity detection: fast flick immediately snaps eyes to Surprised
-        const now = performance.now();
-        const dt = now - lastMousePos.current.time;
-        if (dt > 16) {
-          const dx = e.clientX - lastMousePos.current.x;
-          const dy = e.clientY - lastMousePos.current.y;
-          const speed = Math.hypot(dx, dy) / dt;
-
-          if (speed > 4.2 && currentFace === "Attentive") {
-            setFaceDirect("Surprised", 1500);
-          }
-          lastMousePos.current = { x: e.clientX, y: e.clientY, time: now };
-        }
-
-        // Wake immediately if was sleeping
-        if (currentFace === "Sleepy" || currentFace === "Unimpressed") {
-          setFaceDirect("Attentive");
-        }
-
-        // Reset idle timer (12s idle -> Sleepy eyes)
-        if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-        idleTimerRef.current = setTimeout(() => {
-          setFaceDirect("Sleepy");
-        }, 12000);
       });
     };
 
@@ -309,62 +102,27 @@ export function GrokCompanion() {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(rafId);
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
     };
-  }, [currentFace, setFaceDirect]);
-
-  // Natural eyelid blinking
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
-    const triggerBlink = () => {
-      setBlink(0.08);
-      setTimeout(() => {
-        setBlink(1);
-        const nextDelay = Math.random() * 4200 + 2400;
-        timeoutId = setTimeout(triggerBlink, nextDelay);
-      }, 110);
-    };
-
-    timeoutId = setTimeout(triggerBlink, 3000);
-    return () => clearTimeout(timeoutId);
   }, []);
-
-  // Direct Click interaction: eyes directly switch expression without body squish
-  const handleClick = () => {
-    const available = INTERACTIVE_REACTIONS.filter((f) => f !== currentFace);
-    const nextFace = available[Math.floor(Math.random() * available.length)];
-    setFaceDirect(nextFace, 3500);
-  };
-
-  // Hover glance: direct happy eyes
-  const handleMouseEnter = () => {
-    if (currentFace === "Attentive" || currentFace === "Sleepy") {
-      setFaceDirect("Happy", 2200);
-    }
-  };
 
   if (!mounted) return null;
 
-  const activeFaceData = GROK_FACES[currentFace] || GROK_FACES.Attentive;
-
   return (
     <aside
-      aria-label="Interactive Grok Bot"
+      aria-label="Interactive Grok Companion"
       className="fixed bottom-6 right-6 z-40 select-none pointer-events-none"
     >
       <div className="relative flex flex-col items-end">
-        {/* Main Grok Bot Container — Direct eye movements, no body distortion */}
+        {/* Main Grok Bot Container */}
         <div
           ref={botRef}
-          onClick={handleClick}
-          onMouseEnter={handleMouseEnter}
-          title={`Grok Bot (${currentFace})`}
+          onClick={triggerBlink}
+          title="Grok Bot"
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
-              handleClick();
+              triggerBlink();
             }
           }}
           className="pointer-events-auto relative flex size-16 sm:size-20 items-center justify-center cursor-pointer drop-shadow-[0_12px_24px_rgba(59,147,240,0.3)] transition-transform duration-150 hover:scale-105 active:scale-95"
@@ -408,20 +166,20 @@ export function GrokCompanion() {
                       style={{
                         transform: `scale(1, ${blink})`,
                         transformOrigin: "0px -5px",
-                        transition: "transform 0.06s ease-out",
+                        transition: "transform 0.07s ease-out",
                       }}
                     >
-                      {/* Left Reaction Eye */}
+                      {/* Left Eye Cut-out */}
                       <path
-                        d={activeFaceData.leftEye.d}
-                        transform={activeFaceData.leftEye.transform}
+                        d={ATTENTIVE_EYES.leftEye.d}
+                        transform={ATTENTIVE_EYES.leftEye.transform}
                         opacity="1"
                         fill="#000000"
                       />
-                      {/* Right Reaction Eye */}
+                      {/* Right Eye Cut-out */}
                       <path
-                        d={activeFaceData.rightEye.d}
-                        transform={activeFaceData.rightEye.transform}
+                        d={ATTENTIVE_EYES.rightEye.d}
+                        transform={ATTENTIVE_EYES.rightEye.transform}
                         opacity="1"
                         fill="#000000"
                       />
