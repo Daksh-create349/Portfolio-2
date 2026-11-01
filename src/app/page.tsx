@@ -15,34 +15,25 @@ import { AboutAndJourneySection } from "@/components/AboutAndJourneySection";
 import { StackSection } from "@/components/StackSection";
 import { Footer } from "@/components/Footer";
 import { ContactModal } from "@/components/ContactModal";
-import { JoinCanvasModal, CursorUser } from "@/components/JoinCanvasModal";
 
 export default function Home() {
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [isCanvasModalOpen, setIsCanvasModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<CursorUser | null>(null);
+  const [cursorColor, setCursorColor] = useState("#0D99FF");
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("figma_cursor_user");
-      if (saved) {
-        setCurrentUser(JSON.parse(saved));
-      } else {
-        // Prompt visitor to pick their cursor on arrival
-        const timer = setTimeout(() => {
-          setIsCanvasModalOpen(true);
-        }, 1200);
-        return () => clearTimeout(timer);
+      const savedColor = localStorage.getItem("cursor_color");
+      if (savedColor) {
+        setCursorColor(savedColor);
       }
     } catch {}
   }, []);
 
-  const handleJoinCanvas = (user: CursorUser) => {
-    setCurrentUser(user);
+  const handleSelectCursorColor = (color: string) => {
+    setCursorColor(color);
     try {
-      localStorage.setItem("figma_cursor_user", JSON.stringify(user));
+      localStorage.setItem("cursor_color", color);
     } catch {}
-    setIsCanvasModalOpen(false);
   };
 
   return (
@@ -50,11 +41,8 @@ export default function Home() {
       {/* Lenis Smooth Momentum Scrolling */}
       <SmoothScroll />
 
-      {/* Figma Multiplayer Interactive Cursor */}
-      <FigmaCursor
-        currentUser={currentUser}
-        onOpenCanvasModal={() => setIsCanvasModalOpen(true)}
-      />
+      {/* Single-User Smooth Figma Interactive Cursor */}
+      <FigmaCursor color={cursorColor} />
 
       {/* Signature Site Opener Counter */}
       <SiteLoader />
@@ -62,11 +50,11 @@ export default function Home() {
       {/* Atmospheric Aurora, Particle Nodes, and Glass Blur Masks */}
       <BackgroundEffects />
 
-      {/* Floating Center Dock Navigation */}
+      {/* Floating Center Dock Navigation with Minimal Cursor Color Selector */}
       <FloatingHeader
         onOpenContact={() => setIsContactOpen(true)}
-        currentUser={currentUser}
-        onOpenCanvas={() => setIsCanvasModalOpen(true)}
+        cursorColor={cursorColor}
+        onSelectCursorColor={handleSelectCursorColor}
       />
 
       {/* Desktop Left Preview Rail */}
@@ -98,14 +86,6 @@ export default function Home() {
 
       {/* Interactive Contact & Booking Dialog */}
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-
-      {/* Multiplayer Canvas Cursor Customizer Dialog */}
-      <JoinCanvasModal
-        isOpen={isCanvasModalOpen}
-        onClose={() => setIsCanvasModalOpen(false)}
-        onJoin={handleJoinCanvas}
-        currentUser={currentUser || undefined}
-      />
     </div>
   );
 }
