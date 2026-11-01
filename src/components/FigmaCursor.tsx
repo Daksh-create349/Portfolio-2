@@ -119,8 +119,7 @@ export function FigmaCursor() {
         </svg>
 
         {/* Figma Multiplayer User Name Tag (Enlarged) */}
-        <div className="ml-1.5 -mt-0.5 flex items-center gap-1.5 rounded-full bg-[#0D99FF] px-3 py-1 text-xs font-semibold tracking-tight text-white shadow-[0_2px_10px_rgba(13,153,255,0.45)] border border-white/35 whitespace-nowrap">
-          <span className="size-2 rounded-full bg-white animate-pulse" />
+        <div className="ml-1.5 -mt-0.5 flex items-center rounded-full bg-[#0D99FF] px-3 py-1 text-xs font-semibold tracking-tight text-white shadow-[0_2px_10px_rgba(13,153,255,0.45)] border border-white/35 whitespace-nowrap">
           <span className="font-mono text-[11px] font-medium leading-none">{actionLabel}</span>
         </div>
       </div>

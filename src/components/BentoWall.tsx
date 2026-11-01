@@ -137,11 +137,7 @@ export function BentoWall() {
                         <span>{proj.stars} Stars</span>
                       </span>
 
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-background px-3 py-1 text-xs font-mono text-foreground border border-border/60">
-                        <span
-                          className="size-2 rounded-full"
-                          style={{ backgroundColor: proj.languageColor }}
-                        />
+                      <span className="inline-flex items-center rounded-full bg-background px-3 py-1 text-xs font-mono text-foreground border border-border/60">
                         <span>{proj.language}</span>
                       </span>
 
@@ -266,11 +262,7 @@ export function BentoWall() {
                       <span>{proj.stars}</span>
                     </span>
 
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-background px-2.5 py-1 text-xs font-mono text-muted-foreground border border-border/60">
-                      <span
-                        className="size-2 rounded-full"
-                        style={{ backgroundColor: proj.languageColor }}
-                      />
+                    <span className="inline-flex items-center rounded-full bg-background px-2.5 py-1 text-xs font-mono text-muted-foreground border border-border/60">
                       <span>{proj.language}</span>
                     </span>
 
@@ -304,7 +296,7 @@ export function BentoWall() {
                 <ul className="space-y-2 pt-2">
                   {proj.highlights.map((hl, i) => (
                     <li key={i} className="flex items-start gap-2 text-xs text-foreground/80">
-                      <span className="size-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                      <span className="text-muted-foreground/60 select-none shrink-0 font-mono">—</span>
                       <span>{hl}</span>
                     </li>
                   ))}

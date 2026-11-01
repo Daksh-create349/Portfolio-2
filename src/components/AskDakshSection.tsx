@@ -175,15 +175,9 @@ export function AskDakshSection() {
               <Mail className="size-5" />
             </span>
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-base font-semibold tracking-tight text-foreground">
-                  Send a Direct Message
-                </h3>
-                <span className="flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-0.5 text-[10px] font-mono font-medium text-foreground border border-border/70">
-                  <span className="size-1.5 rounded-full bg-foreground/60" />
-                  <span>Available</span>
-                </span>
-              </div>
+              <h3 className="text-base font-semibold tracking-tight text-foreground">
+                Send a Direct Message
+              </h3>
               <div className="flex items-center gap-2 mt-0.5">
                 <span className="text-xs font-mono text-muted-foreground">
                   To:{" "}
@@ -440,7 +434,7 @@ export function AskDakshSection() {
 
               {isTyping && (
                 <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground p-3 rounded-xl bg-background border border-border/50 w-fit">
-                  <span className="size-2 rounded-full bg-primary animate-ping" />
+                  <Bot className="size-3.5 text-primary" />
                   <span>Daksh AI is synthesizing response...</span>
                 </div>
               )}

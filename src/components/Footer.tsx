@@ -74,7 +74,6 @@ export function Footer() {
 
           {/* Live Mumbai Clock */}
           <div className="flex items-center gap-2 rounded-full border border-border/80 bg-secondary/40 px-3.5 py-1.5 text-xs font-mono text-muted-foreground">
-            <span className="size-2 rounded-full bg-foreground/60" />
             <span>Mumbai, IN</span>
             <span className="text-foreground font-semibold tabular-nums">{mumbaiTime || "12:00:00"} IST</span>
           </div>

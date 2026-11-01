@@ -88,8 +88,7 @@ export function HeroSection({ onHoldAbout }: HeroSectionProps) {
     >
       {/* Left Column: Rotating Title & CTA */}
       <div className="flex flex-col items-start gap-8 min-w-0">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-foreground/10 bg-secondary/50 text-xs font-mono text-muted-foreground">
-          <span className="size-1.5 rounded-full bg-foreground/60" />
+        <div className="inline-flex items-center px-3 py-1 rounded-full border border-foreground/10 bg-secondary/50 text-xs font-mono text-muted-foreground">
           <span>Available for AI &amp; Software Roles · Mumbai</span>
         </div>
 

@@ -123,12 +123,6 @@ export function AboutAndJourneySection() {
                           <h4 className="text-lg sm:text-xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
                             {item.role}
                           </h4>
-                          {isCurrent && (
-                            <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-mono font-medium text-foreground border border-border/70">
-                              <span className="size-1.5 rounded-full bg-foreground/60" />
-                              <span>Active</span>
-                            </span>
-                          )}
                         </div>
 
                         <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-medium text-muted-foreground">
