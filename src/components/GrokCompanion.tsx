@@ -191,25 +191,27 @@ const GROK_FACES: Record<
 
 const INTERACTIVE_REACTIONS: GrokFace[] = [
   "Attentive",
-  "Excited",
   "Happy",
-  "Laughing",
   "Surprised",
+  "Excited",
+  "Laughing",
   "Curious",
   "Proud",
   "Suspicious",
-  "Confused",
+  "Angry",
   "Shy",
 ];
 
 export function GrokCompanion() {
   const [mounted, setMounted] = useState(false);
   const [currentFace, setCurrentFace] = useState<GrokFace>("Attentive");
-  const [eyeOffset, setEyeOffset] = useState({ x: 0, y: 0 });
-  const [headTilt, setHeadTilt] = useState({ rx: 0, ry: 0 });
   const [blink, setBlink] = useState(1);
-  const [isSquishing, setIsSquishing] = useState(false);
+
+  // Direct DOM refs for instant, butter-smooth 60fps tracking without React rerender lag
   const botRef = useRef<HTMLDivElement>(null);
+  const eyesGroupRef = useRef<SVGGElement>(null);
+  const headContainerRef = useRef<HTMLDivElement>(null);
+
   const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
   const faceResetTimerRef = useRef<NodeJS.Timeout | null>(null);
   const lastMousePos = useRef({ x: 0, y: 0, time: 0 });
@@ -218,81 +220,100 @@ export function GrokCompanion() {
     setMounted(true);
   }, []);
 
-  // Temporary expression switch with auto-return to Attentive
-  const triggerReactionFace = useCallback((face: GrokFace, durationMs = 2800) => {
+  // Direct face switch without extra transitions or delays
+  const setFaceDirect = useCallback((face: GrokFace, autoResetMs = 0) => {
     if (faceResetTimerRef.current) clearTimeout(faceResetTimerRef.current);
     setCurrentFace(face);
 
-    if (face !== "Attentive") {
+    if (autoResetMs > 0 && face !== "Attentive") {
       faceResetTimerRef.current = setTimeout(() => {
         setCurrentFace("Attentive");
-      }, durationMs);
+      }, autoResetMs);
     }
   }, []);
 
-  // Mouse tracking for eyes and 3D head tilt + velocity reaction
+  // Active cursor tracking directly targeting eyes and 3D head angle
   useEffect(() => {
+    let rafId: number;
+
     const handleMouseMove = (e: MouseEvent) => {
-      if (!botRef.current) return;
-      const rect = botRef.current.getBoundingClientRect();
-      const botCenterX = rect.left + rect.width / 2;
-      const botCenterY = rect.top + rect.height / 2;
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (!botRef.current) return;
+        const rect = botRef.current.getBoundingClientRect();
+        const botCenterX = rect.left + rect.width / 2;
+        const botCenterY = rect.top + rect.height / 2;
 
-      const deltaX = e.clientX - botCenterX;
-      const deltaY = e.clientY - botCenterY;
-      const dist = Math.hypot(deltaX, deltaY);
+        const deltaX = e.clientX - botCenterX;
+        const deltaY = e.clientY - botCenterY;
+        const dist = Math.hypot(deltaX, deltaY);
 
-      // Eye gaze tracking displacement
-      const maxEyeDist = 10;
-      const eyeFactor = Math.min(dist / 400, 1);
-      const angle = Math.atan2(deltaY, deltaX);
+        // Ample eye travel distance in SVG coordinate space (250x250)
+        // With max 24px horizontal and 20px vertical, eyes visibly aim straight at cursor
+        const maxEyeX = 24;
+        const maxEyeY = 20;
+        const normX = deltaX / Math.max(dist, 1);
+        const normY = deltaY / Math.max(dist, 1);
+        const travelFactor = Math.min(dist / 320, 1);
 
-      const ex = Math.cos(angle) * maxEyeDist * eyeFactor;
-      const ey = Math.sin(angle) * (maxEyeDist * 0.75) * eyeFactor;
+        const targetEyeX = normX * maxEyeX * travelFactor;
+        const targetEyeY = normY * maxEyeY * travelFactor;
 
-      setEyeOffset({ x: ex, y: ey });
-
-      // 3D Perspective Tilt
-      const maxTilt = 15;
-      const rx = Math.max(-maxTilt, Math.min(maxTilt, -(deltaY / window.innerHeight) * maxTilt));
-      const ry = Math.max(-maxTilt, Math.min(maxTilt, (deltaX / window.innerWidth) * maxTilt));
-      setHeadTilt({ rx, ry });
-
-      // Velocity calculation (fast flick = surprised reaction)
-      const now = performance.now();
-      const dt = now - lastMousePos.current.time;
-      if (dt > 16) {
-        const dx = e.clientX - lastMousePos.current.x;
-        const dy = e.clientY - lastMousePos.current.y;
-        const speed = Math.hypot(dx, dy) / dt;
-
-        if (speed > 4.5 && currentFace === "Attentive") {
-          triggerReactionFace("Surprised", 1600);
+        // Apply directly to eyes container
+        if (eyesGroupRef.current) {
+          eyesGroupRef.current.setAttribute(
+            "transform",
+            `translate(${targetEyeX.toFixed(2)}, ${targetEyeY.toFixed(2)})`
+          );
         }
 
-        lastMousePos.current = { x: e.clientX, y: e.clientY, time: now };
-      }
+        // Apply 3D perspective head tilt facing the cursor
+        const maxTilt = 18;
+        const tiltX = Math.max(-maxTilt, Math.min(maxTilt, (deltaX / window.innerWidth) * maxTilt));
+        const tiltY = Math.max(-maxTilt, Math.min(maxTilt, -(deltaY / window.innerHeight) * maxTilt));
 
-      // Wake up from sleepy if was idle
-      if (currentFace === "Sleepy" || currentFace === "Unimpressed") {
-        setCurrentFace("Attentive");
-      }
+        if (headContainerRef.current) {
+          headContainerRef.current.style.transform = `perspective(500px) rotateX(${tiltY.toFixed(
+            2
+          )}deg) rotateY(${tiltX.toFixed(2)}deg)`;
+        }
 
-      // Reset idle timer (14s without cursor movement -> Sleepy)
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-      idleTimerRef.current = setTimeout(() => {
-        setCurrentFace("Sleepy");
-      }, 14000);
+        // Velocity detection: fast flick immediately snaps eyes to Surprised
+        const now = performance.now();
+        const dt = now - lastMousePos.current.time;
+        if (dt > 16) {
+          const dx = e.clientX - lastMousePos.current.x;
+          const dy = e.clientY - lastMousePos.current.y;
+          const speed = Math.hypot(dx, dy) / dt;
+
+          if (speed > 4.2 && currentFace === "Attentive") {
+            setFaceDirect("Surprised", 1500);
+          }
+          lastMousePos.current = { x: e.clientX, y: e.clientY, time: now };
+        }
+
+        // Wake immediately if was sleeping
+        if (currentFace === "Sleepy" || currentFace === "Unimpressed") {
+          setFaceDirect("Attentive");
+        }
+
+        // Reset idle timer (12s idle -> Sleepy eyes)
+        if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+        idleTimerRef.current = setTimeout(() => {
+          setFaceDirect("Sleepy");
+        }, 12000);
+      });
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(rafId);
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
     };
-  }, [currentFace, triggerReactionFace]);
+  }, [currentFace, setFaceDirect]);
 
-  // Natural periodic blinking
+  // Natural eyelid blinking
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
 
@@ -300,35 +321,26 @@ export function GrokCompanion() {
       setBlink(0.08);
       setTimeout(() => {
         setBlink(1);
-        const nextDelay = Math.random() * 4000 + 2600;
+        const nextDelay = Math.random() * 4200 + 2400;
         timeoutId = setTimeout(triggerBlink, nextDelay);
-      }, 120);
+      }, 110);
     };
 
-    timeoutId = setTimeout(triggerBlink, 3200);
+    timeoutId = setTimeout(triggerBlink, 3000);
     return () => clearTimeout(timeoutId);
   }, []);
 
-  // Click interaction: squish and cycle to a new reaction face
+  // Direct Click interaction: eyes directly switch expression without body squish
   const handleClick = () => {
-    setIsSquishing(true);
-    setBlink(0.08);
-
-    setTimeout(() => {
-      setBlink(1);
-      setIsSquishing(false);
-    }, 180);
-
-    // Pick a new reaction face different from current
     const available = INTERACTIVE_REACTIONS.filter((f) => f !== currentFace);
     const nextFace = available[Math.floor(Math.random() * available.length)];
-    triggerReactionFace(nextFace, 3400);
+    setFaceDirect(nextFace, 3500);
   };
 
-  // Hover reaction: happy glance
+  // Hover glance: direct happy eyes
   const handleMouseEnter = () => {
     if (currentFace === "Attentive" || currentFace === "Sleepy") {
-      triggerReactionFace("Happy", 2200);
+      setFaceDirect("Happy", 2200);
     }
   };
 
@@ -342,12 +354,12 @@ export function GrokCompanion() {
       className="fixed bottom-6 right-6 z-40 select-none pointer-events-none"
     >
       <div className="relative flex flex-col items-end">
-        {/* Grok Bot Container — No speech bubbles or text messages */}
+        {/* Main Grok Bot Container — Direct eye movements, no body distortion */}
         <div
           ref={botRef}
           onClick={handleClick}
           onMouseEnter={handleMouseEnter}
-          title={`Grok Bot (${currentFace}) — click to trigger reactions`}
+          title={`Grok Bot (${currentFace})`}
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
@@ -355,15 +367,7 @@ export function GrokCompanion() {
               handleClick();
             }
           }}
-          style={{
-            transform: `perspective(600px) rotateX(${headTilt.rx}deg) rotateY(${headTilt.ry}deg) scale(${
-              isSquishing ? 0.88 : 1
-            })`,
-            transition: isSquishing
-              ? "transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275)"
-              : "transform 0.08s ease-out",
-          }}
-          className="pointer-events-auto relative flex size-16 sm:size-20 items-center justify-center cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95 drop-shadow-[0_12px_24px_rgba(59,147,240,0.3)]"
+          className="pointer-events-auto relative flex size-16 sm:size-20 items-center justify-center cursor-pointer drop-shadow-[0_12px_24px_rgba(59,147,240,0.3)] transition-transform duration-150 hover:scale-105 active:scale-95"
         >
           {/* Subtle ambient cyan glow halo */}
           <div
@@ -371,84 +375,93 @@ export function GrokCompanion() {
             aria-hidden="true"
           />
 
-          <svg
-            viewBox="-125 -125 250 250"
-            aria-hidden="true"
-            className="relative size-full overflow-visible"
+          {/* 3D Tilting Head Container */}
+          <div
+            ref={headContainerRef}
+            className="size-full will-change-transform"
+            style={{ transformStyle: "preserve-3d" }}
           >
-            <defs>
-              {/* Mask with Squircle Body + Authentic Cut-out Reaction Eyes */}
-              <mask
-                id="grok-studio-mask"
-                maskUnits="userSpaceOnUse"
-                x="-125"
-                y="-125"
-                width="250"
-                height="250"
-              >
-                {/* Official Studio Head Squircle Shape (White = visible) */}
-                <path
-                  d="M100.1 0.26C100.1 3.55 99.94 6.85 99.62 10.11C99.3 13.38 98.82 16.65 98.18 19.87C97.54 23.09 96.74 26.29 95.8 29.43C94.85 32.57 93.74 35.68 92.49 38.72C91.24 41.75 89.83 44.74 88.29 47.63C86.75 50.53 85.06 53.36 83.25 56.09C81.43 58.82 79.48 61.47 77.4 64.01C75.33 66.55 73.12 68.99 70.81 71.32C68.5 73.64 66.07 75.85 63.54 77.94C61.02 80.02 58.38 81.99 55.66 83.81C52.94 85.64 50.12 87.33 47.24 88.88C44.36 90.43 41.39 91.84 38.37 93.1C35.35 94.35 32.26 95.47 29.13 96.42C26 97.37 22.82 98.17 19.61 98.81C16.41 99.46 13.16 99.94 9.9 100.26C6.65 100.58 3.37 100.75 0.1 100.75C-3.16 100.75 -6.45 100.58 -9.7 100.26C-12.95 99.94 -16.2 99.46 -19.41 98.81C-22.61 98.17 -25.8 97.37 -28.93 96.42C-32.05 95.47 -35.15 94.35 -38.17 93.1C-41.18 91.84 -44.16 90.43 -47.04 88.88C-49.92 87.33 -52.74 85.64 -55.45 83.81C-58.17 81.99 -60.81 80.02 -63.34 77.94C-65.86 75.85 -68.3 73.64 -70.61 71.32C-72.92 68.99 -75.13 66.55 -77.2 64.01C-79.27 61.47 -81.23 58.82 -83.04 56.09C-84.86 53.36 -86.55 50.53 -88.09 47.63C-89.63 44.74 -91.04 41.75 -92.29 38.72C-93.54 35.68 -94.64 32.57 -95.59 29.43C-96.54 26.29 -97.34 23.09 -97.98 19.87C-98.61 16.65 -99.1 13.38 -99.42 10.11C-99.74 6.85 -99.9 3.55 -99.9 0.26C-99.9 -3.02 -99.74 -6.32 -99.42 -9.58C-99.1 -12.85 -98.61 -16.12 -97.98 -19.34C-97.34 -22.56 -96.54 -25.76 -95.59 -28.9C-94.64 -32.05 -93.54 -35.15 -92.29 -38.19C-91.04 -41.22 -89.63 -44.21 -88.09 -47.1C-86.55 -50 -84.86 -52.83 -83.04 -55.56C-81.23 -58.29 -79.27 -60.94 -77.2 -63.48C-75.13 -66.02 -72.92 -68.46 -70.61 -70.79C-68.3 -73.11 -65.86 -75.33 -63.34 -77.41C-60.81 -79.49 -58.17 -81.46 -55.45 -83.28C-52.74 -85.11 -49.92 -86.8 -47.04 -88.35C-44.16 -89.9 -41.18 -91.31 -38.17 -92.57C-35.15 -93.82 -32.05 -94.94 -28.93 -95.89C-25.8 -96.84 -22.61 -97.65 -19.41 -98.29C-16.2 -98.93 -12.95 -99.41 -9.7 -99.73C-6.45 -100.05 -3.16 -100.22 0.1 -100.22C3.37 -100.22 6.65 -100.05 9.9 -99.73C13.16 -99.41 16.41 -98.93 19.61 -98.29C22.82 -97.65 26 -96.84 29.13 -95.89C32.26 -94.94 35.35 -93.82 38.37 -92.57C41.39 -91.31 44.36 -89.9 47.24 -88.35C50.12 -86.8 52.94 -85.11 55.66 -83.28C58.38 -81.46 61.02 -79.49 63.54 -77.41C66.07 -75.33 68.5 -73.11 70.81 -70.79C73.12 -68.46 75.33 -66.02 77.4 -63.48C79.48 -60.94 81.43 -58.29 83.25 -55.56C85.06 -52.83 86.75 -50 88.29 -47.1C89.83 -44.21 91.24 -41.22 92.49 -38.19C93.74 -35.15 94.85 -32.05 95.8 -28.9C96.74 -25.76 97.54 -22.56 98.18 -19.34C98.82 -16.12 99.3 -12.85 99.62 -9.58C99.94 -6.32 100.1 -3.02 100.1 0.26Z"
-                  fill="#ffffff"
-                />
-
-                {/* Reaction Eyes Container (Black = transparent holes in mask) with Cursor Gaze Offset & Blinking */}
-                <g
-                  style={{
-                    transform: `translate(${eyeOffset.x}px, ${eyeOffset.y}px) scale(1, ${blink})`,
-                    transformOrigin: "0px -5px",
-                    transition: "transform 0.08s ease-out",
-                  }}
+            <svg
+              viewBox="-125 -125 250 250"
+              aria-hidden="true"
+              className="relative size-full overflow-visible"
+            >
+              <defs>
+                {/* Mask with Squircle Body + Authentic Cut-out Reaction Eyes */}
+                <mask
+                  id="grok-studio-mask"
+                  maskUnits="userSpaceOnUse"
+                  x="-125"
+                  y="-125"
+                  width="250"
+                  height="250"
                 >
-                  {/* Left Reaction Eye */}
+                  {/* Official Studio Head Squircle Shape (White = visible) */}
                   <path
-                    d={activeFaceData.leftEye.d}
-                    transform={activeFaceData.leftEye.transform}
-                    opacity="1"
-                    fill="#000000"
+                    d="M100.1 0.26C100.1 3.55 99.94 6.85 99.62 10.11C99.3 13.38 98.82 16.65 98.18 19.87C97.54 23.09 96.74 26.29 95.8 29.43C94.85 32.57 93.74 35.68 92.49 38.72C91.24 41.75 89.83 44.74 88.29 47.63C86.75 50.53 85.06 53.36 83.25 56.09C81.43 58.82 79.48 61.47 77.4 64.01C75.33 66.55 73.12 68.99 70.81 71.32C68.5 73.64 66.07 75.85 63.54 77.94C61.02 80.02 58.38 81.99 55.66 83.81C52.94 85.64 50.12 87.33 47.24 88.88C44.36 90.43 41.39 91.84 38.37 93.1C35.35 94.35 32.26 95.47 29.13 96.42C26 97.37 22.82 98.17 19.61 98.81C16.41 99.46 13.16 99.94 9.9 100.26C6.65 100.58 3.37 100.75 0.1 100.75C-3.16 100.75 -6.45 100.58 -9.7 100.26C-12.95 99.94 -16.2 99.46 -19.41 98.81C-22.61 98.17 -25.8 97.37 -28.93 96.42C-32.05 95.47 -35.15 94.35 -38.17 93.1C-41.18 91.84 -44.16 90.43 -47.04 88.88C-49.92 87.33 -52.74 85.64 -55.45 83.81C-58.17 81.99 -60.81 80.02 -63.34 77.94C-65.86 75.85 -68.3 73.64 -70.61 71.32C-72.92 68.99 -75.13 66.55 -77.2 64.01C-79.27 61.47 -81.23 58.82 -83.04 56.09C-84.86 53.36 -86.55 50.53 -88.09 47.63C-89.63 44.74 -91.04 41.75 -92.29 38.72C-93.54 35.68 -94.64 32.57 -95.59 29.43C-96.54 26.29 -97.34 23.09 -97.98 19.87C-98.61 16.65 -99.1 13.38 -99.42 10.11C-99.74 6.85 -99.9 3.55 -99.9 0.26C-99.9 -3.02 -99.74 -6.32 -99.42 -9.58C-99.1 -12.85 -98.61 -16.12 -97.98 -19.34C-97.34 -22.56 -96.54 -25.76 -95.59 -28.9C-94.64 -32.05 -93.54 -35.15 -92.29 -38.19C-91.04 -41.22 -89.63 -44.21 -88.09 -47.1C-86.55 -50 -84.86 -52.83 -83.04 -55.56C-81.23 -58.29 -79.27 -60.94 -77.2 -63.48C-75.13 -66.02 -72.92 -68.46 -70.61 -70.79C-68.3 -73.11 -65.86 -75.33 -63.34 -77.41C-60.81 -79.49 -58.17 -81.46 -55.45 -83.28C-52.74 -85.11 -49.92 -86.8 -47.04 -88.35C-44.16 -89.9 -41.18 -91.31 -38.17 -92.57C-35.15 -93.82 -32.05 -94.94 -28.93 -95.89C-25.8 -96.84 -22.61 -97.65 -19.41 -98.29C-16.2 -98.93 -12.95 -99.41 -9.7 -99.73C-6.45 -100.05 -3.16 -100.22 0.1 -100.22C3.37 -100.22 6.65 -100.05 9.9 -99.73C13.16 -99.41 16.41 -98.93 19.61 -98.29C22.82 -97.65 26 -96.84 29.13 -95.89C32.26 -94.94 35.35 -93.82 38.37 -92.57C41.39 -91.31 44.36 -89.9 47.24 -88.35C50.12 -86.8 52.94 -85.11 55.66 -83.28C58.38 -81.46 61.02 -79.49 63.54 -77.41C66.07 -75.33 68.5 -73.11 70.81 -70.79C73.12 -68.46 75.33 -66.02 77.4 -63.48C79.48 -60.94 81.43 -58.29 83.25 -55.56C85.06 -52.83 86.75 -50 88.29 -47.1C89.83 -44.21 91.24 -41.22 92.49 -38.19C93.74 -35.15 94.85 -32.05 95.8 -28.9C96.74 -25.76 97.54 -22.56 98.18 -19.34C98.82 -16.12 99.3 -12.85 99.62 -9.58C99.94 -6.32 100.1 -3.02 100.1 0.26Z"
+                    fill="#ffffff"
                   />
-                  {/* Right Reaction Eye */}
-                  <path
-                    d={activeFaceData.rightEye.d}
-                    transform={activeFaceData.rightEye.transform}
-                    opacity="1"
-                    fill="#000000"
-                  />
-                </g>
-              </mask>
 
-              {/* Authentic Studio Metallic Cyan-Blue Radial Gradient */}
-              <radialGradient
-                id="grok-studio-fill"
-                gradientUnits="userSpaceOnUse"
-                cx="-40"
-                cy="-50"
-                r="193.75"
-              >
-                <stop offset="0%" stopColor="#b5d6f9" />
-                <stop offset="32%" stopColor="#62a9f3" />
-                <stop offset="72%" stopColor="#3b93f0" />
-                <stop offset="100%" stopColor="#275c95" />
-              </radialGradient>
-            </defs>
+                  {/* Reaction Eyes Container directly driven by cursor coordinates */}
+                  <g ref={eyesGroupRef}>
+                    <g
+                      style={{
+                        transform: `scale(1, ${blink})`,
+                        transformOrigin: "0px -5px",
+                        transition: "transform 0.06s ease-out",
+                      }}
+                    >
+                      {/* Left Reaction Eye */}
+                      <path
+                        d={activeFaceData.leftEye.d}
+                        transform={activeFaceData.leftEye.transform}
+                        opacity="1"
+                        fill="#000000"
+                      />
+                      {/* Right Reaction Eye */}
+                      <path
+                        d={activeFaceData.rightEye.d}
+                        transform={activeFaceData.rightEye.transform}
+                        opacity="1"
+                        fill="#000000"
+                      />
+                    </g>
+                  </g>
+                </mask>
 
-            {/* Deep Obsidian Socket Underlayer for Eyes */}
-            <path
-              d="M100.1 0.26C100.1 3.55 99.94 6.85 99.62 10.11C99.3 13.38 98.82 16.65 98.18 19.87C97.54 23.09 96.74 26.29 95.8 29.43C94.85 32.57 93.74 35.68 92.49 38.72C91.24 41.75 89.83 44.74 88.29 47.63C86.75 50.53 85.06 53.36 83.25 56.09C81.43 58.82 79.48 61.47 77.4 64.01C75.33 66.55 73.12 68.99 70.81 71.32C68.5 73.64 66.07 75.85 63.54 77.94C61.02 80.02 58.38 81.99 55.66 83.81C52.94 85.64 50.12 87.33 47.24 88.88C44.36 90.43 41.39 91.84 38.37 93.1C35.35 94.35 32.26 95.47 29.13 96.42C26 97.37 22.82 98.17 19.61 98.81C16.41 99.46 13.16 99.94 9.9 100.26C6.65 100.58 3.37 100.75 0.1 100.75C-3.16 100.75 -6.45 100.58 -9.7 100.26C-12.95 99.94 -16.2 99.46 -19.41 98.81C-22.61 98.17 -25.8 97.37 -28.93 96.42C-32.05 95.47 -35.15 94.35 -38.17 93.1C-41.18 91.84 -44.16 90.43 -47.04 88.88C-49.92 87.33 -52.74 85.64 -55.45 83.81C-58.17 81.99 -60.81 80.02 -63.34 77.94C-65.86 75.85 -68.3 73.64 -70.61 71.32C-72.92 68.99 -75.13 66.55 -77.2 64.01C-79.27 61.47 -81.23 58.82 -83.04 56.09C-84.86 53.36 -86.55 50.53 -88.09 47.63C-89.63 44.74 -91.04 41.75 -92.29 38.72C-93.54 35.68 -94.64 32.57 -95.59 29.43C-96.54 26.29 -97.34 23.09 -97.98 19.87C-98.61 16.65 -99.1 13.38 -99.42 10.11C-99.74 6.85 -99.9 3.55 -99.9 0.26C-99.9 -3.02 -99.74 -6.32 -99.42 -9.58C-99.1 -12.85 -98.61 -16.12 -97.98 -19.34C-97.34 -22.56 -96.54 -25.76 -95.59 -28.9C-94.64 -32.05 -93.54 -35.15 -92.29 -38.19C-91.04 -41.22 -89.63 -44.21 -88.09 -47.1C-86.55 -50 -84.86 -52.83 -83.04 -55.56C-81.23 -58.29 -79.27 -60.94 -77.2 -63.48C-75.13 -66.02 -72.92 -68.46 -70.61 -70.79C-68.3 -73.11 -65.86 -75.33 -63.34 -77.41C-60.81 -79.49 -58.17 -81.46 -55.45 -83.28C-52.74 -85.11 -49.92 -86.8 -47.04 -88.35C-44.16 -89.9 -41.18 -91.31 -38.17 -92.57C-35.15 -93.82 -32.05 -94.94 -28.93 -95.89C-25.8 -96.84 -22.61 -97.65 -19.41 -98.29C-16.2 -98.93 -12.95 -99.41 -9.7 -99.73C-6.45 -100.05 -3.16 -100.22 0.1 -100.22C3.37 -100.22 6.65 -100.05 9.9 -99.73C13.16 -99.41 16.41 -98.93 19.61 -98.29C22.82 -97.65 26 -96.84 29.13 -95.89C32.26 -94.94 35.35 -93.82 38.37 -92.57C41.39 -91.31 44.36 -89.9 47.24 -88.35C50.12 -86.8 52.94 -85.11 55.66 -83.28C58.38 -81.46 61.02 -79.49 63.54 -77.41C66.07 -75.33 68.5 -73.11 70.81 -70.79C73.12 -68.46 75.33 -66.02 77.4 -63.48C79.48 -60.94 81.43 -58.29 83.25 -55.56C85.06 -52.83 86.75 -50 88.29 -47.1C89.83 -44.21 91.24 -41.22 92.49 -38.19C93.74 -35.15 94.85 -32.05 95.8 -28.9C96.74 -25.76 97.54 -22.56 98.18 -19.34C98.82 -16.12 99.3 -12.85 99.62 -9.58C99.94 -6.32 100.1 -3.02 100.1 0.26Z"
-              fill="#080b11"
-            />
+                {/* Authentic Studio Metallic Cyan-Blue Radial Gradient */}
+                <radialGradient
+                  id="grok-studio-fill"
+                  gradientUnits="userSpaceOnUse"
+                  cx="-40"
+                  cy="-50"
+                  r="193.75"
+                >
+                  <stop offset="0%" stopColor="#b5d6f9" />
+                  <stop offset="32%" stopColor="#62a9f3" />
+                  <stop offset="72%" stopColor="#3b93f0" />
+                  <stop offset="100%" stopColor="#275c95" />
+                </radialGradient>
+              </defs>
 
-            {/* Masked Grok Metallic Body with Cut-out Reaction Eyes */}
-            <g mask="url(#grok-studio-mask)">
-              <rect
-                x="-125"
-                y="-125"
-                width="250"
-                height="250"
-                fill="url(#grok-studio-fill)"
+              {/* Deep Obsidian Socket Underlayer for Eyes */}
+              <path
+                d="M100.1 0.26C100.1 3.55 99.94 6.85 99.62 10.11C99.3 13.38 98.82 16.65 98.18 19.87C97.54 23.09 96.74 26.29 95.8 29.43C94.85 32.57 93.74 35.68 92.49 38.72C91.24 41.75 89.83 44.74 88.29 47.63C86.75 50.53 85.06 53.36 83.25 56.09C81.43 58.82 79.48 61.47 77.4 64.01C75.33 66.55 73.12 68.99 70.81 71.32C68.5 73.64 66.07 75.85 63.54 77.94C61.02 80.02 58.38 81.99 55.66 83.81C52.94 85.64 50.12 87.33 47.24 88.88C44.36 90.43 41.39 91.84 38.37 93.1C35.35 94.35 32.26 95.47 29.13 96.42C26 97.37 22.82 98.17 19.61 98.81C16.41 99.46 13.16 99.94 9.9 100.26C6.65 100.58 3.37 100.75 0.1 100.75C-3.16 100.75 -6.45 100.58 -9.7 100.26C-12.95 99.94 -16.2 99.46 -19.41 98.81C-22.61 98.17 -25.8 97.37 -28.93 96.42C-32.05 95.47 -35.15 94.35 -38.17 93.1C-41.18 91.84 -44.16 90.43 -47.04 88.88C-49.92 87.33 -52.74 85.64 -55.45 83.81C-58.17 81.99 -60.81 80.02 -63.34 77.94C-65.86 75.85 -68.3 73.64 -70.61 71.32C-72.92 68.99 -75.13 66.55 -77.2 64.01C-79.27 61.47 -81.23 58.82 -83.04 56.09C-84.86 53.36 -86.55 50.53 -88.09 47.63C-89.63 44.74 -91.04 41.75 -92.29 38.72C-93.54 35.68 -94.64 32.57 -95.59 29.43C-96.54 26.29 -97.34 23.09 -97.98 19.87C-98.61 16.65 -99.1 13.38 -99.42 10.11C-99.74 6.85 -99.9 3.55 -99.9 0.26C-99.9 -3.02 -99.74 -6.32 -99.42 -9.58C-99.1 -12.85 -98.61 -16.12 -97.98 -19.34C-97.34 -22.56 -96.54 -25.76 -95.59 -28.9C-94.64 -32.05 -93.54 -35.15 -92.29 -38.19C-91.04 -41.22 -89.63 -44.21 -88.09 -47.1C-86.55 -50 -84.86 -52.83 -83.04 -55.56C-81.23 -58.29 -79.27 -60.94 -77.2 -63.48C-75.13 -66.02 -72.92 -68.46 -70.61 -70.79C-68.3 -73.11 -65.86 -75.33 -63.34 -77.41C-60.81 -79.49 -58.17 -81.46 -55.45 -83.28C-52.74 -85.11 -49.92 -86.8 -47.04 -88.35C-44.16 -89.9 -41.18 -91.31 -38.17 -92.57C-35.15 -93.82 -32.05 -94.94 -28.93 -95.89C-25.8 -96.84 -22.61 -97.65 -19.41 -98.29C-16.2 -98.93 -12.95 -99.41 -9.7 -99.73C-6.45 -100.05 -3.16 -100.22 0.1 -100.22C3.37 -100.22 6.65 -100.05 9.9 -99.73C13.16 -99.41 16.41 -98.93 19.61 -98.29C22.82 -97.65 26 -96.84 29.13 -95.89C32.26 -94.94 35.35 -93.82 38.37 -92.57C41.39 -91.31 44.36 -89.9 47.24 -88.35C50.12 -86.8 52.94 -85.11 55.66 -83.28C58.38 -81.46 61.02 -79.49 63.54 -77.41C66.07 -75.33 68.5 -73.11 70.81 -70.79C73.12 -68.46 75.33 -66.02 77.4 -63.48C79.48 -60.94 81.43 -58.29 83.25 -55.56C85.06 -52.83 86.75 -50 88.29 -47.1C89.83 -44.21 91.24 -41.22 92.49 -38.19C93.74 -35.15 94.85 -32.05 95.8 -28.9C96.74 -25.76 97.54 -22.56 98.18 -19.34C98.82 -16.12 99.3 -12.85 99.62 -9.58C99.94 -6.32 100.1 -3.02 100.1 0.26Z"
+                fill="#080b11"
               />
-            </g>
-          </svg>
+
+              {/* Masked Grok Metallic Body with Cut-out Reaction Eyes */}
+              <g mask="url(#grok-studio-mask)">
+                <rect
+                  x="-125"
+                  y="-125"
+                  width="250"
+                  height="250"
+                  fill="url(#grok-studio-fill)"
+                />
+              </g>
+            </svg>
+          </div>
         </div>
       </div>
     </aside>
