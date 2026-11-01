@@ -121,7 +121,7 @@ export function ProjectShowcase() {
         <ScrollReveal className="flex flex-col gap-6 px-4 pb-12 pt-20 md:px-10 lg:pt-28">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground">
-              <Zap className="size-3.5 text-blue-500" />
+              <Zap className="size-3.5 text-foreground" />
               <span>Flagship Case Studies</span>
             </div>
             <h2 id="works-title" className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">

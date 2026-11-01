@@ -3,20 +3,20 @@
 import React, { useEffect, useRef, useState } from "react";
 
 export const CURSOR_COLORS = [
-  { name: "Figma Blue", hex: "#0D99FF" },
+  { name: "White", hex: "#FFFFFF" },
+  { name: "Silver", hex: "#E4E4E7" },
   { name: "Purple", hex: "#A259FF" },
   { name: "Emerald", hex: "#10B981" },
   { name: "Coral", hex: "#FF7262" },
   { name: "Amber", hex: "#F59E0B" },
   { name: "Hot Pink", hex: "#EC4899" },
-  { name: "Cyan", hex: "#06B6D4" },
 ];
 
 interface FigmaCursorProps {
   color?: string;
 }
 
-export function FigmaCursor({ color = "#0D99FF" }: FigmaCursorProps) {
+export function FigmaCursor({ color = "#FFFFFF" }: FigmaCursorProps) {
   const [mounted, setMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isHoveringClickable, setIsHoveringClickable] = useState(false);

@@ -83,7 +83,7 @@ export function ResumeSection() {
         particleCount: 50,
         spread: 45,
         origin: { y: 0.65 },
-        colors: ["#3b82f6", "#0D99FF", "#a855f7"],
+        colors: ["#ffffff", "#d4d4d8", "#71717a"],
       });
     } catch {}
     setTimeout(() => setCopied(false), 2400);
@@ -108,7 +108,7 @@ export function ResumeSection() {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground">
-                <FileText className="size-3.5 text-blue-500" />
+                <FileText className="size-3.5 text-foreground" />
                 <span>Verified Credentials &middot; 2026 Edition</span>
               </div>
               <h2 id="resume-title" className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
@@ -151,7 +151,7 @@ export function ResumeSection() {
               >
                 {copied ? (
                   <>
-                    <Check className="size-3.5 text-blue-500" />
+                    <Check className="size-3.5 text-foreground" />
                     <span>Copied ATS Text</span>
                   </>
                 ) : (
@@ -311,7 +311,7 @@ export function ResumeSection() {
                 {/* Section: Technical Skills */}
                 <div className="mt-10 pt-8 border-t border-border/60 space-y-5">
                   <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-foreground flex items-center gap-2">
-                    <Code2 className="size-3.5 text-blue-500" />
+                    <Code2 className="size-3.5 text-foreground" />
                     <span>Technical Skills</span>
                   </h4>
 
@@ -341,7 +341,7 @@ export function ResumeSection() {
                 {/* Section: Education */}
                 <div className="mt-10 pt-8 border-t border-border/60 space-y-5">
                   <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-foreground flex items-center gap-2">
-                    <GraduationCap className="size-3.5 text-blue-500" />
+                    <GraduationCap className="size-3.5 text-foreground" />
                     <span>Education</span>
                   </h4>
 
@@ -380,7 +380,7 @@ export function ResumeSection() {
                 {/* Section: Projects */}
                 <div className="mt-10 pt-8 border-t border-border/60 space-y-6">
                   <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-foreground flex items-center gap-2">
-                    <BookOpen className="size-3.5 text-blue-500" />
+                    <BookOpen className="size-3.5 text-foreground" />
                     <span>Flagship Engineering Works</span>
                   </h4>
 
@@ -471,7 +471,7 @@ export function ResumeSection() {
                 {/* Section: Experience */}
                 <div className="space-y-6">
                   <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-foreground flex items-center gap-2">
-                    <Briefcase className="size-3.5 text-blue-500" />
+                    <Briefcase className="size-3.5 text-foreground" />
                     <span>Industry &amp; Community Experience</span>
                   </h4>
 
@@ -519,7 +519,7 @@ export function ResumeSection() {
                 {/* Section: Achievements & Leadership */}
                 <div className="mt-10 pt-8 border-t border-border/60 space-y-6">
                   <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-foreground flex items-center gap-2">
-                    <Award className="size-3.5 text-blue-500" />
+                    <Award className="size-3.5 text-foreground" />
                     <span>Achievements &amp; Leadership Honors</span>
                   </h4>
 

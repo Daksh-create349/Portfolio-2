@@ -21,9 +21,8 @@ const STARTER_PROMPTS = [
   "How can I contact or hire Daksh?",
 ];
 
-// Helper to format clean text with bold, bullet points, and markdown links (strictly zero emojis)
+// Helper to format clean text with bold, bullet points, and markdown links (zero emojis, zero blue)
 function formatMarkdown(text: string) {
-  // Strip any accidental emojis
   const cleanText = text.replace(
     /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g,
     ""
@@ -53,7 +52,7 @@ function formatMarkdown(text: string) {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-400 hover:text-blue-300 underline underline-offset-2 transition-colors font-medium"
+          className="text-zinc-200 hover:text-white underline underline-offset-2 transition-colors font-medium"
         >
           {label}
         </a>
@@ -104,6 +103,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [thinkingBlink, setThinkingBlink] = useState(1);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -124,6 +124,16 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
+
+  // Blink the mini bot while thinking
+  useEffect(() => {
+    if (!isGenerating) return;
+    const interval = setInterval(() => {
+      setThinkingBlink(0.08);
+      setTimeout(() => setThinkingBlink(1), 120);
+    }, 1800);
+    return () => clearInterval(interval);
+  }, [isGenerating]);
 
   // Scroll to bottom on new content
   useEffect(() => {
@@ -238,13 +248,13 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
         onClick={onClose}
       />
 
-      {/* Clean, Normal Centered Window (Inspired by ChatGPT) */}
+      {/* Clean, Normal Centered Window */}
       <div className="relative z-10 flex flex-col w-full max-w-2xl h-[580px] max-h-[88vh] rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         
-        {/* Minimal Clean Header */}
+        {/* Minimal Clean Header: Only "Chat" */}
         <div className="flex items-center justify-between border-b border-white/5 px-4 py-3 bg-[#121214]">
           <span className="text-xs font-medium text-zinc-300 tracking-wide">
-            Daksh AI
+            Chat
           </span>
 
           <div className="flex items-center gap-1">
@@ -271,7 +281,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
 
         {/* Conversation Area */}
         <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-          {/* Empty State — Clean Centered Prompt like ChatGPT */}
+          {/* Empty State */}
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center px-4">
               <h2 className="text-xl sm:text-2xl font-medium tracking-tight text-white mb-2">
@@ -318,12 +328,73 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
                 );
               })}
 
-              {/* Quiet, Clean Thinking Indicator */}
+              {/* Minimal Bot Icon while generating */}
               {isGenerating && (
-                <div className="flex items-center gap-1.5 py-2 text-zinc-500">
-                  <span className="size-1.5 rounded-full bg-zinc-400 animate-pulse" />
-                  <span className="size-1.5 rounded-full bg-zinc-400 animate-pulse [animation-delay:200ms]" />
-                  <span className="size-1.5 rounded-full bg-zinc-400 animate-pulse [animation-delay:400ms]" />
+                <div className="flex items-center gap-2 py-2">
+                  <div className="relative size-7 shrink-0">
+                    <svg
+                      viewBox="-125 -125 250 250"
+                      aria-hidden="true"
+                      className="size-full animate-pulse"
+                    >
+                      <mask
+                        id="thinking-bot-mask"
+                        maskUnits="userSpaceOnUse"
+                        x="-125"
+                        y="-125"
+                        width="250"
+                        height="250"
+                      >
+                        <path
+                          d="M100.1 0.26C100.1 3.55 99.94 6.85 99.62 10.11C99.3 13.38 98.82 16.65 98.18 19.87C97.54 23.09 96.74 26.29 95.8 29.43C94.85 32.57 93.74 35.68 92.49 38.72C91.24 41.75 89.83 44.74 88.29 47.63C86.75 50.53 85.06 53.36 83.25 56.09C81.43 58.82 79.48 61.47 77.4 64.01C75.33 66.55 73.12 68.99 70.81 71.32C68.5 73.64 66.07 75.85 63.54 77.94C61.02 80.02 58.38 81.99 55.66 83.81C52.94 85.64 50.12 87.33 47.24 88.88C44.36 90.43 41.39 91.84 38.37 93.1C35.35 94.35 32.26 95.47 29.13 96.42C26 97.37 22.82 98.17 19.61 98.81C16.41 99.46 13.16 99.94 9.9 100.26C6.65 100.58 3.37 100.75 0.1 100.75C-3.16 100.75 -6.45 100.58 -9.7 100.26C-12.95 99.94 -16.2 99.46 -19.41 98.81C-22.61 98.17 -25.8 97.37 -28.93 96.42C-32.05 95.47 -35.15 94.35 -38.17 93.1C-41.18 91.84 -44.16 90.43 -47.04 88.88C-49.92 87.33 -52.74 85.64 -55.45 83.81C-58.17 81.99 -60.81 80.02 -63.34 77.94C-65.86 75.85 -68.3 73.64 -70.61 71.32C-72.92 68.99 -75.13 66.55 -77.2 64.01C-79.27 61.47 -81.23 58.82 -83.04 56.09C-84.86 53.36 -86.55 50.53 -88.09 47.63C-89.63 44.74 -91.04 41.75 -92.29 38.72C-93.54 35.68 -94.64 32.57 -95.59 29.43C-96.54 26.29 -97.34 23.09 -97.98 19.87C-98.61 16.65 -99.1 13.38 -99.42 10.11C-99.74 6.85 -99.9 3.55 -99.9 0.26C-99.9 -3.02 -99.74 -6.32 -99.42 -9.58C-99.1 -12.85 -98.61 -16.12 -97.98 -19.34C-97.34 -22.56 -96.54 -25.76 -95.59 -28.9C-94.64 -32.05 -93.54 -35.15 -92.29 -38.19C-91.04 -41.22 -89.63 -44.21 -88.09 -47.1C-86.55 -50 -84.86 -52.83 -83.04 -55.56C-81.23 -58.29 -79.27 -60.94 -77.2 -63.48C-75.13 -66.02 -72.92 -68.46 -70.61 -70.79C-68.3 -73.11 -65.86 -75.33 -63.34 -77.41C-60.81 -79.49 -58.17 -81.46 -55.45 -83.28C-52.74 -85.11 -49.92 -86.8 -47.04 -88.35C-44.16 -89.9 -41.18 -91.31 -38.17 -92.57C-35.15 -93.82 -32.05 -94.94 -28.93 -95.89C-25.8 -96.84 -22.61 -97.65 -19.41 -98.29C-16.2 -98.93 -12.95 -99.41 -9.7 -99.73C-6.45 -100.05 -3.16 -100.22 0.1 -100.22C3.37 -100.22 6.65 -100.05 9.9 -99.73C13.16 -99.41 16.41 -98.93 19.61 -98.29C22.82 -97.65 26 -96.84 29.13 -95.89C32.26 -94.94 35.35 -93.82 38.37 -92.57C41.39 -91.31 44.36 -89.9 47.24 -88.35C50.12 -86.8 52.94 -85.11 55.66 -83.28C58.38 -81.46 61.02 -79.49 63.54 -77.41C66.07 -75.33 68.5 -73.11 70.81 -70.79C73.12 -68.46 75.33 -66.02 77.4 -63.48C79.48 -60.94 81.43 -58.29 83.25 -55.56C85.06 -52.83 86.75 -50 88.29 -47.1C89.83 -44.21 91.24 -41.22 92.49 -38.19C93.74 -35.15 94.85 -32.05 95.8 -28.9C96.74 -25.76 97.54 -22.56 98.18 -19.34C98.82 -16.12 99.3 -12.85 99.62 -9.58C99.94 -6.32 100.1 -3.02 100.1 0.26Z"
+                          fill="#ffffff"
+                        />
+                        <g
+                          style={{
+                            transform: `scale(1, ${thinkingBlink})`,
+                            transformOrigin: "0px -5px",
+                            transition: "transform 0.08s ease-out",
+                          }}
+                        >
+                          <path
+                            d="M-10.5 -11.5A10.5 10.5 0 0 1 0 -22L0 -22A10.5 10.5 0 0 1 10.5 -11.5L10.5 11.5A10.5 10.5 0 0 1 0 22L0 22A10.5 10.5 0 0 1 -10.5 11.5Z"
+                            transform="matrix(0.98,-0.1,0.09,0.99,-17.3,-9.14)"
+                            fill="#000000"
+                          />
+                          <path
+                            d="M-10.5 -11.5A10.5 10.5 0 0 1 0 -22L0 -22A10.5 10.5 0 0 1 10.5 -11.5L10.5 11.5A10.5 10.5 0 0 1 0 22L0 22A10.5 10.5 0 0 1 -10.5 11.5Z"
+                            transform="matrix(0.92,-0.04,0.09,0.99,37.32,-13.26)"
+                            fill="#000000"
+                          />
+                        </g>
+                      </mask>
+                      <radialGradient
+                        id="thinking-bot-fill"
+                        gradientUnits="userSpaceOnUse"
+                        cx="-40"
+                        cy="-50"
+                        r="193.75"
+                      >
+                        <stop offset="0%" stopColor="#f4f4f5" />
+                        <stop offset="35%" stopColor="#d4d4d8" />
+                        <stop offset="70%" stopColor="#71717a" />
+                        <stop offset="100%" stopColor="#27272a" />
+                      </radialGradient>
+                      <path
+                        d="M100.1 0.26C100.1 3.55 99.94 6.85 99.62 10.11C99.3 13.38 98.82 16.65 98.18 19.87C97.54 23.09 96.74 26.29 95.8 29.43C94.85 32.57 93.74 35.68 92.49 38.72C91.24 41.75 89.83 44.74 88.29 47.63C86.75 50.53 85.06 53.36 83.25 56.09C81.43 58.82 79.48 61.47 77.4 64.01C75.33 66.55 73.12 68.99 70.81 71.32C68.5 73.64 66.07 75.85 63.54 77.94C61.02 80.02 58.38 81.99 55.66 83.81C52.94 85.64 50.12 87.33 47.24 88.88C44.36 90.43 41.39 91.84 38.37 93.1C35.35 94.35 32.26 95.47 29.13 96.42C26 97.37 22.82 98.17 19.61 98.81C16.41 99.46 13.16 99.94 9.9 100.26C6.65 100.58 3.37 100.75 0.1 100.75C-3.16 100.75 -6.45 100.58 -9.7 100.26C-12.95 99.94 -16.2 99.46 -19.41 98.81C-22.61 98.17 -25.8 97.37 -28.93 96.42C-32.05 95.47 -35.15 94.35 -38.17 93.1C-41.18 91.84 -44.16 90.43 -47.04 88.88C-49.92 87.33 -52.74 85.64 -55.45 83.81C-58.17 81.99 -60.81 80.02 -63.34 77.94C-65.86 75.85 -68.3 73.64 -70.61 71.32C-72.92 68.99 -75.13 66.55 -77.2 64.01C-79.27 61.47 -81.23 58.82 -83.04 56.09C-84.86 53.36 -86.55 50.53 -88.09 47.63C-89.63 44.74 -91.04 41.75 -92.29 38.72C-93.54 35.68 -94.64 32.57 -95.59 29.43C-96.54 26.29 -97.34 23.09 -97.98 19.87C-98.61 16.65 -99.1 13.38 -99.42 10.11C-99.74 6.85 -99.9 3.55 -99.9 0.26C-99.9 -3.02 -99.74 -6.32 -99.42 -9.58C-99.1 -12.85 -98.61 -16.12 -97.98 -19.34C-97.34 -22.56 -96.54 -25.76 -95.59 -28.9C-94.64 -32.05 -93.54 -35.15 -92.29 -38.19C-91.04 -41.22 -89.63 -44.21 -88.09 -47.1C-86.55 -50 -84.86 -52.83 -83.04 -55.56C-81.23 -58.29 -79.27 -60.94 -77.2 -63.48C-75.13 -66.02 -72.92 -68.46 -70.61 -70.79C-68.3 -73.11 -65.86 -75.33 -63.34 -77.41C-60.81 -79.49 -58.17 -81.46 -55.45 -83.28C-52.74 -85.11 -49.92 -86.8 -47.04 -88.35C-44.16 -89.9 -41.18 -91.31 -38.17 -92.57C-35.15 -93.82 -32.05 -94.94 -28.93 -95.89C-25.8 -96.84 -22.61 -97.65 -19.41 -98.29C-16.2 -98.93 -12.95 -99.41 -9.7 -99.73C-6.45 -100.05 -3.16 -100.22 0.1 -100.22C3.37 -100.22 6.65 -100.05 9.9 -99.73C13.16 -99.41 16.41 -98.93 19.61 -98.29C22.82 -97.65 26 -96.84 29.13 -95.89C32.26 -94.94 35.35 -93.82 38.37 -92.57C41.39 -91.31 44.36 -89.9 47.24 -88.35C50.12 -86.8 52.94 -85.11 55.66 -83.28C58.38 -81.46 61.02 -79.49 63.54 -77.41C66.07 -75.33 68.5 -73.11 70.81 -70.79C73.12 -68.46 75.33 -66.02 77.4 -63.48C79.48 -60.94 81.43 -58.29 83.25 -55.56C85.06 -52.83 86.75 -50 88.29 -47.1C89.83 -44.21 91.24 -41.22 92.49 -38.19C93.74 -35.15 94.85 -32.05 95.8 -28.9C96.74 -25.76 97.54 -22.56 98.18 -19.34C98.82 -16.12 99.3 -12.85 99.62 -9.58C99.94 -6.32 100.1 -3.02 100.1 0.26Z"
+                        fill="#09090b"
+                      />
+                      <g mask="url(#thinking-bot-mask)">
+                        <rect
+                          x="-125"
+                          y="-125"
+                          width="250"
+                          height="250"
+                          fill="url(#thinking-bot-fill)"
+                        />
+                      </g>
+                    </svg>
+                  </div>
                 </div>
               )}
 
@@ -332,7 +403,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
           )}
         </div>
 
-        {/* Clean, Rounded ChatGPT-style Input Bar */}
+        {/* Clean, Rounded Input Bar (Zero Blue) */}
         <div className="p-3 sm:p-4 bg-[#121214]">
           <form
             onSubmit={(e) => {

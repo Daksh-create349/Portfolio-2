@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
     const userQuery = lastUserMessage?.content || "";
     const retrievedContext = retrieveRelevantKnowledge(userQuery);
 
-    const systemPrompt = `You are Grok, Daksh Srivastava's personal AI Assistant embedded into his portfolio (https://daksh.is-a.dev).
+    const systemPrompt = `You are an intelligent AI Assistant embedded into Daksh Srivastava's portfolio (https://daksh.is-a.dev).
 You have complete, verified knowledge about Daksh's projects, experience, technical stack, achievements, and contact details.
 
 ### Verified Knowledge Base:

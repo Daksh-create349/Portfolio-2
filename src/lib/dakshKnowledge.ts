@@ -146,7 +146,7 @@ Security & DevSecOps Tools:
 Daksh's Core Technical Toolchain:
 - Frontend: React 19, Next.js (App Router), TypeScript, Tailwind CSS, Web Audio API, Three.js (WebGL).
 - Backend & APIs: Python, FastAPI, Node.js, REST, WebSockets, Model Context Protocol (MCP).
-- AI & LLM Systems: Groq LPU, Google Gemini API, OpenAI API, Qwen, Gemma, Agentic Pipelines, RAG Architectures.
+- AI & LLM Systems: Groq LPU, Google Gemini API, OpenAI API, Gemma, Agentic Pipelines, RAG Architectures.
 - Databases & GIS: PostgreSQL, PostGIS, Redis, MongoDB, Firebase.
 - DevOps, Security & Cloud: Docker, Git, SAST, Google Cloud Platform (GCP), Google Earth Engine (GEE), Vercel.
 - Performance: Zero-driver audio signal processing, 60/120fps DOM optimizations, low-latency client state.

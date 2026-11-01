@@ -76,7 +76,7 @@ export function AskDakshSection() {
             particleCount: 65,
             spread: 60,
             origin: { y: 0.7 },
-            colors: ["#3b82f6", "#10b981", "#8b5cf6"],
+            colors: ["#ffffff", "#d4d4d8", "#71717a"],
           });
         } catch {}
         return;
@@ -109,7 +109,7 @@ export function AskDakshSection() {
               particleCount: 65,
               spread: 60,
               origin: { y: 0.7 },
-              colors: ["#3b82f6", "#10b981", "#8b5cf6"],
+              colors: ["#ffffff", "#d4d4d8", "#71717a"],
             });
           } catch {}
           return;

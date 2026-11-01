@@ -145,7 +145,7 @@ function MarqueeStrip({ items, direction = "left", startOffsetAlternate = false 
       >
         {repeatedItems.map((item, idx) => {
           const LogoComponent = LOGO_COMPONENTS[item.logoKey] || Layers;
-          // Alternating diamond separator color: even indices subtle silver, odd indices signature Figma blue (#0D99FF)
+          // Alternating diamond separator: subtle silver and foreground tones
           const isAccentDiamond = (idx + (startOffsetAlternate ? 1 : 0)) % 2 === 1;
 
           return (
@@ -163,10 +163,10 @@ function MarqueeStrip({ items, direction = "left", startOffsetAlternate = false 
                 </span>
               </div>
 
-              {/* Diamond Separator (Alternating Subtle Silver & Signature Figma Blue) */}
+              {/* Diamond Separator (Alternating Subtle Silver & Foreground) */}
               <span
                 className={`text-sm sm:text-base select-none shrink-0 transition-opacity duration-200 ${
-                  isAccentDiamond ? "text-[#0D99FF]" : "text-foreground/25"
+                  isAccentDiamond ? "text-foreground/50" : "text-foreground/20"
                 }`}
                 aria-hidden="true"
               >
@@ -199,7 +199,7 @@ export function StackSection() {
         <ScrollReveal className="flex flex-col gap-6 px-4 pb-12 pt-20 md:px-10 lg:pt-28">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground">
-              <Layers className="size-3.5 text-blue-500" />
+              <Layers className="size-3.5 text-foreground" />
               <span>Toolchains &amp; Systems</span>
             </div>
             <h2

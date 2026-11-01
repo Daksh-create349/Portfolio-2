@@ -36,7 +36,7 @@ export function AboutAndJourneySection() {
         <ScrollReveal className="flex flex-col gap-6 px-4 pb-12 pt-20 md:px-10 lg:pt-28">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground">
-              <Sparkles className="size-3.5 text-blue-500" />
+              <Sparkles className="size-3.5 text-foreground" />
               <span>Direct Channel &amp; Story</span>
             </div>
             <h2 id="about-title" className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
@@ -58,7 +58,7 @@ export function AboutAndJourneySection() {
         {/* Bio Narrative */}
         <ScrollReveal delay={120} className="flex flex-col gap-5 pt-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground w-fit">
-            <Sparkles className="size-3.5 text-blue-500" />
+            <Sparkles className="size-3.5 text-foreground" />
             <span>Bio &amp; Engineering Philosophy</span>
           </div>
 
@@ -89,7 +89,7 @@ export function AboutAndJourneySection() {
           <ScrollReveal className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-border/60 pb-5">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground mb-3">
-                <GraduationCap className="size-3.5 text-blue-500" />
+                <GraduationCap className="size-3.5 text-foreground" />
                 <span>Track Record &amp; Milestones</span>
               </div>
               <h3 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">

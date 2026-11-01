@@ -434,7 +434,7 @@ export const INITIATIVES = [
     role: "Google",
     period: "2025 – Present",
     description: "Lead Google Cloud, Workspace & AI/ML developer workshops on campus.",
-    color: "from-blue-500/20 to-emerald-500/20",
+    color: "from-zinc-500/20 to-zinc-700/20",
     badge: "Leadership",
   },
   {
@@ -458,7 +458,7 @@ export const INITIATIVES = [
     role: "Store Publisher",
     period: "2025",
     description: "Officially launched Sonaura 2.0 Browser Audio Extension.",
-    color: "from-cyan-500/20 to-blue-500/20",
+    color: "from-zinc-500/20 to-zinc-700/20",
     badge: "Production Launch",
   },
   {

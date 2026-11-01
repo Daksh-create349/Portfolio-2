@@ -20,7 +20,7 @@ import { GrokCompanion } from "@/components/GrokCompanion";
 
 export default function Home() {
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [cursorColor, setCursorColor] = useState("#0D99FF");
+  const [cursorColor, setCursorColor] = useState("#FFFFFF");
 
   useEffect(() => {
     try {

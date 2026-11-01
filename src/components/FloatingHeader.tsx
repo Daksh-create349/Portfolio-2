@@ -21,7 +21,7 @@ interface FloatingHeaderProps {
 
 export function FloatingHeader({
   onOpenContact,
-  cursorColor = "#0D99FF",
+  cursorColor = "#FFFFFF",
   onSelectCursorColor,
 }: FloatingHeaderProps) {
   const [activeItem, setActiveItem] = useState("home");

@@ -36,7 +36,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         particleCount: 55,
         spread: 50,
         origin: { y: 0.6 },
-        colors: ["#3b82f6", "#0D99FF", "#a855f7"],
+        colors: ["#ffffff", "#d4d4d8", "#71717a"],
       });
     } catch {}
 
