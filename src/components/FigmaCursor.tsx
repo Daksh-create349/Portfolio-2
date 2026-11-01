@@ -21,7 +21,6 @@ export function FigmaCursor({ color = "#0D99FF" }: FigmaCursorProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isHoveringClickable, setIsHoveringClickable] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
-  const [actionLabel, setActionLabel] = useState("Daksh");
 
   const cursorRef = useRef<HTMLDivElement>(null);
   const posRef = useRef({ x: -100, y: -100 });
@@ -39,19 +38,7 @@ export function FigmaCursor({ color = "#0D99FF" }: FigmaCursorProps) {
       const target = e.target as HTMLElement | null;
       if (target) {
         const interactive = target.closest("a, button, [role='button'], input, textarea, select");
-        if (interactive) {
-          setIsHoveringClickable(true);
-          if (target.closest("input, textarea")) {
-            setActionLabel("Type");
-          } else if (target.closest("a")) {
-            setActionLabel("Open");
-          } else {
-            setActionLabel("Click");
-          }
-        } else {
-          setIsHoveringClickable(false);
-          setActionLabel("Daksh");
-        }
+        setIsHoveringClickable(!!interactive);
       }
     };
 
@@ -103,18 +90,18 @@ export function FigmaCursor({ color = "#0D99FF" }: FigmaCursorProps) {
       }}
     >
       <div
-        className={`relative flex items-start transition-transform duration-150 ease-out ${
-          isMouseDown ? "scale-95" : isHoveringClickable ? "scale-110" : "scale-100"
+        className={`transition-transform duration-150 ease-out ${
+          isMouseDown ? "scale-95" : isHoveringClickable ? "scale-105" : "scale-100"
         }`}
       >
-        {/* Iconic Figma Cursor Arrow */}
+        {/* Prominent Large Figma Cursor Arrow (Without Name Badge) */}
         <svg
-          width="26"
-          height="26"
+          width="36"
+          height="36"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-[0_3px_6px_rgba(0,0,0,0.4)]"
+          className="drop-shadow-[0_2px_5px_rgba(0,0,0,0.5)]"
         >
           <path
             d="M5.65376 12.3673H5.46026L5.31717 12.4976L0.500002 16.8829L0.500002 1.19841L11.7841 12.3673H5.65376Z"
@@ -124,16 +111,6 @@ export function FigmaCursor({ color = "#0D99FF" }: FigmaCursorProps) {
             strokeLinejoin="round"
           />
         </svg>
-
-        {/* Figma User Name Tag */}
-        <div
-          className="ml-1.5 -mt-0.5 flex items-center rounded-full px-3 py-1 text-xs font-semibold tracking-tight text-white shadow-[0_2px_10px_rgba(0,0,0,0.35)] border border-white/35 whitespace-nowrap transition-colors duration-150"
-          style={{ backgroundColor: color }}
-        >
-          <span className="font-mono text-[11px] font-medium leading-none">
-            {actionLabel}
-          </span>
-        </div>
       </div>
     </div>
   );

@@ -65,11 +65,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         onClick={onClose}
       />
 
-      {/* Redesigned Luxury Dialog Card */}
-      <div className="relative z-10 w-full max-w-lg overflow-hidden rounded-[32px] border border-border/80 bg-background/95 p-6 sm:p-8 shadow-[0_25px_70px_rgba(0,0,0,0.65)] backdrop-blur-2xl transition-all duration-300">
-        {/* Soft Ambient Radial Glow at top */}
-        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 size-64 rounded-full bg-blue-500/10 blur-3xl" />
-
+      {/* Standard Clean Dialog Card */}
+      <div className="relative z-10 w-full max-w-lg rounded-[28px] border border-border bg-background p-6 sm:p-8 shadow-2xl transition-all duration-300">
         {/* Close Button */}
         <button
           type="button"

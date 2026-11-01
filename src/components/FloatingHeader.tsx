@@ -162,9 +162,9 @@ export function FloatingHeader({
               className="border-white/50 bg-white/40 shadow-[0_10px_40px_-10px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.8),inset_0_-1px_0_rgb(255_255_255/0.2)] backdrop-blur-2xl backdrop-saturate-200 dark:border-white/15 dark:bg-white/10 dark:shadow-[0_10px_40px_-10px_rgb(0_0_0/0.6),inset_0_1px_0_rgb(255_255_255/0.2),inset_0_-1px_0_rgb(255_255_255/0.05)] inline-flex size-13 shrink-0 items-center justify-center rounded-full border text-foreground/85 outline-none transition-transform duration-200 hover:scale-105 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
             >
               <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                viewBox="-1.5 -0.2 15 18.6"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 className="shrink-0"
