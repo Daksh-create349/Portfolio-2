@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { GITHUB_PROJECTS, GithubProject } from "@/data/portfolioData";
 import { ScrollReveal } from "./ScrollReveal";
 import { GithubIcon } from "./Icons";
+import { GithubContributionGraph } from "./GithubContributionGraph";
 import {
   Star,
   ExternalLink,
@@ -113,6 +114,11 @@ export function BentoWall() {
 
       {/* Main Content Area */}
       <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 px-4 md:px-8 space-y-8">
+        {/* Interactive GitHub Contribution Graph Station */}
+        <ScrollReveal delay={60}>
+          <GithubContributionGraph />
+        </ScrollReveal>
+
         {/* When "All Projects" is selected, show Top 2 Spotlight Content Cards */}
         {activeCategory === "All Projects" && (
           <div className="grid grid-cols-1 gap-6">

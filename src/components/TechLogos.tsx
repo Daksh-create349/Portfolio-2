@@ -241,3 +241,4 @@ export function FirebaseLogo({ className = "size-5" }: { className?: string }) {
     </svg>
   );
 }
+
