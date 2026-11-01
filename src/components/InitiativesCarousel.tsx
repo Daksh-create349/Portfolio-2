@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { INITIATIVES } from "@/data/portfolioData";
+import { ScrollReveal } from "./ScrollReveal";
 import { Award, Briefcase, Sparkles, Building2, Terminal, Shield } from "lucide-react";
 
 const ICONS = [Sparkles, Briefcase, Award, Terminal, Shield, Building2, Sparkles];
@@ -33,17 +34,18 @@ export function InitiativesCarousel() {
           </span>
         </div>
 
-        <div className="flex items-center justify-between py-5">
+        <ScrollReveal className="flex items-center justify-between py-5">
           <h2 className="text-base font-medium leading-none text-muted-foreground">
             Impactful initiatives &amp; organizations
           </h2>
           <span className="font-mono text-xs text-muted-foreground/60">
-            Scroll or drag to explore
+            Leadership &amp; Awards
           </span>
-        </div>
+        </ScrollReveal>
 
         {/* Carousel Container */}
-        <div
+        <ScrollReveal
+          delay={100}
           className="rounded-[24px] bg-secondary/25 p-4 sm:p-6 overflow-hidden border border-border/40"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
@@ -113,7 +115,7 @@ export function InitiativesCarousel() {
               );
             })}
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

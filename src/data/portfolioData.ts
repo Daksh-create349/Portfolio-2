@@ -7,7 +7,7 @@ export interface Project {
   role: string;
   year: string;
   stats: string;
-  image: string;
+  image?: string;
   promptExample: string;
   description: string;
   impactText: string;

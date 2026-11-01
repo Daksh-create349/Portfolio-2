@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { GITHUB_PROJECTS, GithubProject } from "@/data/portfolioData";
+import { ScrollReveal } from "./ScrollReveal";
 import { GithubIcon } from "./Icons";
 import {
   Star,
@@ -15,6 +16,7 @@ import {
   Cpu,
   Layers,
   Activity,
+  Code2,
 } from "lucide-react";
 
 const CATEGORIES = [
@@ -55,7 +57,7 @@ export function BentoWall() {
         </div>
 
         {/* Section Header */}
-        <div className="flex flex-col gap-6 px-4 pb-12 pt-16 md:px-10 lg:pt-24">
+        <ScrollReveal className="flex flex-col gap-6 px-4 pb-12 pt-16 md:px-10 lg:pt-24">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground">
@@ -69,7 +71,7 @@ export function BentoWall() {
                 Popular Repositories.
               </h2>
               <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
-                Autonomous MCP engines, tabular forensic workstations, and browser DSP systems built and maintained in public by Daksh Srivastava.
+                Autonomous MCP engines, tabular forensic workstations, and low-latency DSP systems built and maintained in public by Daksh Srivastava.
               </p>
             </div>
 
@@ -106,20 +108,21 @@ export function BentoWall() {
               );
             })}
           </div>
-        </div>
+        </ScrollReveal>
       </div>
 
       {/* Main Content Area */}
       <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 px-4 md:px-8 space-y-8">
-        {/* When "All Projects" is selected, show Top 2 Spotlight Cards */}
+        {/* When "All Projects" is selected, show Top 2 Spotlight Content Cards */}
         {activeCategory === "All Projects" && (
           <div className="grid grid-cols-1 gap-6">
-            {topProjects.map((proj) => (
-              <div
+            {topProjects.map((proj, pIdx) => (
+              <ScrollReveal
                 key={proj.id}
+                delay={pIdx * 120}
                 className="group relative overflow-hidden rounded-[28px] border border-border/70 bg-secondary/30 p-6 sm:p-8 lg:p-10 transition-all hover:border-foreground/20 hover:shadow-xl"
               >
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                   {/* Left Column: Repository Info */}
                   <div className="lg:col-span-7 space-y-6">
                     <div className="flex flex-wrap items-center gap-3">
@@ -177,31 +180,73 @@ export function BentoWall() {
                     </div>
                   </div>
 
-                  {/* Right Column: Visual Product Graphic */}
-                  {proj.image && (
-                    <div className="lg:col-span-5">
-                      <div className="relative aspect-[4/3] w-full rounded-[20px] overflow-hidden border border-border/70 bg-neutral-950 shadow-md">
-                        <img
-                          src={proj.image}
-                          alt={`${proj.name} visual preview`}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          loading="lazy"
-                        />
+                  {/* Right Column: Deep Engineering Content Card (No images) */}
+                  <div className="lg:col-span-5 flex flex-col justify-between rounded-[22px] bg-background border border-border/80 p-6 space-y-4 shadow-sm">
+                    <div className="flex items-center justify-between border-b border-border/50 pb-3">
+                      <div className="flex items-center gap-2">
+                        <Code2 className="size-4 text-primary" />
+                        <span className="font-mono text-xs font-semibold uppercase tracking-wider text-foreground">
+                          Repository Highlights
+                        </span>
+                      </div>
+                      <span className="font-mono text-[11px] text-muted-foreground">
+                        {proj.repo}
+                      </span>
+                    </div>
+
+                    <div className="space-y-3 font-mono text-xs">
+                      <div className="p-3 rounded-xl bg-secondary/40 border border-border/50 space-y-1">
+                        <span className="text-muted-foreground text-[10px] uppercase tracking-wider block">
+                          Architectural Objective
+                        </span>
+                        <p className="text-foreground font-sans text-xs sm:text-sm font-medium leading-relaxed">
+                          {proj.id === "contradiction-mcp"
+                            ? "Provide a deterministic reconciliation layer ensuring multi-source LLM context contains zero contradicting statements."
+                            : "Diagnose silent statistical failures, target leakage, and structural schema bugs in tabular training data."}
+                        </p>
+                      </div>
+
+                      <div className="p-3 rounded-xl bg-secondary/40 border border-border/50 space-y-1">
+                        <span className="text-muted-foreground text-[10px] uppercase tracking-wider block">
+                          Engineering Execution
+                        </span>
+                        <p className="text-foreground font-sans text-xs sm:text-sm font-medium leading-relaxed">
+                          {proj.id === "contradiction-mcp"
+                            ? "Strict Model Context Protocol (MCP) server implementation with JSON-RPC over stdio and HTTP SSE."
+                            : "Local-first forensic suite leveraging Polars/Pandas heuristic matrices with zero external cloud dependencies."}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {proj.tags.map((t) => (
+                          <span
+                            key={t}
+                            className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-secondary border border-border/60 text-muted-foreground"
+                          >
+                            {t}
+                          </span>
+                        ))}
                       </div>
                     </div>
-                  )}
+
+                    <div className="pt-2 border-t border-border/40 flex items-center justify-between text-xs font-mono text-muted-foreground">
+                      <span>Public Open Source</span>
+                      <span className="text-foreground font-medium">★ {proj.stars} Stars</span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         )}
 
-        {/* Repositories Grid */}
+        {/* Repositories Grid (Pure Content) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-          {otherProjects.map((proj) => (
-            <div
+          {otherProjects.map((proj, idx) => (
+            <ScrollReveal
               key={proj.id}
-              className="group flex flex-col justify-between rounded-[24px] border border-border/70 bg-secondary/30 p-6 sm:p-8 transition-all hover:bg-secondary/50 hover:border-foreground/20 hover:shadow-lg"
+              delay={idx * 60}
+              className="group flex flex-col justify-between rounded-[24px] border border-border/70 bg-secondary/30 p-6 sm:p-8 transition-all hover:bg-secondary/50 hover:border-foreground/20 hover:shadow-lg h-full"
             >
               <div className="space-y-5">
                 {/* Header Stats */}
@@ -218,6 +263,10 @@ export function BentoWall() {
                         style={{ backgroundColor: proj.languageColor }}
                       />
                       <span>{proj.language}</span>
+                    </span>
+
+                    <span className="text-xs font-mono text-muted-foreground hidden sm:inline">
+                      {proj.category}
                     </span>
                   </div>
 
@@ -251,6 +300,18 @@ export function BentoWall() {
                     </li>
                   ))}
                 </ul>
+
+                {/* Tag Pills */}
+                <div className="flex flex-wrap gap-1.5 pt-2">
+                  {proj.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="px-2 py-0.5 rounded text-[10px] font-mono bg-background/80 border border-border/50 text-muted-foreground"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {/* Card Footer: Tags & Repo Link */}
@@ -269,7 +330,7 @@ export function BentoWall() {
                   <ArrowUpRight className="size-3" />
                 </a>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
