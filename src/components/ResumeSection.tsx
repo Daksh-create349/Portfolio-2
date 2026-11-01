@@ -195,48 +195,46 @@ export function ResumeSection() {
               }`}
             >
               <Eye className="size-3.5" />
-              <span>Native Vector PDF</span>
+              <span>Vector PDF</span>
             </button>
           </div>
 
-          {/* Page Filter (Folio Mode) */}
-          {viewMode === "folio" && (
-            <div className="flex items-center gap-1 rounded-xl bg-background/80 p-1 border border-border/60">
-              <button
-                type="button"
-                onClick={() => setActivePage("both")}
-                className={`rounded-lg px-3 py-1 text-xs font-mono transition-all cursor-pointer ${
-                  activePage === "both"
-                    ? "bg-secondary text-foreground font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                All Pages
-              </button>
-              <button
-                type="button"
-                onClick={() => setActivePage(1)}
-                className={`rounded-lg px-3 py-1 text-xs font-mono transition-all cursor-pointer ${
-                  activePage === 1
-                    ? "bg-secondary text-foreground font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Page 1
-              </button>
-              <button
-                type="button"
-                onClick={() => setActivePage(2)}
-                className={`rounded-lg px-3 py-1 text-xs font-mono transition-all cursor-pointer ${
-                  activePage === 2
-                    ? "bg-secondary text-foreground font-semibold"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Page 2
-              </button>
-            </div>
-          )}
+          {/* Page Filter (Folio & Vector Modes) */}
+          <div className="flex items-center gap-1 rounded-xl bg-background/80 p-1 border border-border/60">
+            <button
+              type="button"
+              onClick={() => setActivePage("both")}
+              className={`rounded-lg px-3 py-1 text-xs font-mono transition-all cursor-pointer ${
+                activePage === "both"
+                  ? "bg-secondary text-foreground font-semibold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              All Pages
+            </button>
+            <button
+              type="button"
+              onClick={() => setActivePage(1)}
+              className={`rounded-lg px-3 py-1 text-xs font-mono transition-all cursor-pointer ${
+                activePage === 1
+                  ? "bg-secondary text-foreground font-semibold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Page 1
+            </button>
+            <button
+              type="button"
+              onClick={() => setActivePage(2)}
+              className={`rounded-lg px-3 py-1 text-xs font-mono transition-all cursor-pointer ${
+                activePage === 2
+                  ? "bg-secondary text-foreground font-semibold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Page 2
+            </button>
+          </div>
 
           <div className="hidden lg:flex items-center gap-2 text-xs font-mono text-muted-foreground px-2">
             <span>ReportLab Engine &middot; A4 Vector Sheet</span>
@@ -558,36 +556,61 @@ export function ResumeSection() {
           </div>
         )}
 
-        {/* VIEW 2: NATIVE VECTOR PDF EMBEDDED VIEWER */}
+        {/* VIEW 2: VECTOR PDF EMBEDDED VIEWER (100% Custom Cursor & DOM Compatible) */}
         {viewMode === "pdf" && (
-          <div className="rounded-[28px] border border-border/80 bg-background/95 p-4 sm:p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between px-2 text-xs font-mono text-muted-foreground">
-              <span>Embedded Document &middot; Daksh_Srivastava_Resume.pdf</span>
-              <span>7 KB Vector Format</span>
+          <div className="rounded-[28px] border border-border/80 bg-background/95 p-4 sm:p-6 shadow-2xl space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3 px-2 text-xs font-mono text-muted-foreground border-b border-border/60 pb-3">
+              <div className="flex items-center gap-2">
+                <FileText className="size-3.5 text-foreground" />
+                <span>Vector Document &middot; Daksh_Srivastava_Resume.pdf</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="hidden sm:inline">Infinite Vector Resolution</span>
+                <a
+                  href="/Daksh_Srivastava_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground underline underline-offset-4 flex items-center gap-1 transition-colors"
+                >
+                  <span>Raw PDF</span>
+                  <ExternalLink className="size-3" />
+                </a>
+              </div>
             </div>
 
-            <div className="w-full h-[850px] rounded-2xl overflow-hidden border border-border/60 bg-secondary/20">
-              <object
-                data="/Daksh_Srivastava_Resume.pdf#toolbar=1&navpanes=0&scrollbar=1"
-                type="application/pdf"
-                className="w-full h-full"
-              >
-                <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-4">
-                  <FileText className="size-12 text-muted-foreground" />
-                  <p className="text-sm text-foreground font-medium">
-                    Native PDF preview is not supported directly by your current browser configuration.
-                  </p>
-                  <a
-                    href="/Daksh_Srivastava_Resume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-xs font-semibold text-background hover:opacity-90"
-                  >
-                    <Download className="size-3.5" />
-                    <span>Open or Download PDF directly</span>
-                  </a>
+            {/* Vector Rendered Pages */}
+            <div className="space-y-8">
+              {(activePage === 1 || activePage === "both") && (
+                <div className="group relative rounded-2xl border border-border/70 bg-white p-2 sm:p-5 shadow-lg overflow-hidden transition-all">
+                  <div className="flex items-center justify-between pb-3 px-1 text-[11px] font-mono text-zinc-500">
+                    <span>Page 01 &mdash; Skills, Education &amp; Works</span>
+                    <span>A4 Vector</span>
+                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/resume-page-1.svg"
+                    alt="Daksh Srivastava Resume - Page 1"
+                    className="w-full h-auto rounded-lg shadow-xs select-none pointer-events-auto"
+                    loading="lazy"
+                  />
                 </div>
-              </object>
+              )}
+
+              {(activePage === 2 || activePage === "both") && (
+                <div className="group relative rounded-2xl border border-border/70 bg-white p-2 sm:p-5 shadow-lg overflow-hidden transition-all">
+                  <div className="flex items-center justify-between pb-3 px-1 text-[11px] font-mono text-zinc-500">
+                    <span>Page 02 &mdash; Experience &amp; Leadership Honors</span>
+                    <span>A4 Vector</span>
+                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/resume-page-2.svg"
+                    alt="Daksh Srivastava Resume - Page 2"
+                    className="w-full h-auto rounded-lg shadow-xs select-none pointer-events-auto"
+                    loading="lazy"
+                  />
+                </div>
+              )}
             </div>
           </div>
         )}
