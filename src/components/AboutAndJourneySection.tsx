@@ -35,10 +35,10 @@ export function AboutAndJourneySection() {
 
         <ScrollReveal className="px-4 pb-8 pt-20 md:px-10 lg:pt-28">
           <h2 id="about-title" className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
-            Ask me anything...
+            Get in touch.
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground mt-3 max-w-2xl">
-            Interact with my portfolio assistant or explore my engineering background, university achievements, and career milestones.
+            Send a direct message to my personal inbox or explore my engineering background, university achievements, and milestones.
           </p>
         </ScrollReveal>
       </div>

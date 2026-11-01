@@ -148,7 +148,7 @@ export function StackSection() {
                 >
                   {/* Top Bar: Official Vector Logo & Category Badge */}
                   <div className="flex items-center justify-between">
-                    <span className="flex size-9 items-center justify-center rounded-xl bg-background border border-border/70 p-1.5 shadow-2xs group-hover:scale-110 transition-transform duration-300">
+                    <span className="flex size-10 items-center justify-center rounded-xl bg-background border border-border/80 p-2 shadow-2xs group-hover:scale-110 transition-transform duration-300">
                       <LogoComponent className="size-full" />
                     </span>
                     <span className="text-[10px] font-mono text-muted-foreground px-2 py-0.5 rounded-full bg-background border border-border/40">
