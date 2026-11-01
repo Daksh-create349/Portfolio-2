@@ -76,15 +76,19 @@ html.lenis body {
   pointer-events: none;
 }
 
-/* Hide default cursor on desktop when Figma custom cursor is active */
-@media (hover: hover) and (pointer: fine) {
-  html,
-  body,
-  *,
-  *::before,
-  *::after {
-    cursor: none !important;
-  }
+/* Force-hide native OS cursor everywhere so only Figma custom cursor is visible */
+html,
+body,
+*,
+*::before,
+*::after,
+a,
+button,
+input,
+textarea,
+select,
+[role="button"] {
+  cursor: none !important;
 }
 
 body {
