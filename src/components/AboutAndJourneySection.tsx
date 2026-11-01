@@ -71,7 +71,7 @@ export function AboutAndJourneySection() {
               <p>
                 As a <strong className="text-foreground font-semibold">Google Student Ambassador</strong>,
                 I lead campus developer workshops covering Google Cloud, Workspace APIs, and Gemini models.
-                I have shipped production software on the Microsoft Edge Store, won 1st Place at Hacktoberfest x MLH Hack Day,
+                I have shipped production software on the Microsoft Edge Store, won Hacktoberfest x MLH Hack Day,
                 and ranked in the Top 3 across the national 100x Applied AI cohort.
               </p>
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SiteLoader } from "@/components/SiteLoader";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
 import { FloatingHeader } from "@/components/FloatingHeader";
@@ -15,9 +15,35 @@ import { AboutAndJourneySection } from "@/components/AboutAndJourneySection";
 import { StackSection } from "@/components/StackSection";
 import { Footer } from "@/components/Footer";
 import { ContactModal } from "@/components/ContactModal";
+import { JoinCanvasModal, CursorUser } from "@/components/JoinCanvasModal";
 
 export default function Home() {
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isCanvasModalOpen, setIsCanvasModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<CursorUser | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("figma_cursor_user");
+      if (saved) {
+        setCurrentUser(JSON.parse(saved));
+      } else {
+        // Prompt visitor to pick their cursor on arrival
+        const timer = setTimeout(() => {
+          setIsCanvasModalOpen(true);
+        }, 1200);
+        return () => clearTimeout(timer);
+      }
+    } catch {}
+  }, []);
+
+  const handleJoinCanvas = (user: CursorUser) => {
+    setCurrentUser(user);
+    try {
+      localStorage.setItem("figma_cursor_user", JSON.stringify(user));
+    } catch {}
+    setIsCanvasModalOpen(false);
+  };
 
   return (
     <div className="relative min-h-screen bg-background text-foreground antialiased selection:bg-foreground selection:text-background">
@@ -25,7 +51,10 @@ export default function Home() {
       <SmoothScroll />
 
       {/* Figma Multiplayer Interactive Cursor */}
-      <FigmaCursor />
+      <FigmaCursor
+        currentUser={currentUser}
+        onOpenCanvasModal={() => setIsCanvasModalOpen(true)}
+      />
 
       {/* Signature Site Opener Counter */}
       <SiteLoader />
@@ -34,7 +63,11 @@ export default function Home() {
       <BackgroundEffects />
 
       {/* Floating Center Dock Navigation */}
-      <FloatingHeader onOpenContact={() => setIsContactOpen(true)} />
+      <FloatingHeader
+        onOpenContact={() => setIsContactOpen(true)}
+        currentUser={currentUser}
+        onOpenCanvas={() => setIsCanvasModalOpen(true)}
+      />
 
       {/* Desktop Left Preview Rail */}
       <PreviewRail />
@@ -65,6 +98,14 @@ export default function Home() {
 
       {/* Interactive Contact & Booking Dialog */}
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+
+      {/* Multiplayer Canvas Cursor Customizer Dialog */}
+      <JoinCanvasModal
+        isOpen={isCanvasModalOpen}
+        onClose={() => setIsCanvasModalOpen(false)}
+        onJoin={handleJoinCanvas}
+        currentUser={currentUser || undefined}
+      />
     </div>
   );
 }

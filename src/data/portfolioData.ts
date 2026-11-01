@@ -451,7 +451,7 @@ export const INITIATIVES = [
     period: "2025",
     description: "Won Hack Day at Sardar Patel Institute of Technology; awarded Arduino UNO Q.",
     color: "from-amber-500/20 to-orange-500/20",
-    badge: "1st Place",
+    badge: "Win",
   },
   {
     name: "Microsoft Edge Add-ons",
@@ -509,8 +509,8 @@ export const JOURNEY = [
     org: "Hacktoberfest x MLH @ SPIT",
     location: "Mumbai, India",
     period: "2025",
-    tag: "1st Place Prize",
-    summary: "Won 1st Place Hack Day at Sardar Patel Institute of Technology; awarded Arduino UNO Q hardware prize.",
+    tag: "Win",
+    summary: "Won Hack Day at Sardar Patel Institute of Technology; awarded Arduino UNO Q hardware prize.",
   },
   {
     role: "Top 3 Capstone Ranking",
