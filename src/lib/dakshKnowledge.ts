@@ -245,3 +245,4 @@ export function retrieveRelevantKnowledge(query: string, maxResults = 4): string
 
   return resultSections.map((s) => `### ${s.title}\n${s.content}`).join("\n\n---\n\n");
 }
+

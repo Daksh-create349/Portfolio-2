@@ -234,6 +234,7 @@ export function AskDakshSection() {
                   id="contact-subject"
                   type="text"
                   required
+                  suppressHydrationWarning
                   placeholder="e.g. AI Systems Collaboration / Opportunity"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
@@ -253,6 +254,7 @@ export function AskDakshSection() {
                   <input
                     id="contact-sender-name"
                     type="text"
+                    suppressHydrationWarning
                     placeholder="Alex Chen"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
@@ -270,6 +272,7 @@ export function AskDakshSection() {
                   <input
                     id="contact-sender-email"
                     type="email"
+                    suppressHydrationWarning
                     placeholder="alex@company.com"
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
@@ -290,6 +293,7 @@ export function AskDakshSection() {
                 <textarea
                   id="contact-message-body"
                   required
+                  suppressHydrationWarning
                   rows={4}
                   placeholder="Hi Daksh, I came across your portfolio and would love to discuss..."
                   value={content}

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Sparkles } from "lucide-react";
 import { GrokChatModal } from "./GrokChatModal";
 
 // Official Grok Bot "Attentive" Eye Definition from grokbots.ai
@@ -121,18 +120,12 @@ export function GrokCompanion() {
         aria-label="Interactive Grok Companion"
         className="fixed bottom-6 right-6 z-40 select-none pointer-events-none"
       >
-        <div className="relative flex flex-col items-end group">
-          {/* Subtle Hover Cue Pill */}
-          <div className="pointer-events-none mb-2 px-3 py-1 rounded-full bg-[#0a0d14]/90 border border-white/10 text-[11px] font-medium text-blue-300 shadow-lg backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center gap-1.5 translate-y-1 group-hover:translate-y-0">
-            <Sparkles className="size-3 text-blue-400" />
-            <span>Chat with Daksh AI</span>
-          </div>
-
+        <div className="relative flex flex-col items-end">
           {/* Main Grok Bot Container */}
           <div
             ref={botRef}
             onClick={handleBotClick}
-            title="Chat with Daksh AI (Grok)"
+            title="Chat with Daksh AI"
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {

@@ -35,11 +35,12 @@ You have complete, verified knowledge about Daksh's projects, experience, techni
 ${retrievedContext}
 
 ### Response Guidelines:
-1. Speak in a sharp, witty, friendly, and knowledgeable tone (inspired by Grok and modern tech avatars).
+1. Speak in a sharp, natural, direct, and helpful tone.
 2. Answer the user's questions clearly and accurately using the verified knowledge above.
-3. Be concise and impactful. Avoid fluff; highlight real engineering metrics (e.g., Sonaura 2.0 Web Audio / Edge Store launch, Contradiction-MCP knowledge graph reconciliation, HydroWatch Doppler dBZ radar, 9.57 CGPA).
-4. Use clean Markdown: bold highlights, bullet points, and clickable markdown links when referencing his GitHub (https://github.com/Daksh-create349), LinkedIn (https://linkedin.com/in/daksh-srivastava-2ba851344), or email (dakshshrivastav56@gmail.com).
-5. Grounding: Never hallucinate or invent false projects/companies. If asked something completely outside Daksh's scope, answer politely and suggest asking about his engineering work or contacting him directly.`;
+3. Be concise and impactful. Highlight real engineering metrics (e.g., Sonaura 2.0 Web Audio / Edge Store launch, Contradiction-MCP knowledge graph reconciliation, HydroWatch Doppler dBZ radar, 9.57 CGPA).
+4. STRICT CONSTRAINT: NEVER use emojis anywhere in your responses (absolutely no 🌐, 💻, 💼, ✉️, 🚀, 🤖, or any other symbols/emojis). Write in pure, clean, professional text only.
+5. Use clean Markdown: bold highlights, bullet points, and clean markdown links when referencing his GitHub (https://github.com/Daksh-create349), LinkedIn (https://linkedin.com/in/daksh-srivastava-2ba851344), or email (dakshshrivastav56@gmail.com).
+6. Grounding: Never hallucinate or invent false projects/companies. If asked something completely outside Daksh's scope, answer politely and suggest asking about his engineering work or contacting him directly.`;
 
     const groqPayload = {
       model: "qwen/qwen3.8-27b",
@@ -140,3 +141,4 @@ ${retrievedContext}
     );
   }
 }
+
