@@ -50,7 +50,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
 
 const CATEGORIES = [
   "Show all",
-  "Audio DSP",
+  "Audio Systems",
   "Geospatial",
   "DevSecOps",
   "AI & Agentics",
@@ -62,7 +62,7 @@ const TECHNICAL_SPECS: Record<
   { label: string; value: string; badge?: string }[]
 > = {
   sonaura: [
-    { label: "DSP Pipeline", value: "Web Audio API Intercept Node Graph" },
+    { label: "Audio Pipeline", value: "Web Audio API Intercept Node Graph" },
     { label: "Spatial Acoustics", value: "HRTF 5.1 Matrix (Haas-effect binaural delays)" },
     { label: "Equalizer Architecture", value: "10-Band Parametric with real-time FFT" },
     { label: "Transient Dynamics", value: "-1 dB Brickwall Limiter (20:1 ratio ceiling)" },
@@ -128,7 +128,7 @@ export function ProjectShowcase() {
               Works.
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
-              Architected systems built for scale, mathematical precision, and production resilience—bridging raw algorithms, client-side DSP, and DevSecOps into polished products.
+              Architected systems built for scale, mathematical precision, and production resilience—bridging raw algorithms, client-side architecture, and DevSecOps into polished products.
             </p>
           </div>
 

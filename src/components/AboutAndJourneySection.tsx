@@ -64,7 +64,7 @@ export function AboutAndJourneySection() {
 
           <div className="flex flex-col gap-4 text-foreground/90">
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-snug text-foreground max-w-4xl tracking-tight">
-              I build high-throughput AI pipelines, design audio DSP chains, and engineer resilient systems from first principles.
+              I build high-throughput AI pipelines, design real-time audio engines, and engineer resilient systems from first principles.
             </h3>
             <div className="text-base sm:text-lg text-muted-foreground leading-relaxed space-y-4 max-w-4xl">
               <p>

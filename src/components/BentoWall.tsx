@@ -24,7 +24,7 @@ const CATEGORIES = [
   "All Projects",
   "AI & MCP",
   "Data & Forensics",
-  "Systems & DSP",
+  "Systems & Audio",
   "Security & Dev",
   "Web & Logistics",
 ] as const;
@@ -72,7 +72,7 @@ export function BentoWall() {
                 Popular Repositories.
               </h2>
               <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
-                Autonomous MCP engines, tabular forensic workstations, and low-latency DSP systems built and maintained in public by Daksh Srivastava.
+                Autonomous MCP engines, tabular forensic workstations, and high-performance developer systems built and maintained in public by Daksh Srivastava.
               </p>
             </div>
 

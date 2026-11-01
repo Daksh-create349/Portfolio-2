@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Daksh Srivastava — Full-Stack & AI Systems Engineer",
   description:
-    "Portfolio of Daksh Srivastava: CS Undergraduate (CGPA 9.57), Google Student Ambassador, Builder of Sonaura 2.0 (Audio DSP), AQUILA (Geospatial Climate AI), GitHub Guardian (DevSecOps), and HyperMind.",
+    "Portfolio of Daksh Srivastava: CS Undergraduate (CGPA 9.57), Google Student Ambassador, Builder of Sonaura 2.0 (Spatial Audio Engine), AQUILA (Geospatial Climate AI), GitHub Guardian (DevSecOps), and HyperMind.",
   keywords: [
     "Daksh Srivastava",
     "Portfolio",
@@ -39,14 +39,14 @@ export const metadata: Metadata = {
     url: "https://dakshsrivastava.vercel.app",
     title: "Daksh Srivastava — Full-Stack & AI Systems Engineer",
     description:
-      "Full-stack Developer & CS Undergraduate. Engineering high-precision AI, Audio DSP, and DevSecOps applications.",
+      "Full-stack Developer & CS Undergraduate. Engineering high-precision AI, real-time spatial audio, and DevSecOps applications.",
     siteName: "Daksh Srivastava Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Daksh Srivastava — Full-Stack & AI Systems Engineer",
     description:
-      "Full-stack Developer & CS Undergraduate. Engineering high-precision AI, Audio DSP, and DevSecOps applications.",
+      "Full-stack Developer & CS Undergraduate. Engineering high-precision AI, real-time spatial audio, and DevSecOps applications.",
   },
 };
 

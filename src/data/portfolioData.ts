@@ -2,7 +2,7 @@ export interface Project {
   id: string;
   title: string;
   headline: string;
-  category: "AI & Agentics" | "Audio DSP" | "Geospatial" | "DevSecOps" | "Full Stack";
+  category: "AI & Agentics" | "Audio Systems" | "Geospatial" | "DevSecOps" | "Full Stack";
   tags: string[];
   role: string;
   year: string;
@@ -29,7 +29,7 @@ export interface GithubProject {
   forks?: number;
   language: string;
   languageColor: string;
-  category: "AI & MCP" | "Data & Forensics" | "Systems & DSP" | "Security & Dev" | "Web & Logistics";
+  category: "AI & MCP" | "Data & Forensics" | "Systems & Audio" | "Security & Dev" | "Web & Logistics";
   tags: string[];
   image?: string;
   highlights: string[];
@@ -102,12 +102,12 @@ export const GITHUB_PROJECTS: GithubProject[] = [
     name: "Sonaura 2.0",
     repo: "Daksh-create349/Sonaura-2.0",
     description:
-      "Browser Web Audio DSP extension delivering cinema-grade 5.1 binaural surround sound, 10-band parametric EQ, and convolution reverb with zero external drivers.",
+      "Browser Web Audio extension delivering cinema-grade 5.1 binaural surround sound, 10-band parametric EQ, and convolution reverb with zero external drivers.",
     stars: 2,
     forks: 0,
     language: "JavaScript",
     languageColor: "#f1e05a",
-    category: "Systems & DSP",
+    category: "Systems & Audio",
     tags: ["JavaScript", "Web Audio API", "Chrome Extension", "Edge Store"],
     image: "/projects/audio-dsp-real.jpg",
     highlights: [
@@ -186,7 +186,7 @@ export const GITHUB_PROJECTS: GithubProject[] = [
     forks: 0,
     language: "Python",
     languageColor: "#3572A5",
-    category: "Systems & DSP",
+    category: "Systems & Audio",
     tags: ["Python", "Privacy-first", "Local AI", "Desktop"],
     highlights: [
       "Zero-cloud offline file recovery and activity scoring",
@@ -205,7 +205,7 @@ export const GITHUB_PROJECTS: GithubProject[] = [
     forks: 0,
     language: "Go",
     languageColor: "#00ADD8",
-    category: "Systems & DSP",
+    category: "Systems & Audio",
     tags: ["Go", "macOS Daemon", "Git Context", "Low-overhead"],
     highlights: [
       "Under 5MB memory footprint background event watcher",
@@ -238,11 +238,11 @@ export const GITHUB_PROJECTS: GithubProject[] = [
 export const PROJECTS: Project[] = [
   {
     id: "sonaura",
-    title: "Sonaura 2.0 — Browser Audio DSP Extension",
+    title: "Sonaura 2.0 — Spatial Audio Browser Extension",
     headline: "Delivering cinema-quality 3D acoustics through any headphones directly inside the browser.",
-    category: "Audio DSP",
-    tags: ["#AudioDSP", "#WebAudioAPI", "#ChromeExtension", "#EdgeStoreLaunch"],
-    role: "Lead DSP & Systems Engineer",
+    category: "Audio Systems",
+    tags: ["#SpatialAudio", "#WebAudioAPI", "#ChromeExtension", "#EdgeStoreLaunch"],
+    role: "Lead Systems & Audio Engineer",
     year: "2025",
     stats: "Officially Launched on Microsoft Edge Store",
     image: "/projects/sonaura-preview.jpg",
@@ -457,7 +457,7 @@ export const INITIATIVES = [
     name: "Microsoft Edge Add-ons",
     role: "Store Publisher",
     period: "2025",
-    description: "Officially launched Sonaura 2.0 Browser DSP Extension.",
+    description: "Officially launched Sonaura 2.0 Browser Audio Extension.",
     color: "from-cyan-500/20 to-blue-500/20",
     badge: "Production Launch",
   },
@@ -566,7 +566,7 @@ export const TECH_STACK: TechItem[] = [
   { name: "PostgreSQL & PostGIS", category: "Database", logoKey: "postgres", proficiency: "Spatial GIS" },
   { name: "Google Cloud & GEE", category: "Geospatial", logoKey: "gee", proficiency: "Satellite" },
   { name: "Redis", category: "Distributed", logoKey: "redis", proficiency: "Pub/Sub" },
-  { name: "Web Audio API", category: "Audio DSP", logoKey: "webaudio", proficiency: "DSP Pipeline" },
+  { name: "Web Audio API", category: "Audio Systems", logoKey: "webaudio", proficiency: "Spatial Audio" },
   { name: "Tailwind CSS", category: "Styling", logoKey: "tailwind", proficiency: "Design System" },
   { name: "Git & SAST", category: "DevSecOps", logoKey: "git", proficiency: "Forensics" },
   { name: "XGBoost", category: "Machine Learning", logoKey: "xgboost", proficiency: "Predictive" },

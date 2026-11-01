@@ -43,10 +43,10 @@ EDUCATION
   Higher Secondary Certificate (HSC) — Science Stream
 
 PROJECTS
-- Sonaura 2.0 — Browser Audio DSP Extension (2025)
+- Sonaura 2.0 — Spatial Audio Browser Extension (2025)
   Web Audio API · Chrome Extension (Manifest V3) · JavaScript · HTML5 Canvas
   Officially launched on Microsoft Edge Add-ons Store
-  Built a client-side audio DSP pipeline intercepting live tab audio with virtualized 5.1 surround sound (HRTF, Haas-effect), 10-band parametric EQ, convolution reverb, asymmetric subharmonic exciter, and brickwall limiter.
+  Built a client-side audio processing pipeline intercepting live tab audio with virtualized 5.1 surround sound (HRTF, Haas-effect), 10-band parametric EQ, convolution reverb, asymmetric subharmonic exciter, and brickwall limiter.
 - AQUILA — Climate Intelligence Engine (2025)
   FastAPI · Google Earth Engine · React 19 · Three.js · XGBoost · PostgreSQL/PostGIS · Docker
   Geospatial flood detection platform processing Sentinel-1 SAR and Sentinel-2 imagery via GEE; adaptive Otsu thresholding with physics-based false-positive correction (DEM, HAND, JRC tidal); XGBoost 5-day flood forecaster.
@@ -389,7 +389,7 @@ export function ResumeSection() {
                     <div className="space-y-2 rounded-2xl border border-border/60 bg-secondary/20 p-5">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                         <div className="flex items-center gap-2">
-                          <h5 className="font-bold text-sm text-foreground">Sonaura 2.0 &mdash; Browser Audio DSP Extension</h5>
+                          <h5 className="font-bold text-sm text-foreground">Sonaura 2.0 &mdash; Spatial Audio Browser Extension</h5>
                           <span className="px-2 py-0.5 rounded-full bg-foreground text-background text-[10px] font-mono font-semibold">
                             Microsoft Edge Store
                           </span>
@@ -400,8 +400,8 @@ export function ResumeSection() {
                         Web Audio API &middot; Chrome Extension (Manifest V3) &middot; JavaScript &middot; HTML5 Canvas
                       </p>
                       <ul className="space-y-1.5 text-muted-foreground list-disc list-inside pt-1">
-                        <li>Built a client-side audio DSP pipeline as a browser extension intercepting live tab audio to deliver cinema-quality 3D acoustics through any headphones with zero driver installation.</li>
-                        <li>Engineered full DSP chain: HRTF-based virtualized 5.1 surround sound (6-channel matrix, Haas-effect delays), 10-band parametric EQ with auto room-calibration FFT, convolution reverb, asymmetric subharmonic exciter, and brickwall limiter (-1 dB, 20:1 ratio).</li>
+                        <li>Built a client-side audio pipeline as a browser extension intercepting live tab audio to deliver cinema-quality 3D acoustics through any headphones with zero driver installation.</li>
+                        <li>Engineered full audio graph: HRTF-based virtualized 5.1 surround sound (6-channel matrix, Haas-effect delays), 10-band parametric EQ with auto room-calibration FFT, convolution reverb, asymmetric subharmonic exciter, and brickwall limiter (-1 dB, 20:1 ratio).</li>
                         <li>Shipped 5 built-in presets (Cinema, Action Boost, Dialogue Clarity, Night Mode, Bypass) and a real-time 48-bar spectrum visualizer running at 25 FPS.</li>
                       </ul>
                     </div>

@@ -25,7 +25,7 @@ const ACCORDIONS = [
   {
     title: "DevSecOps & deep architecture",
     content:
-      "FastAPI, React 19, Docker, Celery, Redis, PostGIS, and Three.js. Specializing in forensic Git DAG vulnerability traversal and low-latency client-side DSP.",
+      "FastAPI, React 19, Docker, Celery, Redis, PostGIS, and Three.js. Specializing in forensic Git DAG vulnerability traversal and low-latency client-side architectures.",
   },
 ];
 
