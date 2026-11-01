@@ -179,8 +179,8 @@ export function AskDakshSection() {
                 <h3 className="text-base font-semibold tracking-tight text-foreground">
                   Send a Direct Message
                 </h3>
-                <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono font-medium text-emerald-500 border border-emerald-500/20">
-                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-0.5 text-[10px] font-mono font-medium text-foreground border border-border/70">
+                  <span className="size-1.5 rounded-full bg-foreground/60" />
                   <span>Available</span>
                 </span>
               </div>
@@ -198,7 +198,7 @@ export function AskDakshSection() {
                   title="Copy email to clipboard"
                 >
                   {copiedEmail ? (
-                    <Check className="size-3 text-emerald-500" />
+                    <Check className="size-3 text-foreground" />
                   ) : (
                     <Copy className="size-3" />
                   )}
@@ -242,8 +242,8 @@ export function AskDakshSection() {
         {activeTab === "message" && (
           <div>
             {isSent ? (
-              <div className="flex flex-col items-center justify-center text-center py-12 px-4 space-y-4 rounded-2xl bg-background/80 border border-emerald-500/30">
-                <div className="grid size-12 place-items-center rounded-full bg-emerald-500/10 text-emerald-500">
+              <div className="flex flex-col items-center justify-center text-center py-12 px-4 space-y-4 rounded-2xl bg-background/80 border border-border/80">
+                <div className="grid size-12 place-items-center rounded-full bg-secondary text-foreground">
                   <CheckCircle2 className="size-6" />
                 </div>
                 <div className="space-y-1">

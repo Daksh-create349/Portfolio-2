@@ -84,12 +84,12 @@ export function HeroSection({ onHoldAbout }: HeroSectionProps) {
   return (
     <section
       id="home"
-      className="mx-auto grid min-h-svh w-full max-w-7xl items-center gap-10 px-6 pb-16 pt-28 md:px-10 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-14"
+      className="mx-auto grid min-h-svh w-full max-w-7xl items-center gap-10 px-6 pb-16 pt-28 md:px-10 lg:grid-cols-[minmax(0,1.3fr)_auto_minmax(0,1fr)] lg:gap-10 xl:gap-14"
     >
       {/* Left Column: Rotating Title & CTA */}
       <div className="flex flex-col items-start gap-8 min-w-0">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-foreground/10 bg-secondary/50 text-xs font-mono text-muted-foreground">
-          <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="size-1.5 rounded-full bg-foreground/60" />
           <span>Available for AI &amp; Software Roles · Mumbai</span>
         </div>
 
@@ -98,7 +98,7 @@ export function HeroSection({ onHoldAbout }: HeroSectionProps) {
             Daksh Srivastava
           </p>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-semibold leading-[1.05] tracking-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-[3.25rem] font-semibold leading-[1.05] tracking-tight">
             <span className="sr-only">
               Full-Stack Developer, AI Systems Engineer, DevSecOps Specialist, Geospatial AI Builder
             </span>
@@ -108,7 +108,7 @@ export function HeroSection({ onHoldAbout }: HeroSectionProps) {
                 return (
                   <span
                     key={`${t.line1}-${t.line2}`}
-                    className={`col-start-1 row-start-1 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    className={`col-start-1 row-start-1 whitespace-nowrap transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                       isCurrent
                         ? "opacity-100 translate-y-0 filter-none"
                         : "opacity-0 -translate-y-8 blur-sm pointer-events-none"

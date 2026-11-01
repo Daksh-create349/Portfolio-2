@@ -162,7 +162,7 @@ export function StackSection() {
                       {tech.name}
                     </h4>
                     <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted-foreground">
-                      <span className="size-1 rounded-full bg-emerald-500" />
+                      <span className="size-1.5 rounded-full bg-foreground/60" />
                       <span>{tech.proficiency}</span>
                     </div>
                   </div>

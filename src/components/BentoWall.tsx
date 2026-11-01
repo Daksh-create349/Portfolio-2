@@ -163,7 +163,7 @@ export function BentoWall() {
                     <div className="space-y-2.5 pt-1">
                       {proj.highlights.map((hl, i) => (
                         <div key={i} className="flex items-start gap-2.5 text-sm text-foreground/90">
-                          <span className="grid size-5 shrink-0 place-items-center rounded-full bg-emerald-500/15 text-emerald-500 mt-0.5">
+                          <span className="grid size-5 shrink-0 place-items-center rounded-full bg-foreground/10 text-foreground mt-0.5">
                             <Check className="size-3 stroke-[3]" />
                           </span>
                           <span>{hl}</span>

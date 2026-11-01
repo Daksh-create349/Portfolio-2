@@ -1,18 +1,15 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import rawContributions from "@/data/githubContributions.json";
 import { GithubIcon } from "./Icons";
 import {
   Calendar,
-  Flame,
   GitCommit,
-  GitPullRequest,
-  TrendingUp,
-  ExternalLink,
-  Sparkles,
+  RotateCw,
   Info,
   CheckCircle2,
+  Clock,
 } from "lucide-react";
 
 interface ContributionDay {
@@ -22,6 +19,17 @@ interface ContributionDay {
 }
 
 const THEMES = {
+  cyan: {
+    name: "Electric Cyan",
+    levels: [
+      "bg-secondary/40 border-border/30",
+      "bg-[#083344] border-[#083344]",
+      "bg-[#0e7490] border-[#0e7490]",
+      "bg-[#06b6d4] border-[#06b6d4]",
+      "bg-[#22d3ee] border-[#22d3ee]",
+    ],
+    legend: ["#161b22", "#083344", "#0e7490", "#06b6d4", "#22d3ee"],
+  },
   emerald: {
     name: "Classic Emerald",
     levels: [
@@ -32,17 +40,6 @@ const THEMES = {
       "bg-[#39d353] border-[#39d353]",
     ],
     legend: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
-  },
-  cyan: {
-    name: "Electric Cyan",
-    levels: [
-      "bg-secondary/40 border-border/30",
-      "bg-[#064e3b] border-[#064e3b]",
-      "bg-[#047857] border-[#047857]",
-      "bg-[#059669] border-[#059669]",
-      "bg-[#34d399] border-[#34d399]",
-    ],
-    legend: ["#161b22", "#064e3b", "#047857", "#059669", "#34d399"],
   },
   purple: {
     name: "Amethyst",
@@ -85,13 +82,16 @@ const MONTH_NAMES = [
 
 export function GithubContributionGraph() {
   const [selectedYear, setSelectedYear] = useState<string>("2026");
-  const [selectedTheme, setSelectedTheme] = useState<keyof typeof THEMES>("emerald");
+  const [selectedTheme, setSelectedTheme] = useState<keyof typeof THEMES>("cyan");
   const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
   const [activeOnly, setActiveOnly] = useState<boolean>(false);
   const [liveData, setLiveData] = useState(rawContributions);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<string>("Just now");
 
-  // Optional live fetch with graceful local cache fallback
-  useEffect(() => {
+  // Fetch function to sync with GitHub API
+  const syncWithGithub = useCallback(() => {
+    setIsRefreshing(true);
     fetch("https://github-contributions-api.jogruber.de/v4/Daksh-create349")
       .then((res) => {
         if (res.ok) return res.json();
@@ -100,12 +100,24 @@ export function GithubContributionGraph() {
       .then((data) => {
         if (data && data.contributions) {
           setLiveData(data);
+          const now = new Date();
+          setLastUpdated(`${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}`);
         }
       })
       .catch(() => {
-        // Fallback to local deterministic cache
+        // Keep existing valid data
+      })
+      .finally(() => {
+        setTimeout(() => setIsRefreshing(false), 600);
       });
   }, []);
+
+  // Initial fetch and auto-polling every 60 seconds
+  useEffect(() => {
+    syncWithGithub();
+    const interval = setInterval(syncWithGithub, 60000);
+    return () => clearInterval(interval);
+  }, [syncWithGithub]);
 
   // Filter contributions by selected year
   const filteredDays = useMemo(() => {
@@ -130,7 +142,8 @@ export function GithubContributionGraph() {
       }
     });
 
-    const activeRatio = filteredDays.length > 0 ? Math.round((activeDays / filteredDays.length) * 100) : 0;
+    const activeRatio =
+      filteredDays.length > 0 ? Math.round((activeDays / filteredDays.length) * 100) : 0;
 
     return {
       total,
@@ -146,10 +159,8 @@ export function GithubContributionGraph() {
     const list: ContributionDay[][] = [];
     let currentWeek: ContributionDay[] = [];
 
-    // Sort ascending by date
     const sorted = [...filteredDays].sort((a, b) => a.date.localeCompare(b.date));
 
-    // Pad first week if day is not Sunday (0)
     if (sorted.length > 0) {
       const firstDate = new Date(sorted[0].date);
       const firstDayOfWeek = firstDate.getDay();
@@ -189,10 +200,10 @@ export function GithubContributionGraph() {
 
   return (
     <div className="rounded-[28px] border border-border/80 bg-secondary/35 p-6 sm:p-8 backdrop-blur-md shadow-sm space-y-6">
-      {/* Top Header & Telemetry Badges */}
+      {/* Top Header & Telemetry Badges (Zero green pills) */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-border/50 pb-6">
         <div className="space-y-1.5">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <span className="flex size-9 items-center justify-center rounded-xl bg-foreground text-background">
               <GithubIcon className="size-4" />
             </span>
@@ -201,13 +212,14 @@ export function GithubContributionGraph() {
                 <h3 className="text-xl font-bold tracking-tight text-foreground">
                   GitHub Contribution Activity
                 </h3>
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-mono font-medium text-emerald-500 border border-emerald-500/20">
-                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span>Real-time Telemetry</span>
+                {/* Clean Neutral Status Pill */}
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-0.5 text-xs font-mono font-medium text-foreground border border-border/70">
+                  <span className="size-1.5 rounded-full bg-foreground/60" />
+                  <span>Live Auto-Sync</span>
                 </span>
               </div>
               <p className="text-xs font-mono text-muted-foreground">
-                Audited commit stream from{" "}
+                Live commit stream from{" "}
                 <a
                   href="https://github.com/Daksh-create349"
                   target="_blank"
@@ -221,7 +233,7 @@ export function GithubContributionGraph() {
           </div>
         </div>
 
-        {/* Quick Stats Grid */}
+        {/* Quick Stats Grid (Clean neutral typography, zero green pills) */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
           <div className="p-3 rounded-xl bg-background/80 border border-border/60">
             <span className="text-muted-foreground text-[10px] uppercase tracking-wider block">
@@ -245,7 +257,7 @@ export function GithubContributionGraph() {
             <span className="text-muted-foreground text-[10px] uppercase tracking-wider block">
               Consistency Rate
             </span>
-            <span className="text-base font-bold text-emerald-500 font-sans">
+            <span className="text-base font-bold text-foreground font-sans">
               {stats.activeRatio}%
             </span>
           </div>
@@ -261,7 +273,7 @@ export function GithubContributionGraph() {
         </div>
       </div>
 
-      {/* Control Toolbar: Year Tabs & Palette Switcher */}
+      {/* Control Toolbar: Year Tabs, Palette Switcher & Sync Button */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         {/* Year Filter Tabs */}
         <div className="inline-flex rounded-full bg-background border border-border/70 p-1 shadow-2xs">
@@ -286,8 +298,9 @@ export function GithubContributionGraph() {
           })}
         </div>
 
-        {/* Theme Palette Switcher */}
-        <div className="flex items-center gap-3">
+        {/* Controls: Palette + Active Toggle + Live Sync */}
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Palette Switcher */}
           <div className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground">
             <span className="text-[11px]">Palette:</span>
             {(Object.keys(THEMES) as Array<keyof typeof THEMES>).map((tKey) => {
@@ -299,7 +312,9 @@ export function GithubContributionGraph() {
                   onClick={() => setSelectedTheme(tKey)}
                   title={THEMES[tKey].name}
                   className={`size-5 rounded-full border transition-transform cursor-pointer ${
-                    isSelected ? "ring-2 ring-foreground scale-110" : "opacity-70 hover:opacity-100"
+                    isSelected
+                      ? "ring-2 ring-foreground scale-110"
+                      : "opacity-70 hover:opacity-100"
                   }`}
                   style={{ backgroundColor: THEMES[tKey].legend[3] }}
                 />
@@ -318,6 +333,18 @@ export function GithubContributionGraph() {
             }`}
           >
             {activeOnly ? "High Intensity" : "Show All"}
+          </button>
+
+          {/* Live Sync Now Button */}
+          <button
+            type="button"
+            onClick={syncWithGithub}
+            disabled={isRefreshing}
+            className="inline-flex items-center gap-1.5 rounded-full bg-background border border-border px-3 py-1 text-xs font-mono text-foreground hover:bg-secondary transition-all cursor-pointer"
+            title="Fetch latest commits from GitHub"
+          >
+            <RotateCw className={`size-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
+            <span>{isRefreshing ? "Syncing..." : `Sync (${lastUpdated})`}</span>
           </button>
         </div>
       </div>
@@ -364,7 +391,7 @@ export function GithubContributionGraph() {
         <div className="mt-4 pt-4 border-t border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-muted-foreground">
           {hoveredDay ? (
             <div className="flex items-center gap-2 text-foreground">
-              <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="size-1.5 rounded-full bg-foreground" />
               <span className="font-semibold">{hoveredDay.count} contributions</span>
               <span>on</span>
               <span className="text-muted-foreground font-medium">
@@ -382,10 +409,7 @@ export function GithubContributionGraph() {
           <div className="flex items-center gap-1.5 self-end sm:self-auto">
             <span className="text-[11px]">Less</span>
             {themeConfig.levels.map((lvlClass, idx) => (
-              <span
-                key={idx}
-                className={`size-3 rounded-[2px] border ${lvlClass}`}
-              />
+              <span key={idx} className={`size-3 rounded-[2px] border ${lvlClass}`} />
             ))}
             <span className="text-[11px]">More</span>
           </div>

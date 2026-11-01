@@ -181,7 +181,7 @@ export function ProjectShowcase() {
                 <ScrollReveal className="px-4 pb-8 pt-16 md:px-10 lg:pt-24">
                   <div className="flex flex-wrap items-center gap-3 mb-3">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1 text-xs font-mono font-medium text-foreground border border-border/60">
-                      <CheckCircle2 className="size-3.5 text-emerald-500" />
+                      <CheckCircle2 className="size-3.5 text-foreground/70" />
                       <span>{project.stats}</span>
                     </span>
                     <span className="text-xs font-mono text-muted-foreground">
@@ -248,7 +248,7 @@ export function ProjectShowcase() {
                                   {item.value}
                                 </span>
                                 {item.badge && (
-                                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shrink-0">
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-secondary text-foreground border border-border/60 shrink-0">
                                     {item.badge}
                                   </span>
                                 )}

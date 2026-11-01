@@ -50,7 +50,7 @@ export function InteractiveAvatar() {
         viewBox="0 0 1096 1240"
         role="img"
         aria-label="Portrait illustration of Daksh that looks toward your cursor"
-        className="mx-auto block w-64 sm:w-72 lg:w-80 xl:w-96 transition-transform duration-75 ease-out dark:[filter:drop-shadow(2px_0_0_white)_drop-shadow(-2px_0_0_white)_drop-shadow(0_-2px_0_white)]"
+        className="mx-auto block w-48 sm:w-56 lg:w-64 xl:w-80 transition-transform duration-75 ease-out dark:[filter:drop-shadow(2px_0_0_white)_drop-shadow(-2px_0_0_white)_drop-shadow(0_-2px_0_white)]"
         style={
           {
             ["--look" as string]: look,

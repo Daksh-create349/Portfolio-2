@@ -116,7 +116,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
           >
             {copied ? (
               <>
-                <Check className="size-3.5 text-emerald-400" />
+                <Check className="size-3.5 text-foreground" />
                 <span>Copied!</span>
               </>
             ) : (
@@ -165,7 +165,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
           {/* Phone */}
           <div className="flex items-center gap-3 rounded-2xl border border-border/70 bg-secondary/30 p-3.5">
             <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-background border border-border/60 text-foreground">
-              <Phone className="size-4 text-emerald-500" />
+              <Phone className="size-4 text-foreground/80" />
             </span>
             <div>
               <span className="text-[11px] font-mono text-muted-foreground block">Phone</span>
