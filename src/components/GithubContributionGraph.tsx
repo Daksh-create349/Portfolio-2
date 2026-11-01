@@ -82,12 +82,29 @@ const MONTH_NAMES = [
 
 export function GithubContributionGraph() {
   const [selectedYear, setSelectedYear] = useState<string>("2026");
-  const [selectedTheme, setSelectedTheme] = useState<keyof typeof THEMES>("cyan");
+  const [selectedTheme, setSelectedTheme] = useState<keyof typeof THEMES>("monochrome");
   const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
   const [activeOnly, setActiveOnly] = useState<boolean>(false);
   const [liveData, setLiveData] = useState(rawContributions);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<string>("Just now");
+
+  // Load user saved theme if any
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("github_palette_theme") as keyof typeof THEMES | null;
+      if (saved && THEMES[saved]) {
+        setSelectedTheme(saved);
+      }
+    } catch {}
+  }, []);
+
+  const handleSelectTheme = (tKey: keyof typeof THEMES) => {
+    setSelectedTheme(tKey);
+    try {
+      localStorage.setItem("github_palette_theme", tKey);
+    } catch {}
+  };
 
   // Fetch function to sync with GitHub API
   const syncWithGithub = useCallback(() => {
@@ -302,7 +319,7 @@ export function GithubContributionGraph() {
                 <button
                   key={tKey}
                   type="button"
-                  onClick={() => setSelectedTheme(tKey)}
+                  onClick={() => handleSelectTheme(tKey)}
                   title={THEMES[tKey].name}
                   className={`size-5 rounded-full border transition-transform cursor-pointer ${
                     isSelected
