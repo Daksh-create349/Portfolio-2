@@ -1,14 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { JOURNEY } from "@/data/portfolioData";
 import { AskDakshSection } from "./AskDakshSection";
 import { ScrollReveal } from "./ScrollReveal";
-import { MapPin, Calendar, Award, GraduationCap, Laptop, Sparkles, Building2, Briefcase } from "lucide-react";
+import {
+  MapPin,
+  Calendar,
+  Award,
+  GraduationCap,
+  Sparkles,
+  Building2,
+  Briefcase,
+  CheckCircle2,
+  ArrowUpRight,
+} from "lucide-react";
 
 export function AboutAndJourneySection() {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
   return (
-    <section id="about" aria-labelledby="about-title" className="overflow-x-clip px-6 md:px-10">
+    <section id="about" aria-labelledby="about-title" className="overflow-x-clip px-6 md:px-10 py-16">
       <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5">
         {/* Top Decorative Line with Dot Caps */}
         <div aria-hidden="true" className="pointer-events-none relative h-px">
@@ -31,13 +43,13 @@ export function AboutAndJourneySection() {
         </ScrollReveal>
       </div>
 
-      <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 flex flex-col gap-14 px-4 pb-24 pt-8 md:px-10">
-        {/* Interactive AI Chat Terminal */}
+      <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 flex flex-col gap-16 px-4 pb-24 pt-8 md:px-10">
+        {/* Interactive Direct Message & AI Q&A Terminal */}
         <ScrollReveal delay={80}>
           <AskDakshSection />
         </ScrollReveal>
 
-        {/* About Daksh Narrative */}
+        {/* Bio Narrative */}
         <ScrollReveal delay={120} className="flex flex-col gap-5 pt-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground w-fit">
             <Sparkles className="size-3.5 text-blue-500" />
@@ -66,51 +78,94 @@ export function AboutAndJourneySection() {
           </div>
         </ScrollReveal>
 
-        {/* Journey & Timeline Table */}
-        <ScrollReveal delay={160} className="flex flex-col gap-6 pt-4">
-          <div className="flex items-center justify-between border-b border-border/60 pb-4">
-            <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              Academic &amp; Professional Journey
-            </h3>
+        {/* Redesigned Academic & Professional Journey */}
+        <div className="flex flex-col gap-8 pt-4">
+          <ScrollReveal className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-border/60 pb-5">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground mb-3">
+                <GraduationCap className="size-3.5 text-blue-500" />
+                <span>Track Record &amp; Milestones</span>
+              </div>
+              <h3 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+                Academic &amp; Professional Journey.
+              </h3>
+            </div>
             <span className="font-mono text-xs text-muted-foreground">
-              2025 – 2029
+              2025 &mdash; 2029 Overview
             </span>
-          </div>
+          </ScrollReveal>
 
-          <div className="rounded-[24px] border border-border/70 bg-secondary/25 p-3 sm:p-5 overflow-hidden">
-            <ul className="divide-y divide-border/40">
-              {JOURNEY.map((item, index) => (
-                <li
+          {/* Stacking Timeline Milestone Cards */}
+          <div className="space-y-4">
+            {JOURNEY.map((item, index) => {
+              const isHovered = hoveredIdx === index;
+              const isCurrent = item.period.includes("Present");
+
+              return (
+                <ScrollReveal
                   key={`${item.role}-${index}`}
-                  className="grid grid-cols-1 sm:grid-cols-[1.5fr_1.2fr_1fr_auto] items-center gap-2 p-4 rounded-xl hover:bg-background/80 transition-colors"
+                  delay={index * 60}
+                  className="transition-transform duration-300 ease-out"
                 >
-                  <div>
-                    <span className="font-semibold text-foreground text-sm sm:text-base block">
-                      {item.role}
-                    </span>
-                    <span className="text-xs text-muted-foreground">{item.org}</span>
-                  </div>
+                  <div
+                    onMouseEnter={() => setHoveredIdx(index)}
+                    onMouseLeave={() => setHoveredIdx(null)}
+                    className={`group relative flex flex-col justify-between gap-4 rounded-[24px] border p-6 sm:p-7 transition-all duration-300 ease-out cursor-default ${
+                      isHovered
+                        ? "bg-background border-foreground/30 -translate-y-1 shadow-xl"
+                        : "bg-secondary/30 border-border/70 hover:bg-secondary/50"
+                    }`}
+                  >
+                    {/* Top Row: Title, Organization, Period & Tag Badge */}
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                      <div className="space-y-1">
+                        <div className="flex flex-wrap items-center gap-2.5">
+                          <h4 className="text-lg sm:text-xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
+                            {item.role}
+                          </h4>
+                          {isCurrent && (
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-mono font-medium text-emerald-500 border border-emerald-500/20">
+                              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                              <span>Active</span>
+                            </span>
+                          )}
+                        </div>
 
-                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-mono">
-                    <MapPin className="size-3.5 text-foreground/50 shrink-0" />
-                    <span>{item.location}</span>
-                  </div>
+                        <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm font-medium text-muted-foreground">
+                          <span className="text-foreground/90">{item.org}</span>
+                          <span className="text-muted-foreground/40">&bull;</span>
+                          <span className="inline-flex items-center gap-1 font-mono text-xs text-muted-foreground">
+                            <MapPin className="size-3 text-foreground/50 shrink-0" />
+                            <span>{item.location}</span>
+                          </span>
+                        </div>
+                      </div>
 
-                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-mono">
-                    <Calendar className="size-3.5 text-foreground/50 shrink-0" />
-                    <span>{item.period}</span>
-                  </div>
+                      {/* Right Tag & Period */}
+                      <div className="flex items-center gap-3 self-start lg:self-auto">
+                        <div className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+                          <Calendar className="size-3.5 text-foreground/50 shrink-0" />
+                          <span>{item.period}</span>
+                        </div>
 
-                  <div className="justify-self-start sm:justify-self-end mt-1 sm:mt-0">
-                    <span className="inline-flex items-center rounded-full bg-background px-3 py-1 text-xs font-mono font-medium text-foreground border border-border/70 shadow-xs">
-                      {item.tag}
-                    </span>
+                        <span className="inline-flex items-center rounded-full bg-background px-3 py-1 text-xs font-mono font-medium text-foreground border border-border/80 shadow-2xs">
+                          {item.tag}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Summary Description */}
+                    {item.summary && (
+                      <p className="text-sm text-muted-foreground leading-relaxed pt-1 max-w-3xl border-t border-border/40">
+                        {item.summary}
+                      </p>
+                    )}
                   </div>
-                </li>
-              ))}
-            </ul>
+                </ScrollReveal>
+              );
+            })}
           </div>
-        </ScrollReveal>
+        </div>
       </div>
     </section>
   );

@@ -231,7 +231,10 @@ export function BentoWall() {
 
                     <div className="pt-2 border-t border-border/40 flex items-center justify-between text-xs font-mono text-muted-foreground">
                       <span>Public Open Source</span>
-                      <span className="text-foreground font-medium">★ {proj.stars} Stars</span>
+                      <span className="text-foreground font-medium inline-flex items-center gap-1">
+                        <Star className="size-3 fill-amber-500 text-amber-500" />
+                        <span>{proj.stars} Stars</span>
+                      </span>
                     </div>
                   </div>
                 </div>

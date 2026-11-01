@@ -33,10 +33,10 @@ const DEFAULT_SUGGESTIONS = [
 ];
 
 const SUBJECT_PRESETS = [
-  "💼 Software / AI Internship Opportunity",
-  "⚡ Project Collaboration",
-  "🎙️ Workshop / Speaking Invitation",
-  "🤝 General Inquiry",
+  "Software / AI Internship Opportunity",
+  "Full-Stack Project Collaboration",
+  "Technical Workshop / Speaking Invitation",
+  "General Engineering Inquiry",
 ];
 
 export function AskDakshSection() {

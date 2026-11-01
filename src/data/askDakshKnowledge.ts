@@ -7,7 +7,7 @@ export interface ChatAnswer {
 export const KNOWLEDGE_BASE: ChatAnswer[] = [
   {
     keywords: ["contradiction", "mcp", "model context protocol", "reconciliation"],
-    response: `**Contradiction-MCP** (⭐ 7 Stars on GitHub) is my autonomous **Model Context Protocol (MCP)** engine for engineering knowledge bases! 🧠
+    response: `**Contradiction-MCP** (7 Stars on GitHub) is my autonomous **Model Context Protocol (MCP)** engine for engineering knowledge bases! 
 
 Key capabilities:
 - **Autonomous Conflict Resolution**: Resolves factual divergences, API signature drift, and version contradictions between separate documentation sources.
@@ -22,7 +22,7 @@ Key capabilities:
   },
   {
     keywords: ["data-autopsy", "autopsy", "forensic", "tabular", "leakage", "corruption"],
-    response: `**data-autopsy** (⭐ 6 Stars on GitHub) is an AI forensic investigation workstation for tabular datasets! 🔬
+    response: `**data-autopsy** (6 Stars on GitHub) is an AI forensic investigation workstation for tabular datasets! 
 
 What it does:
 - **Target Leakage Detection**: Scans feature covariance matrices to catch predictive leakage before model training.
@@ -37,7 +37,7 @@ What it does:
   },
   {
     keywords: ["blood-bridge", "blood", "donor", "hospital", "health"],
-    response: `**Blood-Bridge 3.0** (⭐ 3 Stars on GitHub) is an emergency blood logistics and donor matching platform! 🩸
+    response: `**Blood-Bridge 3.0** (3 Stars on GitHub) is an emergency blood logistics and donor matching platform! 
 
 Highlights:
 - **Real-Time Inventory Telemetry**: Live hospital ICU blood bank stock tracking with critical shortage alerts.
@@ -52,12 +52,12 @@ Highlights:
   },
   {
     keywords: ["github", "repos", "repositories", "popular", "stars", "open source"],
-    response: `Daksh has 100+ public repositories on GitHub ([github.com/Daksh-create349](https://github.com/Daksh-create349)) spanning AI, DSP, DevSecOps, and Systems: 🌟
+    response: `Daksh has 100+ public repositories on GitHub ([github.com/Daksh-create349](https://github.com/Daksh-create349)) spanning AI, DSP, DevSecOps, and Systems: 
 
 Top Starred & Flagship Repositories:
-1. **Contradiction-MCP** (⭐ 7 Stars): Autonomous Model Context Protocol engine for factual reconciliation.
-2. **data-autopsy** (⭐ 6 Stars): AI forensic investigation workstation for tabular datasets.
-3. **Blood-Bridge 3.0** (⭐ 3 Stars): Emergency health logistics & live donor dispatch platform.
+1. **Contradiction-MCP** (7 Stars): Autonomous Model Context Protocol engine for factual reconciliation.
+2. **data-autopsy** (6 Stars): AI forensic investigation workstation for tabular datasets.
+3. **Blood-Bridge 3.0** (3 Stars): Emergency health logistics & live donor dispatch platform.
 4. **Sonaura-2.0**: Client-side browser DSP extension launched on the Microsoft Edge Store.
 5. **Hydrowatch-SIH26071** (SIH 2026): Rainfall early warning & 3D Cesium flood digital twin.
 6. **BoundaryBench**: Local-first AI API authorization testing framework with Gemma 4.
@@ -73,7 +73,7 @@ Top Starred & Flagship Repositories:
   },
   {
     keywords: ["sonaura", "audio", "dsp", "5.1", "sound", "hrtf", "headphones", "reverb"],
-    response: `**Sonaura 2.0** is my flagship browser audio DSP extension, officially launched on the **Microsoft Edge Add-ons Store**! 🎧
+    response: `**Sonaura 2.0** is my flagship browser audio DSP extension, officially launched on the **Microsoft Edge Add-ons Store**! 
 
 Key highlights:
 - **Zero Drivers / Subscriptions**: Intercepts live tab audio via the **Web Audio API** in real-time.
@@ -90,7 +90,7 @@ Key highlights:
   },
   {
     keywords: ["aquila", "hydrowatch", "flood", "climate", "geospatial", "earth engine", "gee", "sar", "sentinel"],
-    response: `**AQUILA / HydroWatch** (SIH 2026 PS 26071 — MoES / IMD) is a production-grade climate intelligence engine! 🌍
+    response: `**AQUILA / HydroWatch** (SIH 2026 PS 26071 — MoES / IMD) is a production-grade climate intelligence engine! 
 
 Architecture breakdown:
 - **Doppler Radar (dBZ) & Sentinel-2**: Cloud-penetrating radar backscatter processed via **Google Earth Engine** and Cesium 3D.
@@ -106,7 +106,7 @@ Architecture breakdown:
   },
   {
     keywords: ["guardian", "security", "devsecops", "sast", "git", "dag", "vulnerability", "audit"],
-    response: `**GitHub Guardian** is a forensic DevSecOps platform combining SAST with deep Git DAG traversal! 🛡️
+    response: `**GitHub Guardian** is a forensic DevSecOps platform combining SAST with deep Git DAG traversal! 
 
 Why it's unique:
 - **Deleted Commit Forensics**: Traverses the entire Git Directed Acyclic Graph (DAG) to uncover API keys, SSL certificates, SQL injection, and XSS across active *and deleted* commits.
@@ -122,7 +122,7 @@ Why it's unique:
   },
   {
     keywords: ["hypermind", "gemini", "learning", "education", "quiz", "tutor", "reactflow", "recharts"],
-    response: `**HyperMind** is an adaptive AI learning companion powered by Google Gemini 2.5 Flash/Pro and Gemini Live! ✨
+    response: `**HyperMind** is an adaptive AI learning companion powered by Google Gemini 2.5 Flash/Pro and Gemini Live! 
 
 Core capabilities:
 - **Gemini Live Realtime**: Real-time bidirectional voice tutoring that feels like speaking to a human professor.
@@ -138,7 +138,7 @@ Core capabilities:
   },
   {
     keywords: ["gpa", "education", "college", "university", "itm", "grades", "score", "b.tech", "academics"],
-    response: `Daksh is currently pursuing his **B.Tech in Computer Science Engineering (Full Stack & AI/ML)** at **ITM Skills University**, Navi Mumbai (Expected Dec 2029). 🎓
+    response: `Daksh is currently pursuing his **B.Tech in Computer Science Engineering (Full Stack & AI/ML)** at **ITM Skills University**, Navi Mumbai (Expected Dec 2029). 
 
 Academic stats:
 - **Cumulative CGPA: 9.57 / 10.0**
@@ -153,7 +153,7 @@ Academic stats:
   },
   {
     keywords: ["award", "achievement", "hackathon", "winner", "prize", "hacktoberfest", "mlh", "100x"],
-    response: `Daksh has achieved recognition in competitive hackathons and cohorts: 🏆
+    response: `Daksh has achieved recognition in competitive hackathons and cohorts: 
 
 1. **Hack Day Winner — Hacktoberfest x MLH**:
    - Won 1st place at the Hack Day organized by Hacktoberfest & Major League Hacking at Sardar Patel Institute of Technology (SPIT). Awarded an **Arduino UNO Q**.
@@ -171,7 +171,7 @@ Academic stats:
   },
   {
     keywords: ["contact", "hire", "email", "phone", "linkedin", "github", "connect", "call", "reach"],
-    response: `You can reach Daksh directly across any of these channels: 📬
+    response: `You can reach Daksh directly across any of these channels: 
 
 - **Email**: [dakshshrivastav56@gmail.com](mailto:dakshshrivastav56@gmail.com)
 - **Phone**: +91-9588415901 (Mumbai, India)
@@ -219,7 +219,7 @@ export function getDakshAnswer(query: string): { response: string; followUps: st
   }
 
   return {
-    response: `Hi there! I'm Daksh's interactive portfolio assistant. Daksh is a **Full-stack Developer & CS Undergraduate (CGPA: 9.57)** at ITM Skills University, a **Google Student Ambassador**, and author of popular open-source engines like **Contradiction-MCP** (⭐ 7 Stars), **data-autopsy** (⭐ 6 Stars), **Blood-Bridge 3.0** (⭐ 3 Stars), **Sonaura 2.0** (Edge Store), and **HydroWatch** (SIH 2026).
+    response: `Hi there! I'm Daksh's interactive portfolio assistant. Daksh is a **Full-stack Developer & CS Undergraduate (CGPA: 9.57)** at ITM Skills University, a **Google Student Ambassador**, and author of popular open-source engines like **Contradiction-MCP** (7 Stars), **data-autopsy** (6 Stars), **Blood-Bridge 3.0** (3 Stars), **Sonaura 2.0** (Edge Store), and **HydroWatch** (SIH 2026).
 
 Feel free to ask me anything about his projects, architecture choices, awards, or internship availability!`,
     followUps: [

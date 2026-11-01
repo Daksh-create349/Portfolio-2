@@ -5,6 +5,8 @@ import { SiteLoader } from "@/components/SiteLoader";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
 import { FloatingHeader } from "@/components/FloatingHeader";
 import { PreviewRail } from "@/components/PreviewRail";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { FigmaCursor } from "@/components/FigmaCursor";
 import { HeroSection } from "@/components/HeroSection";
 import { InitiativesCarousel } from "@/components/InitiativesCarousel";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
@@ -19,6 +21,12 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-background text-foreground antialiased selection:bg-foreground selection:text-background">
+      {/* Lenis Smooth Momentum Scrolling */}
+      <SmoothScroll />
+
+      {/* Figma Multiplayer Interactive Cursor */}
+      <FigmaCursor />
+
       {/* Signature Site Opener Counter */}
       <SiteLoader />
 

@@ -76,7 +76,7 @@ export function ExperimentsSection() {
 
       <div className="mx-auto w-full max-w-[1200px] border-x border-foreground/5 px-4 pb-20 pt-8 md:px-10">
         <ul className="grid gap-8 md:grid-cols-3">
-          {/* Lab 1: Contradiction-MCP (★ 7 Stars) */}
+          {/* Lab 1: Contradiction-MCP ( 7 Stars) */}
           <li className="flex flex-col justify-between rounded-[26px] border border-border/80 bg-background/90 p-6 shadow-sm hover:shadow-lg transition-all">
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between border-b border-border/40 pb-3">
@@ -160,7 +160,7 @@ export function ExperimentsSection() {
             </div>
           </li>
 
-          {/* Lab 2: data-autopsy (★ 6 Stars) */}
+          {/* Lab 2: data-autopsy ( 6 Stars) */}
           <li className="flex flex-col justify-between rounded-[26px] border border-border/80 bg-background/90 p-6 shadow-sm hover:shadow-lg transition-all">
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between border-b border-border/40 pb-3">
@@ -234,7 +234,7 @@ export function ExperimentsSection() {
             </div>
           </li>
 
-          {/* Lab 3: Blood-Bridge 3.0 (★ 3 Stars) */}
+          {/* Lab 3: Blood-Bridge 3.0 ( 3 Stars) */}
           <li className="flex flex-col justify-between rounded-[26px] border border-border/80 bg-background/90 p-6 shadow-sm hover:shadow-lg transition-all">
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between border-b border-border/40 pb-3">

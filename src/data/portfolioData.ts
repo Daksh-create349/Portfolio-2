@@ -406,7 +406,7 @@ export const EXPERIMENTS = [
       "Autonomous Model Context Protocol (MCP) engine for factual consistency, version reconciliation, and conflict resolution across engineering knowledge bases.",
     tags: ["TypeScript", "Model Context Protocol", "Knowledge Graphs"],
     demoUrl: "https://github.com/Daksh-create349/Contradiction-MCP",
-    badge: "★ 7 Stars · Top Open Source",
+    badge: "7 Stars · Top Open Source",
   },
   {
     id: "data-autopsy",
@@ -415,7 +415,7 @@ export const EXPERIMENTS = [
       "Serious AI forensic investigation workstation for tabular datasets: detects target leakage, structural corruption, and statistical anomalies with reproducible evidence and local AI.",
     tags: ["Python", "AI Forensics", "Data Quality", "Local AI"],
     demoUrl: "https://github.com/Daksh-create349/data-autopsy",
-    badge: "★ 6 Stars · AI Forensics",
+    badge: "6 Stars · AI Forensics",
   },
   {
     id: "blood-bridge",
@@ -424,7 +424,7 @@ export const EXPERIMENTS = [
       "Real-time emergency blood donor matching, critical blood inventory tracking, and automated donation drive coordination.",
     tags: ["TypeScript", "HealthTech", "Geo-matching"],
     demoUrl: "https://github.com/Daksh-create349/Blood-Bridge-3.0",
-    badge: "★ 3 Stars · Health Logistics",
+    badge: "3 Stars · Health Logistics",
   },
 ];
 
@@ -494,6 +494,7 @@ export const JOURNEY = [
     location: "Mumbai, India",
     period: "2025 – Present",
     tag: "Leadership",
+    summary: "Leading campus developer workshops on Google Cloud, Workspace APIs, and Google Gemini multimodal models.",
   },
   {
     role: "AI Engineer Intern",
@@ -501,6 +502,7 @@ export const JOURNEY = [
     location: "Remote, India",
     period: "2025 – Present",
     tag: "Work Experience",
+    summary: "Architecting agentic AI pipelines, prompt evaluations, and low-latency multimodal application services.",
   },
   {
     role: "Hack Day Winner",
@@ -508,6 +510,7 @@ export const JOURNEY = [
     location: "Mumbai, India",
     period: "2025",
     tag: "1st Place Prize",
+    summary: "Won 1st Place Hack Day at Sardar Patel Institute of Technology; awarded Arduino UNO Q hardware prize.",
   },
   {
     role: "Top 3 Capstone Ranking",
@@ -515,6 +518,7 @@ export const JOURNEY = [
     location: "National",
     period: "2025",
     tag: "Merit Scholarship",
+    summary: "Evaluated in Top 3 across national cohort for architectural rigor; awarded 25% academic merit scholarship.",
   },
   {
     role: "Student Ambassador",
@@ -522,6 +526,7 @@ export const JOURNEY = [
     location: "Remote, India",
     period: "Sep 2025 – Dec 2025",
     tag: "Community Lead",
+    summary: "Organized technical upskilling workshops and peer coding tournaments for university students.",
   },
   {
     role: "B.Tech Computer Science (Full Stack & AI/ML)",
@@ -529,6 +534,7 @@ export const JOURNEY = [
     location: "Navi Mumbai, India",
     period: "2025 – 2029",
     tag: "CGPA: 9.57",
+    summary: "Sem 1: 9.30 SGPA · Sem 2: 9.83 SGPA · Cumulative CGPA: 9.57. Top percentile academic standing.",
   },
   {
     role: "HSC (Science Stream)",
@@ -536,26 +542,34 @@ export const JOURNEY = [
     location: "Mumbai, India",
     period: "Completed March 2025",
     tag: "Pre-University",
+    summary: "Higher Secondary Certificate in Physics, Chemistry, and Advanced Mathematics.",
   },
 ];
 
-export const TECH_STACK = [
-  { name: "React 19", category: "Frontend", icon: "⚛️" },
-  { name: "Next.js", category: "Framework", icon: "▲" },
-  { name: "TypeScript", category: "Language", icon: "TS" },
-  { name: "Python", category: "Language", icon: "🐍" },
-  { name: "FastAPI", category: "Backend", icon: "⚡" },
-  { name: "Three.js", category: "3D Graphics", icon: "🌐" },
-  { name: "Google Gemini API", category: "AI / LLM", icon: "✨" },
-  { name: "OpenAI API", category: "AI / LLM", icon: "🤖" },
-  { name: "Docker", category: "DevOps", icon: "🐳" },
-  { name: "PostgreSQL & PostGIS", category: "Database", icon: "🐘" },
-  { name: "Google Earth Engine", category: "Geospatial", icon: "🌍" },
-  { name: "Redis & Celery", category: "Distributed", icon: "⚡" },
-  { name: "Web Audio API", category: "Audio DSP", icon: "🎧" },
-  { name: "Tailwind CSS", category: "Styling", icon: "🎨" },
-  { name: "Git & SAST", category: "DevSecOps", icon: "🛡️" },
-  { name: "XGBoost", category: "Machine Learning", icon: "📊" },
-  { name: "MongoDB", category: "Database", icon: "🍃" },
-  { name: "Firebase", category: "Cloud Services", icon: "🔥" },
+export interface TechItem {
+  name: string;
+  category: string;
+  logoKey: string;
+  proficiency: string;
+}
+
+export const TECH_STACK: TechItem[] = [
+  { name: "React 19", category: "Frontend", logoKey: "react", proficiency: "Expert" },
+  { name: "Next.js", category: "Framework", logoKey: "nextjs", proficiency: "Production" },
+  { name: "TypeScript", category: "Language", logoKey: "typescript", proficiency: "Advanced" },
+  { name: "Python", category: "Language", logoKey: "python", proficiency: "Advanced" },
+  { name: "FastAPI", category: "Backend", logoKey: "fastapi", proficiency: "Production" },
+  { name: "Three.js", category: "3D Graphics", logoKey: "threejs", proficiency: "WebGL" },
+  { name: "Google Gemini API", category: "AI / LLM", logoKey: "gemini", proficiency: "Multimodal" },
+  { name: "OpenAI API", category: "AI / LLM", logoKey: "openai", proficiency: "Agents" },
+  { name: "Docker", category: "DevOps", logoKey: "docker", proficiency: "Containers" },
+  { name: "PostgreSQL & PostGIS", category: "Database", logoKey: "postgres", proficiency: "Spatial GIS" },
+  { name: "Google Cloud & GEE", category: "Geospatial", logoKey: "gee", proficiency: "Satellite" },
+  { name: "Redis", category: "Distributed", logoKey: "redis", proficiency: "Pub/Sub" },
+  { name: "Web Audio API", category: "Audio DSP", logoKey: "webaudio", proficiency: "DSP Pipeline" },
+  { name: "Tailwind CSS", category: "Styling", logoKey: "tailwind", proficiency: "Design System" },
+  { name: "Git & SAST", category: "DevSecOps", logoKey: "git", proficiency: "Forensics" },
+  { name: "XGBoost", category: "Machine Learning", logoKey: "xgboost", proficiency: "Predictive" },
+  { name: "MongoDB", category: "Database", logoKey: "mongodb", proficiency: "NoSQL" },
+  { name: "Firebase", category: "Cloud Services", logoKey: "firebase", proficiency: "Realtime" },
 ];
