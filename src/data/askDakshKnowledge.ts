@@ -6,6 +6,72 @@ export interface ChatAnswer {
 
 export const KNOWLEDGE_BASE: ChatAnswer[] = [
   {
+    keywords: ["contradiction", "mcp", "model context protocol", "reconciliation"],
+    response: `**Contradiction-MCP** (⭐ 7 Stars on GitHub) is my autonomous **Model Context Protocol (MCP)** engine for engineering knowledge bases! 🧠
+
+Key capabilities:
+- **Autonomous Conflict Resolution**: Resolves factual divergences, API signature drift, and version contradictions between separate documentation sources.
+- **Model Context Protocol Native**: Seamlessly integrates with Claude, Antigravity, and Cursor via standardized MCP tool schemas.
+- **Consensus & Provenance**: Tracks authoritative source weighting with cryptographically verifiable provenance.
+- Repository: [github.com/Daksh-create349/Contradiction-MCP](https://github.com/Daksh-create349/Contradiction-MCP)`,
+    suggestedFollowUps: [
+      "Tell me about data-autopsy",
+      "Tell me about Sonaura 2.0",
+      "What is your GPA?",
+    ],
+  },
+  {
+    keywords: ["data-autopsy", "autopsy", "forensic", "tabular", "leakage", "corruption"],
+    response: `**data-autopsy** (⭐ 6 Stars on GitHub) is an AI forensic investigation workstation for tabular datasets! 🔬
+
+What it does:
+- **Target Leakage Detection**: Scans feature covariance matrices to catch predictive leakage before model training.
+- **Structural Corruption Auditing**: Identifies silent schema mutations, bit flips, and statistical distribution shifts.
+- **Local AI Verification**: Runs 100% locally with zero cloud dependencies to protect sensitive datasets.
+- Repository: [github.com/Daksh-create349/data-autopsy](https://github.com/Daksh-create349/data-autopsy)`,
+    suggestedFollowUps: [
+      "Tell me about Contradiction-MCP",
+      "Tell me about HydroWatch",
+      "How do I contact Daksh?",
+    ],
+  },
+  {
+    keywords: ["blood-bridge", "blood", "donor", "hospital", "health"],
+    response: `**Blood-Bridge 3.0** (⭐ 3 Stars on GitHub) is an emergency blood logistics and donor matching platform! 🩸
+
+Highlights:
+- **Real-Time Inventory Telemetry**: Live hospital ICU blood bank stock tracking with critical shortage alerts.
+- **Geospatial Donor Dispatch**: Matches urgent recipient calls with nearby verified donors based on distance matrix algorithms.
+- **Donation Drive Automation**: Organizes community donation camps and handles digital verification certificates.
+- Repository: [github.com/Daksh-create349/Blood-Bridge-3.0](https://github.com/Daksh-create349/Blood-Bridge-3.0)`,
+    suggestedFollowUps: [
+      "Tell me about Sonaura 2.0",
+      "What awards has Daksh won?",
+      "Can I view your GitHub?",
+    ],
+  },
+  {
+    keywords: ["github", "repos", "repositories", "popular", "stars", "open source"],
+    response: `Daksh has 100+ public repositories on GitHub ([github.com/Daksh-create349](https://github.com/Daksh-create349)) spanning AI, DSP, DevSecOps, and Systems: 🌟
+
+Top Starred & Flagship Repositories:
+1. **Contradiction-MCP** (⭐ 7 Stars): Autonomous Model Context Protocol engine for factual reconciliation.
+2. **data-autopsy** (⭐ 6 Stars): AI forensic investigation workstation for tabular datasets.
+3. **Blood-Bridge 3.0** (⭐ 3 Stars): Emergency health logistics & live donor dispatch platform.
+4. **Sonaura-2.0**: Client-side browser DSP extension launched on the Microsoft Edge Store.
+5. **Hydrowatch-SIH26071** (SIH 2026): Rainfall early warning & 3D Cesium flood digital twin.
+6. **BoundaryBench**: Local-first AI API authorization testing framework with Gemma 4.
+7. **Procrastinate-OS**: Privacy-preserving desktop productivity OS.
+8. **LifeLog**: Go-based macOS filesystem & git history activity recorder.
+9. **Github-Contribution-Widget**: Native macOS wallpaper contribution heatmap.
+10. **Notes-Automation**: Groq Whisper audio chunker + LLaMA 3.3 Notion syncer.`,
+    suggestedFollowUps: [
+      "Tell me about Contradiction-MCP",
+      "Tell me about Sonaura 2.0",
+      "How can I contact Daksh?",
+    ],
+  },
+  {
     keywords: ["sonaura", "audio", "dsp", "5.1", "sound", "hrtf", "headphones", "reverb"],
     response: `**Sonaura 2.0** is my flagship browser audio DSP extension, officially launched on the **Microsoft Edge Add-ons Store**! 🎧
 
@@ -14,22 +80,24 @@ Key highlights:
 - **HRTF Virtual 5.1 Surround**: 6-channel matrix leveraging Haas-effect micro-delays for true spatial positioning.
 - **10-Band Parametric EQ**: Integrated auto room-calibration through FFT spectrum analysis.
 - **Advanced DSP Chain**: Convolution reverb with custom IR upload, asymmetric subharmonic exciter, and a -1 dB brickwall limiter preventing transients from clipping.
-- **Performance**: 48-bar spectrum visualizer running at 25 FPS with an ink-on-paper light/dark interface.`,
+- **Performance**: 48-bar spectrum visualizer running at 25 FPS with an ink-on-paper light/dark interface.
+- GitHub: [github.com/Daksh-create349/Sonaura-2.0](https://github.com/Daksh-create349/Sonaura-2.0)`,
     suggestedFollowUps: [
-      "Tell me about AQUILA",
+      "Tell me about Contradiction-MCP",
       "What is your GPA at university?",
       "How does GitHub Guardian work?",
     ],
   },
   {
-    keywords: ["aquila", "flood", "climate", "geospatial", "earth engine", "gee", "sar", "sentinel", "three.js"],
-    response: `**AQUILA** is a production-grade climate intelligence engine for global flood detection and forecasting! 🌍
+    keywords: ["aquila", "hydrowatch", "flood", "climate", "geospatial", "earth engine", "gee", "sar", "sentinel"],
+    response: `**AQUILA / HydroWatch** (SIH 2026 PS 26071 — MoES / IMD) is a production-grade climate intelligence engine! 🌍
 
 Architecture breakdown:
-- **Sentinel-1 SAR Radar**: Cloud-penetrating synthetic aperture radar imagery processed via **Google Earth Engine**—critical for all-weather monitoring during monsoons.
+- **Doppler Radar (dBZ) & Sentinel-2**: Cloud-penetrating radar backscatter processed via **Google Earth Engine** and Cesium 3D.
 - **Physics-Based False Positive Filter**: Adaptive Otsu thresholding coupled with **COPERNICUS DEM**, HAND drainage topography, and JRC tidal baselines.
-- **Three.js 3D Interactive Globe**: Decoupled React 19 + Three.js frontend rendering 8 toggleable GeoJSON layers at 60 FPS.
-- **Forecasting Pipeline**: Async **FastAPI** backend with Dockerized **Celery & Redis** workers running an **XGBoost 5-day flood prediction model**.`,
+- **Cesium 3D Digital Twin**: Decoupled React 19 + Cesium frontend rendering 8 toggleable GeoJSON layers at 60 FPS.
+- **Forecasting Pipeline**: Async **FastAPI** backend with Dockerized **Celery & Redis** workers running an **XGBoost 5-day flood prediction model**.
+- GitHub: [github.com/Daksh-create349/Hydrowatch-SIH26071](https://github.com/Daksh-create349/Hydrowatch-SIH26071)`,
     suggestedFollowUps: [
       "Tell me about Sonaura",
       "What awards have you won?",
@@ -44,9 +112,10 @@ Why it's unique:
 - **Deleted Commit Forensics**: Traverses the entire Git Directed Acyclic Graph (DAG) to uncover API keys, SSL certificates, SQL injection, and XSS across active *and deleted* commits.
 - **Noise Suppression**: Non-linear vulnerability weighting reduces false-positive alerts by over 70%.
 - **AI Architectural Reviewer**: Integrated OpenAI and Gemini reviewers for code security audits and Jupyter Notebook analysis.
-- **Desktop Wizard**: Shipped a one-click local setup that automatically provisions pre-commit hooks and tailored \`.gitignore\` rules. Deployed at [github-guardian.vercel.app](https://github-guardian.vercel.app).`,
+- **Desktop Wizard**: Shipped a one-click local setup that automatically provisions pre-commit hooks and tailored \`.gitignore\` rules. Deployed at [github-guardian.vercel.app](https://github-guardian.vercel.app).
+- GitHub: [github.com/Daksh-create349/Github-Guardian](https://github.com/Daksh-create349/Github-Guardian)`,
     suggestedFollowUps: [
-      "Tell me about HyperMind",
+      "Tell me about Contradiction-MCP",
       "What is your tech stack?",
       "Can I view your resume?",
     ],
@@ -59,7 +128,8 @@ Core capabilities:
 - **Gemini Live Realtime**: Real-time bidirectional voice tutoring that feels like speaking to a human professor.
 - **Generative UI**: Dynamically compiles live **Recharts** analytics and interactive **ReactFlow** concept mind maps in real-time response streams.
 - **Concept Tutor & Debate Mode**: Uses a Socratic devil's advocate method to challenge user assumptions before generating 10-question adaptive MCQs with diagnostic breakdown.
-- **Multimodal Input**: Processes document PDFs, image diagrams, and speech. Deployed at [hypermind-official.vercel.app](https://hypermind-official.vercel.app).`,
+- **Multimodal Input**: Processes document PDFs, image diagrams, and speech. Deployed at [hypermind-official.vercel.app](https://hypermind-official.vercel.app).
+- GitHub: [github.com/Daksh-create349/Hypermind-main](https://github.com/Daksh-create349/Hypermind-main)`,
     suggestedFollowUps: [
       "Tell me about your Google Student Ambassador role",
       "What are your top projects?",
@@ -96,18 +166,7 @@ Academic stats:
     suggestedFollowUps: [
       "What is Daksh's experience?",
       "Is Daksh open for internships?",
-      "Tell me about Sonaura 2.0",
-    ],
-  },
-  {
-    keywords: ["google", "ambassador", "gdsc", "cloud", "workshop"],
-    response: `As a **Google Student Ambassador** (2025 – Present), Daksh: 🌟
-- Leads campus developer workshops on **Google Cloud, Google Workspace, and AI/ML developer technologies**.
-- Bridges Google developer programs (GDSC, Google Career Certificates) with the university ecosystem to accelerate student upskilling and community hackathons.`,
-    suggestedFollowUps: [
-      "What other leadership experience does Daksh have?",
-      "Tell me about AQUILA",
-      "How can I contact Daksh?",
+      "Tell me about Contradiction-MCP",
     ],
   },
   {
@@ -122,25 +181,9 @@ Academic stats:
 
 Daksh is actively open to **Software Engineering, AI Engineering, and DevSecOps internship and project opportunities**!`,
     suggestedFollowUps: [
-      "Tell me about Sonaura 2.0",
+      "Tell me about Contradiction-MCP",
       "What is Daksh's tech stack?",
       "What are his hackathon achievements?",
-    ],
-  },
-  {
-    keywords: ["stack", "skills", "tech", "languages", "tools", "python", "react", "fastapi"],
-    response: `Daksh's core technical stack spans systems, AI, and full-stack engineering: 💻
-
-- **Languages**: Python, TypeScript, JavaScript, SQL, HTML5, CSS3
-- **Frontend**: React 19, Next.js, Tailwind CSS, Three.js, Recharts, ReactFlow
-- **Backend & APIs**: FastAPI, Node.js, Express.js, Web Audio API, JWT, OAuth 2.0
-- **AI & ML**: Google Gemini API, OpenAI API, XGBoost, Prompt Engineering, Gemini Live Realtime
-- **Data & Databases**: PostgreSQL, PostGIS, MongoDB, Redis, Google Earth Engine
-- **DevOps & Cloud**: Docker, Celery, Firebase, Vercel, Git DAG Forensics`,
-    suggestedFollowUps: [
-      "Explain AQUILA's climate engine",
-      "How does Sonaura 2.0 work?",
-      "How can I contact Daksh?",
     ],
   },
 ];
@@ -148,7 +191,6 @@ Daksh is actively open to **Software Engineering, AI Engineering, and DevSecOps 
 export function getDakshAnswer(query: string): { response: string; followUps: string[] } {
   const cleanQuery = query.toLowerCase().trim();
 
-  // Search through knowledge base for matching keywords
   let bestMatch: ChatAnswer | null = null;
   let maxScore = 0;
 
@@ -176,17 +218,15 @@ export function getDakshAnswer(query: string): { response: string; followUps: st
     };
   }
 
-  // Fallback answer
   return {
-    response: `Hi there! I'm Daksh's interactive portfolio assistant. Daksh is a **Full-stack Developer & CS Undergraduate (CGPA: 9.57)** at ITM Skills University, a **Google Student Ambassador**, and builder of production systems like **Sonaura 2.0** (Edge Store), **AQUILA** (Geospatial SAR AI), **GitHub Guardian** (DevSecOps), and **HyperMind** (Gemini Live).
+    response: `Hi there! I'm Daksh's interactive portfolio assistant. Daksh is a **Full-stack Developer & CS Undergraduate (CGPA: 9.57)** at ITM Skills University, a **Google Student Ambassador**, and author of popular open-source engines like **Contradiction-MCP** (⭐ 7 Stars), **data-autopsy** (⭐ 6 Stars), **Blood-Bridge 3.0** (⭐ 3 Stars), **Sonaura 2.0** (Edge Store), and **HydroWatch** (SIH 2026).
 
 Feel free to ask me anything about his projects, architecture choices, awards, or internship availability!`,
     followUps: [
-      "Tell me about Sonaura 2.0",
-      "Explain AQUILA flood engine",
-      "What is Daksh's GPA and college?",
+      "What are Daksh's most popular GitHub repos?",
+      "Tell me about Contradiction-MCP",
+      "Explain data-autopsy AI forensics",
       "How do I contact Daksh to hire him?",
     ],
   };
 }
-

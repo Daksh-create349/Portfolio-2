@@ -1,19 +1,48 @@
 "use client";
 
 import React, { useState } from "react";
-import { Sliders, GitBranch, Layers, Play, CheckCircle2, AlertTriangle } from "lucide-react";
+import {
+  Bot,
+  ShieldAlert,
+  Flame,
+  Star,
+  ExternalLink,
+  Play,
+  RotateCcw,
+  CheckCircle2,
+  AlertTriangle,
+  ArrowRight,
+} from "lucide-react";
 
 export function ExperimentsSection() {
-  // Experiment 1 State: Binaural Audio DSP Lab
-  const [haasDelay, setHaasDelay] = useState(18); // ms
-  const [reverbWet, setReverbWet] = useState(35); // %
-  const [isPlayingSound, setIsPlayingSound] = useState(false);
+  // Experiment 1 State: Contradiction-MCP Reconciler
+  const [resolved, setResolved] = useState(false);
 
-  // Experiment 2 State: DevSecOps Commit DAG
-  const [selectedCommit, setSelectedCommit] = useState<string>("c2");
+  // Experiment 2 State: data-autopsy Scanner
+  const [leakDetected, setLeakDetected] = useState(true);
+  const [isScanning, setIsScanning] = useState(false);
 
-  // Experiment 3 State: Geospatial Elevation Slider
-  const [waterLevel, setWaterLevel] = useState(42); // meters
+  // Experiment 3 State: Blood-Bridge 3.0 Units
+  const [bloodUnits, setBloodUnits] = useState({
+    oNeg: 2,
+    aPos: 48,
+    bPos: 24,
+  });
+
+  const runAutopsyScan = () => {
+    setIsScanning(true);
+    setTimeout(() => {
+      setLeakDetected(!leakDetected);
+      setIsScanning(false);
+    }, 700);
+  };
+
+  const dispatchBloodDonor = () => {
+    setBloodUnits((prev) => ({
+      ...prev,
+      oNeg: prev.oNeg + 1,
+    }));
+  };
 
   return (
     <section id="experiments" aria-labelledby="experiments-title" className="overflow-x-clip px-6 md:px-10">
@@ -30,66 +59,91 @@ export function ExperimentsSection() {
         </div>
 
         <div className="px-4 pb-8 pt-20 md:px-10 lg:pt-28">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="size-2 rounded-full bg-purple-500 animate-pulse" />
+            <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
+              Featured Open-Source Innovations
+            </span>
+          </div>
           <h2 id="experiments-title" className="text-3xl font-medium leading-tight md:text-4xl text-foreground">
-            AI Experiments &amp; Labs
+            Top Starred GitHub Systems &amp; Labs
           </h2>
           <p className="text-sm font-mono text-muted-foreground mt-2">
-            Interactive micro-applications exploring audio spatialization, Git forensics, and geospatial modeling.
+            Interactive playgrounds running live instances of my most starred and recognized open-source engines.
           </p>
         </div>
       </div>
 
       <div className="mx-auto w-full max-w-[1200px] border-x border-foreground/5 px-4 pb-20 pt-8 md:px-10">
         <ul className="grid gap-8 md:grid-cols-3">
-          {/* Experiment 1: Binaural DSP Lab */}
-          <li className="flex flex-col justify-between rounded-[24px] border border-border/60 bg-secondary/30 p-5 transition-all hover:bg-secondary/50">
+          {/* Lab 1: Contradiction-MCP (★ 7 Stars) */}
+          <li className="flex flex-col justify-between rounded-[26px] border border-border/80 bg-background/90 p-6 shadow-sm hover:shadow-lg transition-all">
             <div className="flex flex-col gap-4">
-              {/* Interactive Mockup Container */}
-              <div className="relative aspect-video overflow-hidden rounded-[18px] bg-neutral-950 p-4 flex flex-col justify-between text-neutral-200 font-mono text-xs border border-neutral-800">
-                <div className="flex items-center justify-between text-[11px] text-neutral-400">
-                  <span className="flex items-center gap-1.5">
-                    <Sliders className="size-3.5 text-blue-400" />
-                    HRTF Spatial Matrix
+              <div className="flex items-center justify-between border-b border-border/40 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="flex size-9 items-center justify-center rounded-xl bg-purple-500/10 text-purple-500">
+                    <Bot className="size-4" />
                   </span>
-                  <span className="text-blue-400">{haasDelay} ms</span>
-                </div>
-
-                {/* Spatial Sound Wave Animation */}
-                <div className="flex items-center justify-center gap-1.5 h-16">
-                  {Array.from({ length: 14 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-1.5 rounded-full bg-blue-500/80 transition-all duration-150"
-                      style={{
-                        height: `${12 + Math.sin(i * 0.5 + haasDelay * 0.1) * 22}px`,
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-[10px] text-neutral-400">
-                    <span>Haas Interaural Delay</span>
-                    <span>{haasDelay}ms</span>
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <h3 className="text-sm font-semibold tracking-tight text-foreground">
+                        Contradiction-MCP
+                      </h3>
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-500/10 text-amber-500 font-mono text-[10px] px-2 py-0.5 font-bold">
+                        <Star className="size-2.5 fill-amber-500" /> 7 Stars
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-mono text-muted-foreground">Model Context Protocol</p>
                   </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="35"
-                    value={haasDelay}
-                    onChange={(e) => setHaasDelay(Number(e.target.value))}
-                    className="w-full accent-blue-500 cursor-pointer h-1.5 bg-neutral-800 rounded-lg"
-                  />
+                </div>
+
+                <a
+                  href="https://github.com/Daksh-create349/Contradiction-MCP"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <ExternalLink className="size-4" />
+                </a>
+              </div>
+
+              {/* Interactive Mockup */}
+              <div className="rounded-[18px] bg-neutral-950 p-4 font-mono text-xs text-neutral-200 border border-neutral-800 space-y-2.5">
+                <div className="flex justify-between items-center text-[10px] text-neutral-400">
+                  <span>MCP SERVER: ONLINE</span>
+                  <span className="text-purple-400">PORT: 8080</span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 text-[10px]">
+                  <div className="p-2 rounded bg-neutral-900 border border-neutral-800">
+                    <span className="text-neutral-500 block">Source A</span>
+                    <span className="text-red-400">Cache TTL: 60s</span>
+                  </div>
+                  <div className="p-2 rounded bg-neutral-900 border border-neutral-800">
+                    <span className="text-neutral-500 block">Source B</span>
+                    <span className="text-emerald-400">Cache TTL: 300s</span>
+                  </div>
+                </div>
+
+                <div className="p-2 rounded bg-neutral-900 border border-neutral-800 text-[10px]">
+                  {resolved ? (
+                    <span className="text-emerald-400 flex items-center gap-1">
+                      <CheckCircle2 className="size-3" />
+                      Consensus reached: Reconciled to authoritative TTL (300s)
+                    </span>
+                  ) : (
+                    <span className="text-amber-400 flex items-center gap-1">
+                      <AlertTriangle className="size-3" />
+                      Divergence detected: 2 conflicting statements in knowledge base
+                    </span>
+                  )}
                 </div>
               </div>
 
               <div>
-                <h3 className="text-base font-semibold text-foreground tracking-tight">
-                  Interactive 3D Binaural DSP Lab
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed mt-1.5">
-                  Direct browser implementation of HRTF spatial convolution with Haas-effect interaural
-                  delay adjustment and 10-band FFT frequency analyzer.
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Autonomous Model Context Protocol (MCP) engine for factual consistency, version reconciliation,
+                  and conflict resolution across engineering knowledge bases.
                 </p>
               </div>
             </div>
@@ -97,164 +151,160 @@ export function ExperimentsSection() {
             <div className="pt-6 mt-auto">
               <button
                 type="button"
-                onClick={() => setIsPlayingSound(!isPlayingSound)}
-                className="w-full inline-flex h-11 items-center justify-center gap-2 rounded-full bg-background px-5 text-sm font-medium text-foreground outline-none transition-all shadow-sm border border-border/80 hover:bg-secondary cursor-pointer"
+                onClick={() => setResolved(!resolved)}
+                className="w-full inline-flex h-11 items-center justify-center gap-2 rounded-full bg-secondary hover:bg-secondary/80 border border-border px-5 text-xs font-mono font-medium text-foreground transition-all cursor-pointer"
               >
-                <Play className={`size-3.5 ${isPlayingSound ? "text-emerald-500" : ""}`} />
-                {isPlayingSound ? "Acoustic Matrix Active" : "Test Binaural Acoustic"}
+                <RotateCcw className="size-3.5 text-purple-500" />
+                <span>{resolved ? "Simulate New Conflict" : "Trigger Autonomous Reconciliation"}</span>
               </button>
             </div>
           </li>
 
-          {/* Experiment 2: Git DAG Vulnerability Inspector */}
-          <li className="flex flex-col justify-between rounded-[24px] border border-border/60 bg-secondary/30 p-5 transition-all hover:bg-secondary/50">
+          {/* Lab 2: data-autopsy (★ 6 Stars) */}
+          <li className="flex flex-col justify-between rounded-[26px] border border-border/80 bg-background/90 p-6 shadow-sm hover:shadow-lg transition-all">
             <div className="flex flex-col gap-4">
-              {/* Interactive Mockup Container */}
-              <div className="relative aspect-video overflow-hidden rounded-[18px] bg-neutral-950 p-4 flex flex-col justify-between text-neutral-200 font-mono text-xs border border-neutral-800">
-                <div className="flex items-center justify-between text-[11px] text-neutral-400">
-                  <span className="flex items-center gap-1.5">
-                    <GitBranch className="size-3.5 text-purple-400" />
-                    DAG Commit Graph
+              <div className="flex items-center justify-between border-b border-border/40 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="flex size-9 items-center justify-center rounded-xl bg-rose-500/10 text-rose-500">
+                    <ShieldAlert className="size-4" />
                   </span>
-                  <span className="text-purple-400">SAST: Live</span>
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <h3 className="text-sm font-semibold tracking-tight text-foreground">
+                        data-autopsy
+                      </h3>
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-500/10 text-amber-500 font-mono text-[10px] px-2 py-0.5 font-bold">
+                        <Star className="size-2.5 fill-amber-500" /> 6 Stars
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-mono text-muted-foreground">AI Dataset Forensic Suite</p>
+                  </div>
                 </div>
 
-                {/* Commit Tree Nodes */}
-                <div className="flex items-center justify-around py-2">
-                  <button
-                    onClick={() => setSelectedCommit("c1")}
-                    className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-all ${
-                      selectedCommit === "c1" ? "bg-neutral-800 border border-purple-500" : ""
-                    }`}
-                  >
-                    <span className="size-4 rounded-full bg-emerald-500 flex items-center justify-center text-[9px] text-black font-bold">
-                      ✓
-                    </span>
-                    <span className="text-[9px] text-neutral-400">c4a8b</span>
-                  </button>
+                <a
+                  href="https://github.com/Daksh-create349/data-autopsy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <ExternalLink className="size-4" />
+                </a>
+              </div>
 
-                  <div className="h-0.5 w-6 bg-neutral-700" />
-
-                  <button
-                    onClick={() => setSelectedCommit("c2")}
-                    className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-all ${
-                      selectedCommit === "c2" ? "bg-neutral-800 border border-destructive" : ""
-                    }`}
-                  >
-                    <span className="size-4 rounded-full bg-destructive animate-ping" />
-                    <span className="text-[9px] text-destructive font-bold">8f9b2</span>
-                  </button>
-
-                  <div className="h-0.5 w-6 bg-neutral-700" />
-
-                  <button
-                    onClick={() => setSelectedCommit("c3")}
-                    className={`flex flex-col items-center gap-1 p-1.5 rounded-lg transition-all ${
-                      selectedCommit === "c3" ? "bg-neutral-800 border border-purple-500" : ""
-                    }`}
-                  >
-                    <span className="size-4 rounded-full bg-emerald-500 flex items-center justify-center text-[9px] text-black font-bold">
-                      ✓
-                    </span>
-                    <span className="text-[9px] text-neutral-400">e21fd</span>
-                  </button>
+              {/* Interactive Mockup */}
+              <div className="rounded-[18px] bg-neutral-950 p-4 font-mono text-xs text-neutral-200 border border-neutral-800 space-y-2">
+                <div className="flex justify-between items-center text-[10px] text-neutral-400">
+                  <span>FORENSIC SCANNER</span>
+                  <span className="text-rose-400">{isScanning ? "SCANNING..." : "IDLE"}</span>
                 </div>
 
-                <div className="p-2 rounded bg-neutral-900 border border-neutral-800 text-[10px]">
-                  {selectedCommit === "c2" ? (
-                    <span className="text-destructive flex items-center gap-1">
-                      <AlertTriangle className="size-3" />
-                      Detected AWS Secret Key in commit 8f9b2 (Deleted branch)
-                    </span>
+                <div className="p-2.5 rounded bg-neutral-900 border border-neutral-800 space-y-1 text-[11px]">
+                  <p className="text-neutral-400">$ data-autopsy inspect --file train.csv</p>
+                  {leakDetected ? (
+                    <p className="text-rose-400 font-semibold">
+                      [ALERT] Target Leakage: &apos;tx_post_event&apos; (cov: 0.994)
+                    </p>
                   ) : (
-                    <span className="text-emerald-400 flex items-center gap-1">
-                      <CheckCircle2 className="size-3" />
-                      Commit cleanly verified via non-linear SAST
-                    </span>
+                    <p className="text-emerald-400 font-semibold">
+                      [PASS] Zero target leakage detected across 42 columns
+                    </p>
                   )}
+                  <p className="text-neutral-500 text-[10px]">Statistical anomaly entropy: 0.042</p>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-base font-semibold text-foreground tracking-tight">
-                  DevSecOps Git DAG Inspector
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed mt-1.5">
-                  Visual graph traversing commit parents, orphan branches, and deleted stash objects to
-                  uncover leaked credentials with non-linear scoring.
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Serious AI forensic investigation workstation for tabular datasets: detects target leakage,
+                  structural corruption, and statistical anomalies with reproducible local AI evidence.
                 </p>
               </div>
             </div>
 
             <div className="pt-6 mt-auto">
-              <a
-                href="https://github-guardian.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex h-11 items-center justify-center rounded-full bg-background px-5 text-sm font-medium text-foreground outline-none transition-all shadow-sm border border-border/80 hover:bg-secondary cursor-pointer"
+              <button
+                type="button"
+                onClick={runAutopsyScan}
+                disabled={isScanning}
+                className="w-full inline-flex h-11 items-center justify-center gap-2 rounded-full bg-secondary hover:bg-secondary/80 border border-border px-5 text-xs font-mono font-medium text-foreground transition-all cursor-pointer"
               >
-                Launch Scanner Sandbox
-              </a>
+                <Play className="size-3.5 text-rose-500" />
+                <span>{isScanning ? "Processing Heuristics..." : "Run Forensic Investigation"}</span>
+              </button>
             </div>
           </li>
 
-          {/* Experiment 3: Geospatial Elevation & Flood Simulator */}
-          <li className="flex flex-col justify-between rounded-[24px] border border-border/60 bg-secondary/30 p-5 transition-all hover:bg-secondary/50">
+          {/* Lab 3: Blood-Bridge 3.0 (★ 3 Stars) */}
+          <li className="flex flex-col justify-between rounded-[26px] border border-border/80 bg-background/90 p-6 shadow-sm hover:shadow-lg transition-all">
             <div className="flex flex-col gap-4">
-              {/* Interactive Mockup Container */}
-              <div className="relative aspect-video overflow-hidden rounded-[18px] bg-neutral-950 p-4 flex flex-col justify-between text-neutral-200 font-mono text-xs border border-neutral-800">
-                <div className="flex items-center justify-between text-[11px] text-neutral-400">
-                  <span className="flex items-center gap-1.5">
-                    <Layers className="size-3.5 text-emerald-400" />
-                    DEM Topography Mask
+              <div className="flex items-center justify-between border-b border-border/40 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="flex size-9 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
+                    <Flame className="size-4" />
                   </span>
-                  <span className="text-emerald-400">+{waterLevel}m Datum</span>
-                </div>
-
-                {/* Simulated Elevation Contour Water Inundation */}
-                <div className="relative h-16 w-full rounded overflow-hidden bg-neutral-900 border border-neutral-800 flex items-end">
-                  <div
-                    className="w-full bg-emerald-500/30 transition-all duration-200 border-t border-emerald-400 flex items-center justify-center text-[10px] text-emerald-300 font-semibold"
-                    style={{ height: `${(waterLevel / 80) * 100}%` }}
-                  >
-                    SAR Water Extent: {(waterLevel * 2.4).toFixed(0)} km²
+                  <div>
+                    <div className="flex items-center gap-1.5">
+                      <h3 className="text-sm font-semibold tracking-tight text-foreground">
+                        Blood-Bridge 3.0
+                      </h3>
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-500/10 text-amber-500 font-mono text-[10px] px-2 py-0.5 font-bold">
+                        <Star className="size-2.5 fill-amber-500" /> 3 Stars
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-mono text-muted-foreground">Emergency Health Logistics</p>
                   </div>
                 </div>
 
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-[10px] text-neutral-400">
-                    <span>Simulated Inundation Level</span>
-                    <span>{waterLevel} meters</span>
+                <a
+                  href="https://github.com/Daksh-create349/Blood-Bridge-3.0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <ExternalLink className="size-4" />
+                </a>
+              </div>
+
+              {/* Interactive Mockup */}
+              <div className="rounded-[18px] bg-neutral-950 p-4 font-mono text-xs text-neutral-200 border border-neutral-800 space-y-2">
+                <div className="flex justify-between items-center text-[10px] text-neutral-400">
+                  <span>HOSPITAL NETWORK</span>
+                  <span className="text-red-400">DISPATCH READY</span>
+                </div>
+
+                <div className="space-y-1.5 text-[10px]">
+                  <div className="flex justify-between items-center p-1.5 rounded bg-neutral-900 border border-neutral-800">
+                    <span className="text-red-400 font-semibold">O- Universal Donor</span>
+                    <span className="text-red-400 font-bold">{bloodUnits.oNeg} Units In Stock</span>
                   </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="80"
-                    value={waterLevel}
-                    onChange={(e) => setWaterLevel(Number(e.target.value))}
-                    className="w-full accent-emerald-500 cursor-pointer h-1.5 bg-neutral-800 rounded-lg"
-                  />
+                  <div className="flex justify-between items-center p-1.5 rounded bg-neutral-900 border border-neutral-800">
+                    <span>A+ Positive</span>
+                    <span className="text-emerald-400">{bloodUnits.aPos} Units</span>
+                  </div>
+                  <div className="flex justify-between items-center p-1.5 rounded bg-neutral-900 border border-neutral-800">
+                    <span>B+ Positive</span>
+                    <span className="text-emerald-400">{bloodUnits.bPos} Units</span>
+                  </div>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-base font-semibold text-foreground tracking-tight">
-                  Geospatial Flood Basin Simulator
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed mt-1.5">
-                  Topographic DEM inundation slider demonstrating adaptive Otsu thresholding across
-                  elevation contours in real-time.
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Real-time platform connecting blood donors with nearby ICUs, automating blood inventory
+                  telemetry, and optimizing emergency dispatch via geospatial matching.
                 </p>
               </div>
             </div>
 
             <div className="pt-6 mt-auto">
-              <a
-                href="#work"
-                className="w-full inline-flex h-11 items-center justify-center rounded-full bg-background px-5 text-sm font-medium text-foreground outline-none transition-all shadow-sm border border-border/80 hover:bg-secondary cursor-pointer"
+              <button
+                type="button"
+                onClick={dispatchBloodDonor}
+                className="w-full inline-flex h-11 items-center justify-center gap-2 rounded-full bg-secondary hover:bg-secondary/80 border border-border px-5 text-xs font-mono font-medium text-foreground transition-all cursor-pointer"
               >
-                Inspect Climate Engine
-              </a>
+                <Flame className="size-3.5 text-red-500" />
+                <span>Simulate Emergency Donor Dispatch</span>
+              </button>
             </div>
           </li>
         </ul>
@@ -262,4 +312,3 @@ export function ExperimentsSection() {
     </section>
   );
 }
-

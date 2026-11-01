@@ -35,7 +35,7 @@ export const PROJECTS: Project[] = [
     impactText:
       "Engineered HRTF 5.1 spatial virtualization, convolution reverb, asymmetric subharmonic exciter, and a 48-bar spectrum visualizer running at 25 FPS.",
     demoUrl: "https://microsoftedge.microsoft.com/addons",
-    githubUrl: "https://github.com/Daksh-create349",
+    githubUrl: "https://github.com/Daksh-create349/Sonaura-2.0",
     architectureHighlights: [
       {
         iconName: "Volume2",
@@ -61,40 +61,40 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "aquila",
-    title: "AQUILA — Climate Intelligence Engine",
-    headline: "Production-grade geospatial flood detection processing Sentinel-1 SAR and Earth Engine imagery globally.",
+    title: "AQUILA / HydroWatch — Climate Intelligence Engine",
+    headline: "Production-grade geospatial flood detection fusing Doppler radar, Sentinel imagery, and 3D digital twins.",
     category: "Geospatial",
-    tags: ["#GeospatialAI", "#FastAPI", "#ThreeJS", "#XGBoost", "#PostGIS"],
+    tags: ["#GeospatialAI", "#Sentinel2", "#FastAPI", "#Cesium3D", "#PostGIS"],
     role: "Full-Stack & Geospatial AI Architect",
-    year: "2025",
-    stats: "Sentinel-1 SAR + GEE + 3D Globe",
-    promptExample: "Running adaptive Otsu thresholding on Mumbai basin coordinates...",
+    year: "2025 – 2026",
+    stats: "Sentinel-2 + NASA POWER + NOAA GFS",
+    promptExample: "Fusing ground weather telemetry with Sentinel-2 radar backscatter...",
     description:
-      "Architected a decoupled full-stack platform that processes Sentinel-1 Synthetic Aperture Radar (SAR) and Sentinel-2 optical imagery via Google Earth Engine for any city globally, filtering false positives using physical terrain drainage masks.",
+      "Architected a decoupled geospatial intelligence platform (SIH 2026 PS 26071 — MoES / IMD) fusing ground weather (NASA POWER), NWP (NOAA GFS), Doppler radar (dBZ), and Sentinel-2 satellite imagery into a 3D Cesium digital twin.",
     impactText:
-      "Combined async FastAPI backend, Dockerized Celery/Redis/PostGIS workers, and a Three.js 3D globe with 8 toggleable GeoJSON layers and XGBoost 5-day flood forecasts.",
-    demoUrl: "https://dakshsportfolio.vercel.app",
-    githubUrl: "https://github.com/Daksh-create349",
+      "Integrated adaptive Otsu thresholding with physics-based false-positive correction (COPERNICUS DEM, HAND drainage topography) and XGBoost 5-day flood forecasts.",
+    demoUrl: "https://github.com/Daksh-create349/Hydrowatch-SIH26071",
+    githubUrl: "https://github.com/Daksh-create349/Hydrowatch-SIH26071",
     architectureHighlights: [
       {
         iconName: "Radio",
-        title: "Sentinel-1 SAR Pipeline",
-        description: "Cloud-penetrating radar backscatter processing for continuous flood tracking during extreme monsoon rain.",
+        title: "Doppler & SAR Pipeline",
+        description: "Cloud-penetrating radar backscatter and Doppler dBZ processing for continuous flood tracking during monsoons.",
       },
       {
         iconName: "Filter",
         title: "Physics False-Positive Mask",
-        description: "COPERNICUS DEM, HAND drainage topography, and JRC tidal baseline filtering for extreme accuracy.",
+        description: "COPERNICUS DEM, HAND drainage topography, and JRC tidal baseline filtering for extreme precision.",
       },
       {
         iconName: "Globe",
-        title: "Three.js 3D Globe",
+        title: "Cesium 3D Digital Twin",
         description: "Decoupled WebGL frontend rendering 8 toggleable GeoJSON layers and flood extents at 60 FPS.",
       },
       {
         iconName: "Cpu",
         title: "XGBoost 5-Day Forecaster",
-        description: "Distributed async Celery workers predicting regional water accumulation vectors across 120-hour windows.",
+        description: "Distributed async workers predicting regional water accumulation vectors across 120-hour windows.",
       },
     ],
   },
@@ -113,7 +113,7 @@ export const PROJECTS: Project[] = [
     impactText:
       "Non-linear vulnerability scoring cuts false-positive noise by 70%. Integrated AI Architectural Reviewer with Jupyter Notebook parsing and one-click Desktop Wizard.",
     demoUrl: "https://github-guardian.vercel.app",
-    githubUrl: "https://github.com/Daksh-create349",
+    githubUrl: "https://github.com/Daksh-create349/Github-Guardian",
     architectureHighlights: [
       {
         iconName: "GitBranch",
@@ -152,7 +152,7 @@ export const PROJECTS: Project[] = [
     impactText:
       "Built with React 19, Gemini 2.5 Flash/Pro, Gemini Live real-time voice streaming, and Generative UI rendering dynamic Recharts charts and ReactFlow mind maps.",
     demoUrl: "https://hypermind-official.vercel.app",
-    githubUrl: "https://github.com/Daksh-create349",
+    githubUrl: "https://github.com/Daksh-create349/Hypermind-main",
     architectureHighlights: [
       {
         iconName: "Bot",
@@ -180,31 +180,31 @@ export const PROJECTS: Project[] = [
 
 export const EXPERIMENTS = [
   {
-    id: "binaural-dsp",
-    title: "Interactive 3D Binaural DSP Audio Lab",
+    id: "contradiction-mcp",
+    title: "Contradiction-MCP Engine",
     description:
-      "Direct browser implementation of HRTF spatial convolution with real-time Haas-effect delay adjustment and live 48-bar frequency analyzer.",
-    tags: ["Web Audio API", "HRTF", "Canvas 2D", "DSP"],
-    demoUrl: "https://microsoftedge.microsoft.com/addons",
-    badge: "Interactive Lab",
+      "Autonomous Model Context Protocol (MCP) engine for factual consistency, version reconciliation, and conflict resolution across engineering knowledge bases.",
+    tags: ["TypeScript", "Model Context Protocol", "Knowledge Graphs"],
+    demoUrl: "https://github.com/Daksh-create349/Contradiction-MCP",
+    badge: "★ 7 Stars · Top Open Source",
   },
   {
-    id: "dag-visualizer",
-    title: "DevSecOps Git DAG Vulnerability Inspector",
+    id: "data-autopsy",
+    title: "data-autopsy — AI Forensic Workstation",
     description:
-      "Visual graph traversing commit parents, orphan branches, and deleted stash objects to identify lingering secret leaks.",
-    tags: ["Git DAG", "SAST", "Forensics", "Interactive Graph"],
-    demoUrl: "https://github-guardian.vercel.app",
-    badge: "Security Sandbox",
+      "Serious AI forensic investigation workstation for tabular datasets: detects target leakage, structural corruption, and statistical anomalies with reproducible evidence and local AI.",
+    tags: ["Python", "AI Forensics", "Data Quality", "Local AI"],
+    demoUrl: "https://github.com/Daksh-create349/data-autopsy",
+    badge: "★ 6 Stars · AI Forensics",
   },
   {
-    id: "geospatial-elevation",
-    title: "Geospatial Flood Elevation & SAR Simulator",
+    id: "blood-bridge",
+    title: "Blood-Bridge 3.0 Telemetry",
     description:
-      "Topographic DEM inundation slider demonstrating adaptive Otsu thresholding across elevation contours in real-time.",
-    tags: ["Sentinel-1", "Otsu Algorithm", "Topography", "WebGL"],
-    demoUrl: "https://dakshsportfolio.vercel.app",
-    badge: "Climate Tech",
+      "Real-time emergency blood donor matching, critical blood inventory tracking, and automated donation drive coordination.",
+    tags: ["TypeScript", "HealthTech", "Geo-matching"],
+    demoUrl: "https://github.com/Daksh-create349/Blood-Bridge-3.0",
+    badge: "★ 3 Stars · Health Logistics",
   },
 ];
 
@@ -339,4 +339,3 @@ export const TECH_STACK = [
   { name: "MongoDB", category: "Database", icon: "🍃" },
   { name: "Firebase", category: "Cloud Services", icon: "🔥" },
 ];
-
