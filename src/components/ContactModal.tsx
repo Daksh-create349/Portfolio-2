@@ -66,7 +66,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       />
 
       {/* Standard Clean Dialog Card */}
-      <div className="relative z-10 w-full max-w-lg rounded-[28px] border border-border bg-background p-6 sm:p-8 shadow-2xl transition-all duration-300">
+      <div data-lenis-prevent="true" className="relative z-10 w-full max-w-lg rounded-[28px] border border-border bg-background p-6 sm:p-8 shadow-2xl transition-all duration-300">
         {/* Close Button */}
         <button
           type="button"

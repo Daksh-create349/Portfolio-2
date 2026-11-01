@@ -294,6 +294,7 @@ export function AskDakshSection() {
                   id="contact-message-body"
                   required
                   suppressHydrationWarning
+                  data-lenis-prevent="true"
                   rows={4}
                   placeholder="Hi Daksh, I came across your portfolio and would love to discuss..."
                   value={content}

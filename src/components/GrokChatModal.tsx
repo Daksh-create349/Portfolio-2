@@ -104,9 +104,20 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [thinkingBlink, setThinkingBlink] = useState(1);
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const userScrolledUpRef = useRef(false);
+  const conversationRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const userScrolledUpRef = useRef(false);
+
+  // Lock body scroll when modal is open so wheel/touch goes exclusively to modal
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen]);
 
   // Focus input when opened
   useEffect(() => {
@@ -126,14 +137,6 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  // Track if user manually scrolled up
-  const handleScrollAreaScroll = () => {
-    if (!scrollAreaRef.current) return;
-    const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current;
-    const isNearBottom = scrollHeight - scrollTop - clientHeight < 70;
-    userScrolledUpRef.current = !isNearBottom;
-  };
-
   // Blink the mini bot while thinking
   useEffect(() => {
     if (!isGenerating) return;
@@ -144,10 +147,18 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     return () => clearInterval(interval);
   }, [isGenerating]);
 
-  // Scroll to bottom only if user hasn't scrolled up
+  // Track if user manually scrolled up to inspect previous responses
+  const handleScroll = () => {
+    if (!conversationRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = conversationRef.current;
+    const isAtBottom = scrollHeight - scrollTop - clientHeight < 70;
+    userScrolledUpRef.current = !isAtBottom;
+  };
+
+  // Auto-scroll to bottom on new content only if user hasn't scrolled up
   useEffect(() => {
-    if (isOpen && !userScrolledUpRef.current && scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    if (isOpen && conversationRef.current && !userScrolledUpRef.current) {
+      conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
     }
   }, [messages, isGenerating, isOpen]);
 
@@ -155,8 +166,8 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     const textToSend = (userText || input).trim();
     if (!textToSend || isGenerating) return;
 
-    userScrolledUpRef.current = false;
     setInput("");
+    userScrolledUpRef.current = false;
     const userMsgId = `user-${Date.now()}`;
     const botMsgId = `assistant-${Date.now()}`;
 
@@ -242,6 +253,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
   const handleReset = () => {
     setMessages([]);
     setInput("");
+    userScrolledUpRef.current = false;
   };
 
   if (!isOpen) return null;
@@ -259,14 +271,14 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
         onClick={onClose}
       />
 
-      {/* Clean, Normal Centered Window */}
+      {/* Clean, Normal Centered Window with Lenis Bypass */}
       <div
         data-lenis-prevent="true"
-        className="relative z-10 flex flex-col w-full max-w-2xl h-[600px] max-h-[92vh] sm:h-[580px] sm:max-h-[88vh] rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+        className="relative z-10 flex flex-col min-h-0 w-full max-w-2xl h-[600px] max-h-[92vh] sm:h-[580px] sm:max-h-[88vh] rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150"
       >
         
         {/* Minimal Clean Header: Only "Chat" */}
-        <div className="flex items-center justify-between border-b border-white/5 px-4 py-3 bg-[#121214]">
+        <div className="flex items-center justify-between border-b border-white/5 px-4 py-3 bg-[#121214] shrink-0">
           <span className="text-xs font-medium text-zinc-300 tracking-wide">
             Chat
           </span>
@@ -293,16 +305,19 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
           </div>
         </div>
 
-        {/* Conversation Area with isolated smooth scrolling */}
+        {/* Conversation Area with Native Scroll & Lenis Protection */}
         <div
-          ref={scrollAreaRef}
-          onScroll={handleScrollAreaScroll}
+          ref={conversationRef}
+          onScroll={handleScroll}
           data-lenis-prevent="true"
-          className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6"
+          onWheel={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent"
+          style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}
         >
           {/* Empty State */}
           {messages.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center px-4">
+            <div className="h-full min-h-[320px] flex flex-col items-center justify-center text-center px-4">
               <h2 className="text-xl sm:text-2xl font-medium tracking-tight text-white mb-2">
                 Hey, ready to dive in?
               </h2>
@@ -421,7 +436,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
         </div>
 
         {/* Clean, Rounded Input Bar (Zero Blue) */}
-        <div className="p-3 sm:p-4 bg-[#121214]">
+        <div className="p-3 sm:p-4 bg-[#121214] shrink-0 border-t border-white/5">
           <form
             onSubmit={(e) => {
               e.preventDefault();
