@@ -133,11 +133,11 @@ export function GrokCompanion() {
     <>
       <aside
         aria-label="Chat Companion"
-        className="fixed bottom-6 right-6 z-40 select-none pointer-events-none"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 select-none pointer-events-none"
       >
         <div className="relative flex flex-col items-end group">
-          {/* Minimal Hover Pill: Only "Chat" */}
-          <div className="pointer-events-none mb-2 px-3 py-1 rounded-full bg-[#18181b]/95 border border-white/10 text-xs font-medium text-zinc-300 shadow-md backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+          {/* Minimal Hover Pill: Only "Chat" (Desktop only) */}
+          <div className="hidden sm:block pointer-events-none mb-2 px-3 py-1 rounded-full bg-[#18181b]/95 border border-white/10 text-xs font-medium text-zinc-300 shadow-md backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-150">
             Chat
           </div>
 
@@ -153,7 +153,7 @@ export function GrokCompanion() {
                 handleBotClick();
               }
             }}
-            className="pointer-events-auto relative flex size-16 sm:size-20 items-center justify-center cursor-pointer drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)] transition-transform duration-150 hover:scale-105 active:scale-95"
+            className="pointer-events-auto relative flex size-14 sm:size-20 items-center justify-center cursor-pointer drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)] transition-transform duration-150 hover:scale-105 active:scale-95"
           >
             {/* Subtle neutral glow halo (zero blue) */}
             <div

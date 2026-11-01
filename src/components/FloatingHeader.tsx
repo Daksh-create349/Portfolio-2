@@ -106,7 +106,7 @@ export function FloatingHeader({
         {/* Main Nav Pill */}
         <nav aria-label="Primary" className="min-w-0">
           <div className="inline-flex max-w-full">
-            <div className="scrollbar-hide relative inline-flex max-w-full items-center overflow-x-auto overflow-y-hidden rounded-full border border-white/50 bg-white/40 shadow-[0_10px_40px_-10px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.8),inset_0_-1px_0_rgb(255_255_255/0.2)] backdrop-blur-2xl backdrop-saturate-200 dark:border-white/15 dark:bg-white/10 dark:shadow-[0_10px_40px_-10px_rgb(0_0_0/0.6),inset_0_1px_0_rgb(255_255_255/0.2),inset_0_-1px_0_rgb(255_255_255/0.05)] min-h-13 gap-0 p-1 text-base sm:gap-1">
+            <div className="scrollbar-hide relative inline-flex max-w-full items-center overflow-x-auto overflow-y-hidden rounded-full border border-white/50 bg-white/40 shadow-[0_10px_40px_-10px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.8),inset_0_-1px_0_rgb(255_255_255/0.2)] backdrop-blur-2xl backdrop-saturate-200 dark:border-white/15 dark:bg-white/10 dark:shadow-[0_10px_40px_-10px_rgb(0_0_0/0.6),inset_0_1px_0_rgb(255_255_255/0.2),inset_0_-1px_0_rgb(255_255_255/0.05)] min-h-11 sm:min-h-13 gap-0 p-1 text-sm sm:text-base sm:gap-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeItem === item.id;
@@ -117,7 +117,7 @@ export function FloatingHeader({
                     type="button"
                     title={item.label}
                     onClick={() => scrollTo(item.id)}
-                    className={`relative isolate inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full font-medium outline-none transition-[color,background-color] duration-150 ease-out focus-visible:text-foreground h-11 min-w-11 px-3.5 focus-visible:ring-2 focus-visible:ring-ring ${
+                    className={`relative isolate inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full font-medium outline-none transition-[color,background-color] duration-150 ease-out focus-visible:text-foreground h-9 min-w-9 px-2.5 sm:h-11 sm:min-w-11 sm:px-3.5 focus-visible:ring-2 focus-visible:ring-ring ${
                       isActive
                         ? "text-foreground font-semibold"
                         : "text-foreground/70 hover:text-foreground"
@@ -126,7 +126,7 @@ export function FloatingHeader({
                     {isActive && (
                       <span className="absolute inset-0 -z-10 rounded-full bg-muted/80 shadow-sm" />
                     )}
-                    <span className="inline-flex shrink-0 items-center justify-center size-4">
+                    <span className="inline-flex shrink-0 items-center justify-center size-3.5 sm:size-4">
                       <Icon className="size-full" />
                     </span>
                     <span className="hidden sm:inline-block ml-2 text-sm tracking-normal">
@@ -144,7 +144,7 @@ export function FloatingHeader({
           type="button"
           onClick={toggleTheme}
           aria-label="Switch between light and dark mode"
-          className="border-white/50 bg-white/40 shadow-[0_10px_40px_-10px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.8),inset_0_-1px_0_rgb(255_255_255/0.2)] backdrop-blur-2xl backdrop-saturate-200 dark:border-white/15 dark:bg-white/10 dark:shadow-[0_10px_40px_-10px_rgb(0_0_0/0.6),inset_0_1px_0_rgb(255_255_255/0.2),inset_0_-1px_0_rgb(255_255_255/0.05)] inline-flex size-13 shrink-0 items-center justify-center rounded-full border text-foreground/80 outline-none transition-transform duration-200 hover:scale-105 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
+          className="border-white/50 bg-white/40 shadow-[0_10px_40px_-10px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.8),inset_0_-1px_0_rgb(255_255_255/0.2)] backdrop-blur-2xl backdrop-saturate-200 dark:border-white/15 dark:bg-white/10 dark:shadow-[0_10px_40px_-10px_rgb(0_0_0/0.6),inset_0_1px_0_rgb(255_255_255/0.2),inset_0_-1px_0_rgb(255_255_255/0.05)] inline-flex size-11 sm:size-13 shrink-0 items-center justify-center rounded-full border text-foreground/80 outline-none transition-transform duration-200 hover:scale-105 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
         >
           {isDark ? (
             <Sun className="size-4 text-amber-300 transition-transform duration-300 rotate-0 hover:rotate-90" />
@@ -153,9 +153,9 @@ export function FloatingHeader({
           )}
         </button>
 
-        {/* Minimal, Normal Cursor Color Switcher */}
+        {/* Minimal, Normal Cursor Color Switcher (Only desktop/pointer devices) */}
         {onSelectCursorColor && (
-          <div className="relative" ref={colorMenuRef}>
+          <div className="relative hidden sm:block" ref={colorMenuRef}>
             <button
               type="button"
               onClick={() => setIsColorMenuOpen(!isColorMenuOpen)}

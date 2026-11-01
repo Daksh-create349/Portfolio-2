@@ -240,7 +240,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6"
     >
       {/* Dimmed Clean Backdrop */}
       <div
@@ -249,7 +249,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
       />
 
       {/* Clean, Normal Centered Window */}
-      <div className="relative z-10 flex flex-col w-full max-w-2xl h-[580px] max-h-[88vh] rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      <div className="relative z-10 flex flex-col w-full max-w-2xl h-[600px] max-h-[92vh] sm:h-[580px] sm:max-h-[88vh] rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         
         {/* Minimal Clean Header: Only "Chat" */}
         <div className="flex items-center justify-between border-b border-white/5 px-4 py-3 bg-[#121214]">
@@ -419,7 +419,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask anything about Daksh..."
               disabled={isGenerating}
-              className="flex-1 bg-transparent text-sm text-white placeholder:text-zinc-500 outline-none disabled:opacity-50"
+              className="flex-1 bg-transparent text-base sm:text-sm text-white placeholder:text-zinc-500 outline-none disabled:opacity-50"
             />
             <button
               type="submit"

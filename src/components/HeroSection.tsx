@@ -84,20 +84,20 @@ export function HeroSection({ onHoldAbout }: HeroSectionProps) {
   return (
     <section
       id="home"
-      className="mx-auto grid min-h-svh w-full max-w-7xl items-center gap-10 px-6 pb-16 pt-28 md:px-10 lg:grid-cols-[minmax(0,1.3fr)_auto_minmax(0,1fr)] lg:gap-10 xl:gap-14"
+      className="mx-auto grid min-h-svh w-full max-w-7xl items-center gap-8 sm:gap-10 px-4 sm:px-6 md:px-10 pb-12 sm:pb-16 pt-24 sm:pt-28 lg:grid-cols-[minmax(0,1.3fr)_auto_minmax(0,1fr)] lg:gap-10 xl:gap-14"
     >
       {/* Left Column: Rotating Title & CTA */}
-      <div className="flex flex-col items-start gap-8 min-w-0">
-        <div className="inline-flex items-center px-3 py-1 rounded-full border border-foreground/10 bg-secondary/50 text-xs font-mono text-muted-foreground">
+      <div className="flex flex-col items-start gap-6 sm:gap-8 min-w-0">
+        <div className="inline-flex items-center px-3 py-1 rounded-full border border-foreground/10 bg-secondary/50 text-[11px] sm:text-xs font-mono text-muted-foreground">
           <span>Available for AI &amp; Software Roles · Mumbai</span>
         </div>
 
-        <div className="space-y-2">
-          <p className="text-xl sm:text-2xl font-mono text-muted-foreground font-normal">
+        <div className="space-y-1.5 sm:space-y-2">
+          <p className="text-lg sm:text-2xl font-mono text-muted-foreground font-normal">
             Daksh Srivastava
           </p>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-[3.25rem] font-semibold leading-[1.05] tracking-tight">
+          <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-[3.25rem] font-semibold leading-[1.08] tracking-tight">
             <span className="sr-only">
               Full-Stack Developer, AI Systems Engineer, DevSecOps Enthusiast, Geospatial AI Builder
             </span>

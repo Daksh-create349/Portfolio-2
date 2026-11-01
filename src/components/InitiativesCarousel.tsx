@@ -25,7 +25,7 @@ export function InitiativesCarousel() {
       <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 py-6">
         {/* Decorative Divider Line with Dot Caps */}
         <div aria-hidden="true" className="pointer-events-none relative h-px">
-          <div className="absolute -inset-x-[129px] top-0 h-px bg-foreground/10" />
+          <div className="absolute -inset-x-0 sm:-inset-x-8 lg:-inset-x-[129px] top-0 h-px bg-foreground/10" />
           <span className="absolute top-0 grid size-5 -translate-y-1/2 place-items-center rounded-full bg-background left-0 -translate-x-1/2">
             <span className="size-1 rounded-full bg-foreground" />
           </span>

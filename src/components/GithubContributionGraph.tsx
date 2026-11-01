@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import rawContributions from "@/data/githubContributions.json";
 import { GithubIcon } from "./Icons";
 import {
@@ -19,17 +19,6 @@ interface ContributionDay {
 }
 
 const THEMES = {
-  cyan: {
-    name: "Electric Cyan",
-    levels: [
-      "bg-secondary/40 border-border/30",
-      "bg-[#083344] border-[#083344]",
-      "bg-[#0e7490] border-[#0e7490]",
-      "bg-[#06b6d4] border-[#06b6d4]",
-      "bg-[#22d3ee] border-[#22d3ee]",
-    ],
-    legend: ["#161b22", "#083344", "#0e7490", "#06b6d4", "#22d3ee"],
-  },
   emerald: {
     name: "Classic Emerald",
     levels: [
@@ -40,6 +29,17 @@ const THEMES = {
       "bg-[#39d353] border-[#39d353]",
     ],
     legend: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
+  },
+  monochrome: {
+    name: "Monochrome Silver",
+    levels: [
+      "bg-secondary/40 border-border/30",
+      "bg-neutral-800 border-neutral-800",
+      "bg-neutral-600 border-neutral-600",
+      "bg-neutral-400 border-neutral-400",
+      "bg-neutral-100 border-neutral-100",
+    ],
+    legend: ["#161b22", "#27272a", "#52525b", "#a1a1aa", "#f4f4f5"],
   },
   purple: {
     name: "Amethyst",
@@ -52,16 +52,16 @@ const THEMES = {
     ],
     legend: ["#161b22", "#3b0764", "#6b21a8", "#9333ea", "#c084fc"],
   },
-  monochrome: {
-    name: "Monochrome",
+  cyan: {
+    name: "Electric Cyan",
     levels: [
       "bg-secondary/40 border-border/30",
-      "bg-neutral-800 border-neutral-800",
-      "bg-neutral-600 border-neutral-600",
-      "bg-neutral-400 border-neutral-400",
-      "bg-neutral-100 border-neutral-100",
+      "bg-[#083344] border-[#083344]",
+      "bg-[#0e7490] border-[#0e7490]",
+      "bg-[#06b6d4] border-[#06b6d4]",
+      "bg-[#22d3ee] border-[#22d3ee]",
     ],
-    legend: ["#161b22", "#27272a", "#52525b", "#a1a1aa", "#f4f4f5"],
+    legend: ["#161b22", "#083344", "#0e7490", "#06b6d4", "#22d3ee"],
   },
 };
 
@@ -88,6 +88,7 @@ export function GithubContributionGraph() {
   const [liveData, setLiveData] = useState(rawContributions);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<string>("Just now");
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Load user saved theme if any (default emerald)
   useEffect(() => {
@@ -173,7 +174,7 @@ export function GithubContributionGraph() {
     };
   }, [filteredDays]);
 
-  // Group filtered days into weeks (columns)
+  // Group filtered days into weeks (columns) using local date parsing
   const weeks = useMemo(() => {
     const list: ContributionDay[][] = [];
     let currentWeek: ContributionDay[] = [];
@@ -181,7 +182,8 @@ export function GithubContributionGraph() {
     const sorted = [...filteredDays].sort((a, b) => a.date.localeCompare(b.date));
 
     if (sorted.length > 0) {
-      const firstDate = new Date(sorted[0].date);
+      const [y, m, d] = sorted[0].date.split("-").map(Number);
+      const firstDate = new Date(y, m - 1, d);
       const firstDayOfWeek = firstDate.getDay();
       for (let i = 0; i < firstDayOfWeek; i++) {
         currentWeek.push({ date: "", count: -1, level: -1 });
@@ -203,7 +205,46 @@ export function GithubContributionGraph() {
     return list;
   }, [filteredDays]);
 
-  const themeConfig = THEMES[selectedTheme];
+  // Compute exact month labels matching the start of each month in week columns
+  const monthLabels = useMemo(() => {
+    const labels: { month: string; weekIndex: number }[] = [];
+    let lastMonth = -1;
+
+    weeks.forEach((week, wIdx) => {
+      for (const d of week) {
+        if (!d.date) continue;
+        const [y, m] = d.date.split("-").map(Number);
+        const mIdx = m - 1;
+        if (mIdx !== lastMonth) {
+          const monthText =
+            selectedYear === "all" && mIdx === 0
+              ? `Jan '${String(y).slice(2)}`
+              : MONTH_NAMES[mIdx];
+
+          labels.push({
+            month: monthText,
+            weekIndex: wIdx,
+          });
+          lastMonth = mIdx;
+          break;
+        }
+      }
+    });
+
+    return labels;
+  }, [weeks, selectedYear]);
+
+  // On mobile devices, smoothly auto-scroll heatmap to the newest activity on load
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      const el = scrollContainerRef.current;
+      setTimeout(() => {
+        el.scrollLeft = el.scrollWidth;
+      }, 100);
+    }
+  }, [selectedYear, liveData]);
+
+  const themeConfig = THEMES[selectedTheme] || THEMES.emerald;
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return "";
@@ -218,16 +259,16 @@ export function GithubContributionGraph() {
   };
 
   return (
-    <div className="rounded-[28px] border border-border/80 bg-secondary/35 p-6 sm:p-8 backdrop-blur-md shadow-sm space-y-6">
-      {/* Top Header & Telemetry Badges (Zero green pills) */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-border/50 pb-6">
+    <div className="rounded-[24px] sm:rounded-[28px] border border-border/80 bg-secondary/35 p-4 sm:p-7 backdrop-blur-md shadow-sm space-y-5 sm:space-y-6">
+      {/* Top Header & Telemetry Badges */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 border-b border-border/50 pb-5 sm:pb-6">
         <div className="space-y-1.5">
           <div className="flex items-center gap-3">
-            <span className="flex size-9 items-center justify-center rounded-xl bg-foreground text-background">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-foreground text-background shrink-0">
               <GithubIcon className="size-4" />
             </span>
             <div>
-              <h3 className="text-xl font-bold tracking-tight text-foreground">
+              <h3 className="text-lg sm:text-xl font-bold tracking-tight text-foreground">
                 GitHub Contribution Activity
               </h3>
               <p className="text-xs font-mono text-muted-foreground mt-0.5">
@@ -245,40 +286,40 @@ export function GithubContributionGraph() {
           </div>
         </div>
 
-        {/* Quick Stats Grid (Clean neutral typography, zero green pills) */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
-          <div className="p-3 rounded-xl bg-background/80 border border-border/60">
+        {/* Quick Stats Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 font-mono text-xs">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-background/80 border border-border/60">
             <span className="text-muted-foreground text-[10px] uppercase tracking-wider block">
-              Total Commits
+              Annual Volume
             </span>
-            <span className="text-base font-bold text-foreground font-sans">
-              {stats.total.toLocaleString()}
+            <span className="text-sm sm:text-base font-bold text-foreground font-sans">
+              {stats.total.toLocaleString()} commits
             </span>
           </div>
 
-          <div className="p-3 rounded-xl bg-background/80 border border-border/60">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-background/80 border border-border/60">
             <span className="text-muted-foreground text-[10px] uppercase tracking-wider block">
               Active Days
             </span>
-            <span className="text-base font-bold text-foreground font-sans">
+            <span className="text-sm sm:text-base font-bold text-foreground font-sans">
               {stats.activeDays} days
             </span>
           </div>
 
-          <div className="p-3 rounded-xl bg-background/80 border border-border/60">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-background/80 border border-border/60">
             <span className="text-muted-foreground text-[10px] uppercase tracking-wider block">
               Consistency Rate
             </span>
-            <span className="text-base font-bold text-foreground font-sans">
+            <span className="text-sm sm:text-base font-bold text-foreground font-sans">
               {stats.activeRatio}%
             </span>
           </div>
 
-          <div className="p-3 rounded-xl bg-background/80 border border-border/60">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-background/80 border border-border/60">
             <span className="text-muted-foreground text-[10px] uppercase tracking-wider block">
               Peak Day Velocity
             </span>
-            <span className="text-base font-bold text-foreground font-sans">
+            <span className="text-sm sm:text-base font-bold text-foreground font-sans">
               {stats.maxCount} commits
             </span>
           </div>
@@ -286,9 +327,9 @@ export function GithubContributionGraph() {
       </div>
 
       {/* Control Toolbar: Year Tabs, Palette Switcher & Sync Button */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         {/* Year Filter Tabs */}
-        <div className="inline-flex rounded-full bg-background border border-border/70 p-1 shadow-2xs">
+        <div className="inline-flex rounded-full bg-background border border-border/70 p-1 shadow-2xs self-start">
           {["2026", "2025", "all"].map((year) => {
             const isSelected = selectedYear === year;
             const label = year === "all" ? "All Time" : year;
@@ -298,7 +339,7 @@ export function GithubContributionGraph() {
                 key={year}
                 type="button"
                 onClick={() => setSelectedYear(year)}
-                className={`rounded-full px-4 py-1.5 text-xs font-mono font-medium transition-all cursor-pointer ${
+                className={`rounded-full px-3.5 sm:px-4 py-1 text-xs font-mono font-medium transition-all cursor-pointer ${
                   isSelected
                     ? "bg-foreground text-background font-semibold shadow-2xs"
                     : "text-muted-foreground hover:text-foreground"
@@ -311,10 +352,10 @@ export function GithubContributionGraph() {
         </div>
 
         {/* Controls: Palette + Active Toggle + Live Sync */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           {/* Palette Switcher */}
           <div className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground">
-            <span className="text-[11px]">Palette:</span>
+            <span className="text-[11px] hidden xs:inline">Palette:</span>
             {(Object.keys(THEMES) as Array<keyof typeof THEMES>).map((tKey) => {
               const isSelected = selectedTheme === tKey;
               return (
@@ -323,7 +364,7 @@ export function GithubContributionGraph() {
                   type="button"
                   onClick={() => handleSelectTheme(tKey)}
                   title={THEMES[tKey].name}
-                  className={`size-5 rounded-full border transition-transform cursor-pointer ${
+                  className={`size-4 sm:size-5 rounded-full border transition-transform cursor-pointer ${
                     isSelected
                       ? "ring-2 ring-foreground scale-110"
                       : "opacity-70 hover:opacity-100"
@@ -338,7 +379,7 @@ export function GithubContributionGraph() {
           <button
             type="button"
             onClick={() => setActiveOnly(!activeOnly)}
-            className={`rounded-full border px-3 py-1 text-xs font-mono transition-all cursor-pointer ${
+            className={`rounded-full border px-2.5 sm:px-3 py-1 text-xs font-mono transition-all cursor-pointer ${
               activeOnly
                 ? "bg-foreground text-background border-foreground font-medium"
                 : "bg-background border-border text-muted-foreground hover:text-foreground"
@@ -352,57 +393,74 @@ export function GithubContributionGraph() {
             type="button"
             onClick={syncWithGithub}
             disabled={isRefreshing}
-            className="inline-flex items-center gap-1.5 rounded-full bg-background border border-border px-3 py-1 text-xs font-mono text-foreground hover:bg-secondary transition-all cursor-pointer"
+            className="inline-flex items-center gap-1.5 rounded-full bg-background border border-border px-2.5 sm:px-3 py-1 text-xs font-mono text-foreground hover:bg-secondary transition-all cursor-pointer"
             title="Fetch latest commits from GitHub"
           >
-            <RotateCw className={`size-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
-            <span>{isRefreshing ? "Syncing..." : `Sync (${lastUpdated})`}</span>
+            <RotateCw className={`size-3 sm:size-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
+            <span className="hidden sm:inline">{isRefreshing ? "Syncing..." : `Sync (${lastUpdated})`}</span>
+            <span className="sm:hidden">{isRefreshing ? "..." : "Sync"}</span>
           </button>
         </div>
       </div>
 
-      {/* Heatmap Matrix Display */}
-      <div className="relative rounded-2xl bg-background/90 border border-border/80 p-5 overflow-x-auto shadow-inner">
-        {/* Month labels */}
-        <div className="flex justify-between text-[11px] font-mono text-muted-foreground pb-2 min-w-[720px] px-2">
-          {MONTH_NAMES.map((m) => (
-            <span key={m}>{m}</span>
-          ))}
+      {/* Heatmap Matrix Display with Locked Column-Aligned Months */}
+      <div
+        ref={scrollContainerRef}
+        className="relative rounded-2xl bg-background/90 border border-border/80 p-3.5 sm:p-5 overflow-x-auto shadow-inner scrollbar-thin"
+      >
+        <div className="inline-block min-w-max pb-1">
+          {/* Month labels strictly anchored to the starting week column of each month */}
+          <div
+            className="relative h-5 text-[11px] font-mono text-muted-foreground select-none mb-1.5"
+            style={{ width: `${weeks.length * 15.5}px` }}
+          >
+            {monthLabels.map(({ month, weekIndex }) => (
+              <span
+                key={`${month}-${weekIndex}`}
+                className="absolute top-0 text-[11px] font-mono text-muted-foreground whitespace-nowrap"
+                style={{ left: `${weekIndex * 15.5}px` }}
+              >
+                {month}
+              </span>
+            ))}
+          </div>
+
+          {/* Heatmap Grid */}
+          <div className="flex gap-[3.5px]">
+            {weeks.map((week, wIdx) => (
+              <div key={wIdx} className="flex flex-col gap-[3.5px]">
+                {week.map((day, dIdx) => {
+                  if (day.count === -1) {
+                    return <div key={dIdx} className="size-3 rounded-[3px] opacity-0" />;
+                  }
+
+                  const isDimmed = activeOnly && day.count === 0;
+                  const levelIdx = Math.min(Math.max(day.level, 0), 4);
+                  const colorClass = themeConfig.levels[levelIdx];
+                  const isHovered = hoveredDay?.date === day.date;
+
+                  return (
+                    <div
+                      key={day.date || dIdx}
+                      onMouseEnter={() => setHoveredDay(day)}
+                      onMouseLeave={() => setHoveredDay(null)}
+                      onClick={() => setHoveredDay(day)}
+                      onTouchStart={() => setHoveredDay(day)}
+                      className={`size-3 rounded-[3px] border transition-all duration-150 cursor-pointer ${colorClass} ${
+                        isDimmed ? "opacity-15" : "opacity-100"
+                      } ${isHovered ? "scale-140 z-20 ring-2 ring-foreground" : "hover:scale-125"}`}
+                    />
+                  );
+                })}
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Heatmap Grid */}
-        <div className="flex gap-[3.5px] min-w-[720px]">
-          {weeks.map((week, wIdx) => (
-            <div key={wIdx} className="flex flex-col gap-[3.5px]">
-              {week.map((day, dIdx) => {
-                if (day.count === -1) {
-                  return <div key={dIdx} className="size-3 rounded-[3px] opacity-0" />;
-                }
-
-                const isDimmed = activeOnly && day.count === 0;
-                const levelIdx = Math.min(Math.max(day.level, 0), 4);
-                const colorClass = themeConfig.levels[levelIdx];
-                const isHovered = hoveredDay?.date === day.date;
-
-                return (
-                  <div
-                    key={day.date || dIdx}
-                    onMouseEnter={() => setHoveredDay(day)}
-                    onMouseLeave={() => setHoveredDay(null)}
-                    className={`size-3 rounded-[3px] border transition-all duration-150 cursor-pointer ${colorClass} ${
-                      isDimmed ? "opacity-15" : "opacity-100"
-                    } ${isHovered ? "scale-140 z-20 ring-2 ring-foreground" : "hover:scale-125"}`}
-                  />
-                );
-              })}
-            </div>
-          ))}
-        </div>
-
-        {/* Dynamic Hover Tooltip / Status Display */}
-        <div className="mt-4 pt-4 border-t border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-muted-foreground">
+        {/* Dynamic Touch / Hover Tooltip & Legend */}
+        <div className="mt-4 pt-3.5 border-t border-border/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs font-mono text-muted-foreground">
           {hoveredDay ? (
-            <div className="flex items-center gap-2 text-foreground">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-foreground">
               <span className="font-semibold">{hoveredDay.count} contributions</span>
               <span>on</span>
               <span className="text-muted-foreground font-medium">
@@ -411,18 +469,18 @@ export function GithubContributionGraph() {
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Info className="size-3.5 text-muted-foreground" />
-              <span>Hover over any cell to inspect daily commit density</span>
+              <Info className="size-3.5 text-muted-foreground shrink-0" />
+              <span className="text-[11px] sm:text-xs">Tap or hover any square to inspect daily commits</span>
             </div>
           )}
 
           {/* Legend */}
-          <div className="flex items-center gap-1.5 self-end sm:self-auto">
-            <span className="text-[11px]">Less</span>
+          <div className="flex items-center gap-1.5 self-end sm:self-auto text-[11px]">
+            <span>Less</span>
             {themeConfig.levels.map((lvlClass, idx) => (
               <span key={idx} className={`size-3 rounded-[2px] border ${lvlClass}`} />
             ))}
-            <span className="text-[11px]">More</span>
+            <span>More</span>
           </div>
         </div>
       </div>

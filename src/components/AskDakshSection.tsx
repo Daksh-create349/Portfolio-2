@@ -136,7 +136,7 @@ export function AskDakshSection() {
 
   return (
     <div className="w-full">
-      <div className="rounded-[28px] border border-border/80 bg-secondary/30 p-5 sm:p-8 backdrop-blur-md shadow-sm flex flex-col gap-6">
+      <div className="rounded-[22px] sm:rounded-[28px] border border-border/80 bg-secondary/30 p-4 sm:p-8 backdrop-blur-md shadow-sm flex flex-col gap-5 sm:gap-6">
         {/* Header with Email */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/50 pb-5">
           <div className="flex items-center gap-3">
@@ -238,7 +238,7 @@ export function AskDakshSection() {
                   placeholder="e.g. AI Systems Collaboration / Opportunity"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full rounded-xl border border-border/70 bg-background px-3.5 py-2.5 text-xs font-sans text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground/40 transition-colors"
+                  className="w-full rounded-xl border border-border/70 bg-background px-3.5 py-2.5 text-base sm:text-xs font-sans text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground/40 transition-colors"
                 />
               </div>
 
@@ -258,7 +258,7 @@ export function AskDakshSection() {
                     placeholder="Alex Chen"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
-                    className="w-full rounded-xl border border-border/70 bg-background px-3.5 py-2.5 text-xs font-sans text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground/40 transition-colors"
+                    className="w-full rounded-xl border border-border/70 bg-background px-3.5 py-2.5 text-base sm:text-xs font-sans text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground/40 transition-colors"
                   />
                 </div>
 
@@ -276,7 +276,7 @@ export function AskDakshSection() {
                     placeholder="alex@company.com"
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
-                    className="w-full rounded-xl border border-border/70 bg-background px-3.5 py-2.5 text-xs font-sans text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground/40 transition-colors"
+                    className="w-full rounded-xl border border-border/70 bg-background px-3.5 py-2.5 text-base sm:text-xs font-sans text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground/40 transition-colors"
                   />
                 </div>
               </div>
@@ -298,7 +298,7 @@ export function AskDakshSection() {
                   placeholder="Hi Daksh, I came across your portfolio and would love to discuss..."
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full rounded-xl border border-border/70 bg-background p-3 text-xs font-sans text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground/40 transition-colors resize-y leading-relaxed"
+                  className="w-full rounded-xl border border-border/70 bg-background p-3 text-base sm:text-xs font-sans text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-foreground/40 transition-colors resize-y leading-relaxed"
                 />
               </div>
 
