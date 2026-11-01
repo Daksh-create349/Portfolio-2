@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react";
 import {
   House,
   BriefcaseBusiness,
-  FlaskConical,
   UserRound,
   Layers,
   Sun,
   Moon,
 } from "lucide-react";
+import { GithubIcon } from "./Icons";
 
 interface FloatingHeaderProps {
   onOpenContact: () => void;
@@ -27,7 +27,7 @@ export function FloatingHeader({ onOpenContact }: FloatingHeaderProps) {
     // Scroll spy for active item
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const sections = ["home", "work", "experiments", "about", "stack"];
+      const sections = ["home", "work", "opensource", "about", "stack"];
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el && scrollY >= el.offsetTop - 220) {
@@ -65,7 +65,7 @@ export function FloatingHeader({ onOpenContact }: FloatingHeaderProps) {
   const navItems = [
     { id: "home", label: "Home", icon: House },
     { id: "work", label: "Work", icon: BriefcaseBusiness },
-    { id: "experiments", label: "Experiments", icon: FlaskConical },
+    { id: "opensource", label: "Open Source", icon: GithubIcon },
     { id: "about", label: "About", icon: UserRound },
     { id: "stack", label: "Stack", icon: Layers },
   ];

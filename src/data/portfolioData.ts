@@ -7,6 +7,7 @@ export interface Project {
   role: string;
   year: string;
   stats: string;
+  image: string;
   promptExample: string;
   description: string;
   impactText: string;
@@ -19,6 +20,221 @@ export interface Project {
   }[];
 }
 
+export interface GithubProject {
+  id: string;
+  name: string;
+  repo: string;
+  description: string;
+  stars: number;
+  forks?: number;
+  language: string;
+  languageColor: string;
+  category: "AI & MCP" | "Data & Forensics" | "Systems & DSP" | "Security & Dev" | "Web & Logistics";
+  tags: string[];
+  image?: string;
+  highlights: string[];
+  url: string;
+}
+
+export const GITHUB_PROJECTS: GithubProject[] = [
+  {
+    id: "contradiction-mcp",
+    name: "Contradiction-MCP",
+    repo: "Daksh-create349/Contradiction-MCP",
+    description:
+      "Autonomous Model Context Protocol (MCP) engine for factual consistency, version reconciliation, and conflict resolution across engineering knowledge bases and agent tools.",
+    stars: 7,
+    forks: 1,
+    language: "TypeScript",
+    languageColor: "#3178c6",
+    category: "AI & MCP",
+    tags: ["TypeScript", "MCP Protocol", "Agentics", "Knowledge Graphs"],
+    image: "/projects/knowledge-graph-real.jpg",
+    highlights: [
+      "Autonomous multi-source reconciliation for LLM context",
+      "Strict RFC-compliant Model Context Protocol server",
+      "Deterministic version diffing across markdown and JSON schemas",
+    ],
+    url: "https://github.com/Daksh-create349/Contradiction-MCP",
+  },
+  {
+    id: "data-autopsy",
+    name: "data-autopsy",
+    repo: "Daksh-create349/data-autopsy",
+    description:
+      "AI forensic investigation workstation for tabular datasets. Uncovers target leakage, structural corruption, and distributional drift before models reach training pipelines.",
+    stars: 6,
+    forks: 2,
+    language: "Python",
+    languageColor: "#3572A5",
+    category: "Data & Forensics",
+    tags: ["Python", "AI Forensics", "Data Quality", "Local AI"],
+    image: "/projects/data-analytics-real.jpg",
+    highlights: [
+      "Heuristic & statistical target leakage detection engine",
+      "100% local AI analysis with reproducible audit trails",
+      "Deep tabular corruption diagnosis across parquet and csv files",
+    ],
+    url: "https://github.com/Daksh-create349/data-autopsy",
+  },
+  {
+    id: "blood-bridge",
+    name: "Blood-Bridge 3.0",
+    repo: "Daksh-create349/Blood-Bridge-3.0",
+    description:
+      "Critical emergency health logistics platform connecting registered blood donors, live hospital inventories, and real-time transit dispatch with geo-routing.",
+    stars: 3,
+    forks: 1,
+    language: "TypeScript",
+    languageColor: "#3178c6",
+    category: "Web & Logistics",
+    tags: ["TypeScript", "Next.js", "HealthTech", "Live Geolocation"],
+    image: "/projects/medical-logistics-real.jpg",
+    highlights: [
+      "Sub-second emergency radius matching for rare blood groups",
+      "Live hospital blood bank inventory synchronization",
+      "Automated push dispatch alerts with donor verification",
+    ],
+    url: "https://github.com/Daksh-create349/Blood-Bridge-3.0",
+  },
+  {
+    id: "sonaura",
+    name: "Sonaura 2.0",
+    repo: "Daksh-create349/Sonaura-2.0",
+    description:
+      "Browser Web Audio DSP extension delivering cinema-grade 5.1 binaural surround sound, 10-band parametric EQ, and convolution reverb with zero external drivers.",
+    stars: 2,
+    forks: 0,
+    language: "JavaScript",
+    languageColor: "#f1e05a",
+    category: "Systems & DSP",
+    tags: ["JavaScript", "Web Audio API", "Chrome Extension", "Edge Store"],
+    image: "/projects/audio-dsp-real.jpg",
+    highlights: [
+      "Officially launched on Microsoft Edge Add-ons Store",
+      "Real-time 48-bar FFT visualizer running at 25 FPS",
+      "HRTF spatial matrix with Haas-effect interaural time delays",
+    ],
+    url: "https://github.com/Daksh-create349/Sonaura-2.0",
+  },
+  {
+    id: "hydrowatch",
+    name: "HydroWatch (SIH 2026)",
+    repo: "Daksh-create349/Hydrowatch-SIH26071",
+    description:
+      "Smart India Hackathon 2026 climate intelligence platform fusing Doppler radar (dBZ), Sentinel-2 SAR, NASA POWER, and NOAA GFS into an interactive 3D digital twin.",
+    stars: 2,
+    forks: 1,
+    language: "Python",
+    languageColor: "#3572A5",
+    category: "Data & Forensics",
+    tags: ["Python", "FastAPI", "Cesium 3D", "Sentinel-2", "PostGIS"],
+    image: "/projects/satellite-radar-real.jpg",
+    highlights: [
+      "Doppler dBZ cloud-penetrating radar flood tracking",
+      "Physics-based false-positive DEM and HAND drainage masking",
+      "WebGL Cesium 3D twin rendering 8 dynamic spatial layers",
+    ],
+    url: "https://github.com/Daksh-create349/Hydrowatch-SIH26071",
+  },
+  {
+    id: "github-guardian",
+    name: "GitHub Guardian",
+    repo: "Daksh-create349/Github-Guardian",
+    description:
+      "Forensic DevSecOps security auditing platform combining SAST with full Git Directed Acyclic Graph (DAG) traversal to uncover leaked secrets across commit histories.",
+    stars: 2,
+    forks: 0,
+    language: "Python",
+    languageColor: "#3572A5",
+    category: "Security & Dev",
+    tags: ["Python", "Security SAST", "Git DAG", "OAuth2"],
+    image: "/projects/devsecops-real.jpg",
+    highlights: [
+      "Traverses ghost commits, rebases, and deleted branches",
+      "Non-linear vulnerability scoring reducing false positives by 70%",
+      "One-click desktop pre-commit gatekeeper wizard",
+    ],
+    url: "https://github.com/Daksh-create349/Github-Guardian",
+  },
+  {
+    id: "boundary-bench",
+    name: "BoundaryBench",
+    repo: "Daksh-create349/BoundaryBench",
+    description:
+      "Local-first AI-assisted API authorization testing framework using Gemma 4 for automated security boundary stress-testing and BOLA/IDOR detection.",
+    stars: 1,
+    forks: 0,
+    language: "Python",
+    languageColor: "#3572A5",
+    category: "Security & Dev",
+    tags: ["Python", "API Security", "Gemma 4", "BOLA Testing"],
+    highlights: [
+      "Local-first automated IDOR & BOLA vulnerability prober",
+      "Gemma 4 model reasoning over endpoint authorization matrices",
+      "Automated OpenAPI and Swagger specification parsing",
+    ],
+    url: "https://github.com/Daksh-create349/BoundaryBench",
+  },
+  {
+    id: "procrastinate-os",
+    name: "Procrastinate-OS",
+    repo: "Daksh-create349/Procrastinate-OS",
+    description:
+      "100% local-first privacy-preserving desktop productivity system that surfaces forgotten in-progress work and reduces digital clutter without external telemetry.",
+    stars: 1,
+    forks: 0,
+    language: "Python",
+    languageColor: "#3572A5",
+    category: "Systems & DSP",
+    tags: ["Python", "Privacy-first", "Local AI", "Desktop"],
+    highlights: [
+      "Zero-cloud offline file recovery and activity scoring",
+      "78% clutter reduction through intelligent project grouping",
+      "Instant state restoration for interrupted coding flows",
+    ],
+    url: "https://github.com/Daksh-create349/Procrastinate-OS",
+  },
+  {
+    id: "lifelog",
+    name: "LifeLog Daemon",
+    repo: "Daksh-create349/LifeLog-Pick-up-where-you-left-off",
+    description:
+      "High-performance background daemon in Go recording filesystem modifications and Git branches so engineers can instantly resume context after interruptions.",
+    stars: 1,
+    forks: 0,
+    language: "Go",
+    languageColor: "#00ADD8",
+    category: "Systems & DSP",
+    tags: ["Go", "macOS Daemon", "Git Context", "Low-overhead"],
+    highlights: [
+      "Under 5MB memory footprint background event watcher",
+      "Git commit and branch context snapshotting",
+      "Instant CLI summary of touched files across projects",
+    ],
+    url: "https://github.com/Daksh-create349/LifeLog-Pick-up-where-you-left-off",
+  },
+  {
+    id: "heatmap-wallpaper",
+    name: "GitHub Contribution Wallpaper",
+    repo: "Daksh-create349/Github-Contribution-Widget",
+    description:
+      "macOS desktop widget rendering your live GitHub contribution heatmap directly into your wallpaper with zero background battery drain.",
+    stars: 1,
+    forks: 0,
+    language: "JavaScript",
+    languageColor: "#f1e05a",
+    category: "Web & Logistics",
+    tags: ["JavaScript", "macOS", "GitHub API", "Wallpaper"],
+    highlights: [
+      "Live daily contribution streak and commit grid",
+      "Adaptive dark and light wallpaper blending",
+      "Zero background daemon battery consumption",
+    ],
+    url: "https://github.com/Daksh-create349/Github-Contribution-Widget",
+  },
+];
+
 export const PROJECTS: Project[] = [
   {
     id: "sonaura",
@@ -29,6 +245,7 @@ export const PROJECTS: Project[] = [
     role: "Lead DSP & Systems Engineer",
     year: "2025",
     stats: "Officially Launched on Microsoft Edge Store",
+    image: "/projects/sonaura-preview.jpg",
     promptExample: "Calibrating 10-band HRTF matrix for binaural 3D acoustics...",
     description:
       "Engineered a high-performance client-side audio processing pipeline as a browser extension that intercepts live tab audio and delivers immersive 3D spatial acoustics with zero external drivers, zero latency overhead, and no subscriptions.",
@@ -68,6 +285,7 @@ export const PROJECTS: Project[] = [
     role: "Full-Stack & Geospatial AI Architect",
     year: "2025 – 2026",
     stats: "Sentinel-2 + NASA POWER + NOAA GFS",
+    image: "/projects/hydrowatch-preview.jpg",
     promptExample: "Fusing ground weather telemetry with Sentinel-2 radar backscatter...",
     description:
       "Architected a decoupled geospatial intelligence platform (SIH 2026 PS 26071 — MoES / IMD) fusing ground weather (NASA POWER), NWP (NOAA GFS), Doppler radar (dBZ), and Sentinel-2 satellite imagery into a 3D Cesium digital twin.",
@@ -107,6 +325,7 @@ export const PROJECTS: Project[] = [
     role: "Founder & DevSecOps Lead",
     year: "2025",
     stats: "Full Git DAG Commit Traversal",
+    image: "/projects/guardian-preview.jpg",
     promptExample: "Traversing commit tree DAG: scanning orphan commit SHA 8f9b2a...",
     description:
       "A forensic DevSecOps platform combining Static Application Security Testing (SAST) with full Git Directed Acyclic Graph (DAG) traversal to uncover leaked API keys, SSL certs, SQLi, and XSS across active and deleted commits.",
@@ -146,6 +365,7 @@ export const PROJECTS: Project[] = [
     role: "Lead AI Engineer",
     year: "2025",
     stats: "Gemini Live Real-Time Voice + Generative UI",
+    image: "/projects/hypermind-preview.jpg",
     promptExample: "Synthesizing Concept Tutor mind map for Quantum Computing...",
     description:
       "Engineered an adaptive AI education platform that transforms static learning into interactive dialogue. Features Concept Tutor, Socratic Debate Mode, and dynamic Quiz Generator with deep performance telemetry.",

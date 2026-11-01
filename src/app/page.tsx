@@ -7,9 +7,8 @@ import { FloatingHeader } from "@/components/FloatingHeader";
 import { PreviewRail } from "@/components/PreviewRail";
 import { HeroSection } from "@/components/HeroSection";
 import { InitiativesCarousel } from "@/components/InitiativesCarousel";
-import { BentoWall } from "@/components/BentoWall";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
-import { ExperimentsSection } from "@/components/ExperimentsSection";
+import { BentoWall } from "@/components/BentoWall";
 import { AboutAndJourneySection } from "@/components/AboutAndJourneySection";
 import { StackSection } from "@/components/StackSection";
 import { Footer } from "@/components/Footer";
@@ -40,23 +39,20 @@ export default function Home() {
         {/* Section 2: Associated Organizations & Initiatives Carousel */}
         <InitiativesCarousel />
 
-        {/* Section 3: Selected Work Bento Gallery Wall */}
-        <BentoWall />
-
-        {/* Section 4: Flagship Works & Deep Case Studies */}
+        {/* Section 3: Flagship Works & Deep Case Studies */}
         <ProjectShowcase />
 
-        {/* Section 5: AI Experiments & Interactive Labs */}
-        <ExperimentsSection />
+        {/* Section 4: Popular GitHub Repositories & Open Source */}
+        <BentoWall />
 
-        {/* Section 6: Ask Me Anything, Bio & Academic Journey */}
+        {/* Section 5: Ask Me Anything, Bio & Academic Journey */}
         <AboutAndJourneySection />
 
-        {/* Section 7: Tech Stack */}
+        {/* Section 6: Tech Stack */}
         <StackSection />
       </main>
 
-      {/* Section 8: Footer with Live Mumbai Clock */}
+      {/* Section 7: Footer with Live Mumbai Clock */}
       <Footer />
 
       {/* Interactive Contact & Booking Dialog */}
@@ -64,4 +60,3 @@ export default function Home() {
     </div>
   );
 }
-

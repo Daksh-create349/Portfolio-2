@@ -114,8 +114,8 @@ export function HeroSection({ onHoldAbout }: HeroSectionProps) {
                         : "opacity-0 -translate-y-8 blur-sm pointer-events-none"
                     }`}
                   >
-                    <span className="block whitespace-nowrap">{t.line1}</span>
-                    <span className="block whitespace-nowrap text-foreground/90">{t.line2}</span>
+                    <span className="block">{t.line1}</span>
+                    <span className="block text-foreground/90">{t.line2}</span>
                   </span>
                 );
               })}
