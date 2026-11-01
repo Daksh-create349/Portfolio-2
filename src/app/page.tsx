@@ -7,7 +7,6 @@ import { FloatingHeader } from "@/components/FloatingHeader";
 import { PreviewRail } from "@/components/PreviewRail";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { FigmaCursor } from "@/components/FigmaCursor";
-import { GrokBotMascot } from "@/components/GrokBotMascot";
 import { HeroSection } from "@/components/HeroSection";
 import { InitiativesCarousel } from "@/components/InitiativesCarousel";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
@@ -66,9 +65,6 @@ export default function Home() {
 
       {/* Interactive Contact & Booking Dialog */}
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-
-      {/* Grok Bot Companion Mascot */}
-      <GrokBotMascot />
     </div>
   );
 }
