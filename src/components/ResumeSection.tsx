@@ -22,7 +22,7 @@ import {
 import { GithubIcon, LinkedinIcon } from "./Icons";
 
 const RESUME_TEXT = `Daksh Srivastava
-Full-stack Developer & CS Undergraduate · AI-Powered Applications · DevSecOps · Geospatial Intelligence
+Full-stack Developer & CS Undergraduate · AI-Powered Applications · DevSecOps Enthusiast · Geospatial Intelligence
 Mumbai, India | dakshshrivastav56@gmail.com | +91-9588415901
 LinkedIn: linkedin.com/in/daksh-srivastava-2ba851344
 GitHub: github.com/Daksh-create349
@@ -265,7 +265,7 @@ export function ResumeSection() {
                     Daksh Srivastava
                   </h3>
                   <p className="text-sm sm:text-base text-foreground/80 font-medium">
-                    Full-stack Developer &amp; CS Undergraduate &middot; AI-Powered Applications &middot; DevSecOps &middot; Geospatial Intelligence
+                    Full-stack Developer &amp; CS Undergraduate &middot; AI-Powered Applications &middot; DevSecOps Enthusiast &middot; Geospatial Intelligence
                   </p>
 
                   {/* Contact Strip */}

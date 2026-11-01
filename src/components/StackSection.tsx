@@ -24,6 +24,7 @@ import {
   XGBoostLogo,
   MongoDBLogo,
   FirebaseLogo,
+  DevSecOpsLogo,
 } from "./TechLogos";
 import { Layers } from "lucide-react";
 
@@ -46,7 +47,7 @@ const ROW_ONE: StackItem[] = [
 ];
 
 const ROW_TWO: StackItem[] = [
-  { name: "FIGMA", logoKey: "figma" },
+  { name: "DEVSECOPS", logoKey: "devsecops" },
   { name: "DOCKER", logoKey: "docker" },
   { name: "POSTGRESQL", logoKey: "postgres" },
   { name: "GOOGLE CLOUD", logoKey: "gee" },
@@ -56,6 +57,7 @@ const ROW_TWO: StackItem[] = [
   { name: "FIREBASE", logoKey: "firebase" },
   { name: "TAILWIND", logoKey: "tailwind" },
   { name: "GIT", logoKey: "git" },
+  { name: "FIGMA", logoKey: "figma" },
 ];
 
 const LOGO_COMPONENTS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -80,6 +82,7 @@ const LOGO_COMPONENTS: Record<string, React.ComponentType<{ className?: string }
   xgboost: XGBoostLogo,
   mongodb: MongoDBLogo,
   firebase: FirebaseLogo,
+  devsecops: DevSecOpsLogo,
 };
 
 interface MarqueeStripProps {
@@ -142,8 +145,8 @@ function MarqueeStrip({ items, direction = "left", startOffsetAlternate = false 
       >
         {repeatedItems.map((item, idx) => {
           const LogoComponent = LOGO_COMPONENTS[item.logoKey] || Layers;
-          // Alternating diamond separator color: even indices silver, odd indices vivid orange (#FF4F00)
-          const isOrangeDiamond = (idx + (startOffsetAlternate ? 1 : 0)) % 2 === 1;
+          // Alternating diamond separator color: even indices subtle silver, odd indices signature Figma blue (#0D99FF)
+          const isAccentDiamond = (idx + (startOffsetAlternate ? 1 : 0)) % 2 === 1;
 
           return (
             <div
@@ -160,10 +163,10 @@ function MarqueeStrip({ items, direction = "left", startOffsetAlternate = false 
                 </span>
               </div>
 
-              {/* Diamond Separator (Alternating Subtle Silver & Vibrant Swiss Orange) */}
+              {/* Diamond Separator (Alternating Subtle Silver & Signature Figma Blue) */}
               <span
                 className={`text-sm sm:text-base select-none shrink-0 transition-opacity duration-200 ${
-                  isOrangeDiamond ? "text-[#FF4F00]" : "text-foreground/25"
+                  isAccentDiamond ? "text-[#0D99FF]" : "text-foreground/25"
                 }`}
                 aria-hidden="true"
               >
@@ -181,10 +184,10 @@ export function StackSection() {
   return (
     <section id="stack" aria-labelledby="stack-title" className="overflow-x-clip px-4 sm:px-6 md:px-10 py-16">
       <div className="mx-auto w-full max-w-[1240px]">
-        {/* Editorial Top Eyebrow with Orange Accent Square & Hairline Rule (Inspired by Swiss Design) */}
+        {/* Editorial Top Eyebrow with Signature Figma Blue Accent Square & Hairline Rule */}
         <ScrollReveal className="pb-6">
           <div className="flex items-center gap-2.5">
-            <span className="size-2 bg-[#FF4F00] inline-block shrink-0" aria-hidden="true" />
+            <span className="size-2 bg-[#0D99FF] inline-block shrink-0" aria-hidden="true" />
             <h2
               id="stack-title"
               className="font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground font-semibold"

@@ -7,7 +7,7 @@ import { InteractiveAvatar } from "./InteractiveAvatar";
 const TITLES = [
   { line1: "Full-Stack", line2: "Developer" },
   { line1: "AI Systems", line2: "Engineer" },
-  { line1: "DevSecOps", line2: "Specialist" },
+  { line1: "DevSecOps", line2: "Enthusiast" },
   { line1: "Geospatial AI", line2: "Builder" },
 ];
 
@@ -99,7 +99,7 @@ export function HeroSection({ onHoldAbout }: HeroSectionProps) {
 
           <h1 className="text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-[3.25rem] font-semibold leading-[1.05] tracking-tight">
             <span className="sr-only">
-              Full-Stack Developer, AI Systems Engineer, DevSecOps Specialist, Geospatial AI Builder
+              Full-Stack Developer, AI Systems Engineer, DevSecOps Enthusiast, Geospatial AI Builder
             </span>
             <span aria-hidden="true" className="grid">
               {TITLES.map((t, idx) => {

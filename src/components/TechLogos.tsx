@@ -163,3 +163,22 @@ export function MongoDBLogo({ className = "size-7" }: { className?: string }) {
 export function FirebaseLogo({ className = "size-7" }: { className?: string }) {
   return <SiFirebase className={className} size="100%" color="currentColor" aria-hidden="true" />;
 }
+
+// 22. DevSecOps Security Shield Vector
+export function DevSecOpsLogo({ className = "size-7" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
