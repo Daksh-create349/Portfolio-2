@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 220 15% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 10%;
+    --primary: 220 15% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 15% 15%;
+    --muted: 220 10% 92%;
+    --muted-foreground: 220 10% 45%;
+    --accent: 220 14% 94%;
+    --accent-foreground: 220 15% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 13% 90%;
+    --input: 220 13% 90%;
+    --ring: 220 15% 15%;
+    --radius: 1.25rem;
+    --hero-liquid: hsl(220 14% 92%);
+  }
+
+  .dark {
+    --background: 224 25% 6%;
+    --foreground: 210 20% 98%;
+    --card: 224 24% 8%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 24% 8%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 20% 98%;
+    --primary-foreground: 224 25% 8%;
+    --secondary: 224 20% 12%;
+    --secondary-foreground: 210 20% 95%;
+    --muted: 224 18% 16%;
+    --muted-foreground: 218 12% 62%;
+    --accent: 224 20% 15%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 224 16% 18%;
+    --input: 224 16% 18%;
+    --ring: 216 12% 84%;
+    --hero-liquid: hsl(224 20% 16%);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: clip;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--foreground) / 0.15);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--foreground) / 0.3);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Shimmer metallic border animation */
+@keyframes shimmer-border {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Clouds float animation */
+@keyframes cloud-drift {
+  0% {
+    transform: translateX(-100%) scale(var(--cloud-scale, 1));
+  }
+  100% {
+    transform: translateX(calc(100vw + 300px)) scale(var(--cloud-scale, 1));
+  }
+}
+
+.hero-cloud {
+  animation: cloud-drift linear infinite;
+  will-change: transform;
+}
+
+/* Morph in text effect */
+.morph-text {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}

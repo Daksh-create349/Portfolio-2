@@ -1,0 +1,97 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+
+const SECTIONS = [
+  { id: "home", label: "Home" },
+  { id: "work", label: "Works" },
+  { id: "experiments", label: "AI Experiments" },
+  { id: "about", label: "Ask me anything" },
+  { id: "stack", label: "My Stack" },
+];
+
+export function PreviewRail() {
+  const [activeSection, setActiveSection] = useState("home");
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+
+      for (let i = SECTIONS.length - 1; i >= 0; i--) {
+        const el = document.getElementById(SECTIONS[i].id);
+        if (el) {
+          const top = el.offsetTop - windowHeight * 0.35;
+          if (scrollY >= top) {
+            setActiveSection(SECTIONS[i].id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <div className="isolate overflow-visible pointer-events-none fixed left-3 top-1/2 z-40 hidden min-h-0 w-80 -translate-y-1/2 min-[1360px]:flex">
+      <nav
+        aria-label="Sections on this page"
+        style={{ gridTemplateRows: "repeat(5, 28px)" }}
+        className="relative z-10 grid shrink-0 w-12 content-center pointer-events-auto"
+      >
+        {SECTIONS.map((sec) => {
+          const isActive = activeSection === sec.id;
+          const isHovered = hoveredSection === sec.id;
+
+          return (
+            <button
+              key={sec.id}
+              onClick={() => scrollTo(sec.id)}
+              onMouseEnter={() => setHoveredSection(sec.id)}
+              onMouseLeave={() => setHoveredSection(null)}
+              aria-label={sec.label}
+              aria-current={isActive ? "page" : undefined}
+              style={{ height: "28px" }}
+              className="group relative flex text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background h-7 w-12 items-center cursor-pointer"
+            >
+              <span
+                aria-hidden="true"
+                className={`block bg-current h-0.5 origin-left transition-all duration-300 ease-out ${
+                  isActive
+                    ? "w-12 text-foreground font-semibold"
+                    : isHovered
+                    ? "w-9 text-foreground"
+                    : "w-5 text-muted-foreground/60"
+                }`}
+              />
+
+              {/* Tooltip on hover / active */}
+              {(isHovered || isActive) && (
+                <span
+                  className={`pointer-events-none absolute left-14 whitespace-nowrap font-mono text-xs tracking-wide px-2 py-0.5 rounded transition-all duration-200 ${
+                    isActive
+                      ? "text-foreground font-medium opacity-100 translate-x-0"
+                      : "text-muted-foreground opacity-80 translate-x-0"
+                  }`}
+                >
+                  {sec.label}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </nav>
+    </div>
+  );
+}
