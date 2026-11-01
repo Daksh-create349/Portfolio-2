@@ -165,8 +165,8 @@ export function GrokCompanion() {
         className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 select-none pointer-events-none"
       >
         <div className="relative flex flex-col items-end group">
-          {/* Minimal Hover Pill: Only "Chat" (Desktop only) */}
-          <div className="hidden sm:block pointer-events-none mb-2 px-3 py-1 rounded-full bg-[#18181b]/95 border border-white/10 text-xs font-medium text-zinc-300 shadow-md backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+          {/* Minimal Hover Pill: Only "Chat" (Desktop only, Full Light/Dark Support) */}
+          <div className="hidden sm:block pointer-events-none mb-2 px-3 py-1 rounded-full bg-white/95 dark:bg-[#18181b]/95 border border-zinc-200/90 dark:border-white/10 text-xs font-medium text-zinc-700 dark:text-zinc-300 shadow-md backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-150">
             Chat
           </div>
 

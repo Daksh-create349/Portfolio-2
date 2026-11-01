@@ -52,7 +52,7 @@ function formatMarkdown(text: string) {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-zinc-200 hover:text-white underline underline-offset-2 transition-colors font-medium"
+          className="text-zinc-900 dark:text-zinc-200 hover:text-black dark:hover:text-white underline underline-offset-2 transition-colors font-medium"
         >
           {label}
         </a>
@@ -70,7 +70,7 @@ function formatMarkdown(text: string) {
       return boldSegments.map((seg, sIdx) => {
         if (seg.startsWith("**") && seg.endsWith("**")) {
           return (
-            <strong key={`bold-${pIdx}-${sIdx}`} className="text-white font-medium">
+            <strong key={`bold-${pIdx}-${sIdx}`} className="text-zinc-900 dark:text-white font-semibold">
               {seg.slice(2, -2)}
             </strong>
           );
@@ -81,7 +81,7 @@ function formatMarkdown(text: string) {
 
     if (isBullet) {
       return (
-        <li key={lineIdx} className="ml-5 list-disc text-zinc-300 my-1 leading-relaxed">
+        <li key={lineIdx} className="ml-5 list-disc text-zinc-700 dark:text-zinc-300 my-1 leading-relaxed">
           {processedParts}
         </li>
       );
@@ -92,7 +92,7 @@ function formatMarkdown(text: string) {
     }
 
     return (
-      <p key={lineIdx} className="my-1.5 text-zinc-300 leading-relaxed">
+      <p key={lineIdx} className="my-1.5 text-zinc-700 dark:text-zinc-300 leading-relaxed">
         {processedParts}
       </p>
     );
@@ -267,19 +267,19 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     >
       {/* Dimmed Clean Backdrop */}
       <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-200"
+        className="fixed inset-0 bg-black/40 dark:bg-black/70 backdrop-blur-sm transition-opacity duration-200"
         onClick={onClose}
       />
 
       {/* Clean, Normal Centered Window with Lenis Bypass */}
       <div
         data-lenis-prevent="true"
-        className="relative z-10 flex flex-col min-h-0 w-full max-w-2xl h-[600px] max-h-[92vh] sm:h-[580px] sm:max-h-[88vh] rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+        className="relative z-10 flex flex-col min-h-0 w-full max-w-2xl h-[600px] max-h-[92vh] sm:h-[580px] sm:max-h-[88vh] rounded-2xl border border-zinc-200/90 dark:border-white/10 bg-white dark:bg-[#121214] shadow-2xl shadow-black/10 dark:shadow-black/70 overflow-hidden animate-in fade-in zoom-in-95 duration-150"
       >
         
         {/* Minimal Clean Header: Only "Chat" */}
-        <div className="flex items-center justify-between border-b border-white/5 px-4 py-3 bg-[#121214] shrink-0">
-          <span className="text-xs font-medium text-zinc-300 tracking-wide">
+        <div className="flex items-center justify-between border-b border-zinc-200/80 dark:border-white/5 px-4 py-3 bg-white dark:bg-[#121214] shrink-0">
+          <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300 tracking-wide">
             Chat
           </span>
 
@@ -289,7 +289,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
                 type="button"
                 onClick={handleReset}
                 title="New chat"
-                className="inline-flex size-7 items-center justify-center rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+                className="inline-flex size-7 items-center justify-center rounded-md text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/5 transition-colors cursor-pointer"
               >
                 <RotateCcw className="size-3.5" />
               </button>
@@ -298,7 +298,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
               type="button"
               onClick={onClose}
               title="Close"
-              className="inline-flex size-7 items-center justify-center rounded-md text-zinc-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+              className="inline-flex size-7 items-center justify-center rounded-md text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/5 transition-colors cursor-pointer"
             >
               <X className="size-4" />
             </button>
@@ -312,16 +312,16 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
           data-lenis-prevent="true"
           onWheel={(e) => e.stopPropagation()}
           onTouchMove={(e) => e.stopPropagation()}
-          className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent"
+          className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6 scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-700 scrollbar-track-transparent bg-white dark:bg-[#121214]"
           style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}
         >
           {/* Empty State */}
           {messages.length === 0 ? (
             <div className="h-full min-h-[320px] flex flex-col items-center justify-center text-center px-4">
-              <h2 className="text-xl sm:text-2xl font-medium tracking-tight text-white mb-2">
+              <h2 className="text-xl sm:text-2xl font-medium tracking-tight text-zinc-900 dark:text-white mb-2">
                 Hey, ready to dive in?
               </h2>
-              <p className="text-xs sm:text-sm text-zinc-400 max-w-md mb-8">
+              <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 max-w-md mb-8">
                 Ask anything about Daksh&apos;s projects, technical stack, or background.
               </p>
 
@@ -332,7 +332,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
                     key={prompt}
                     type="button"
                     onClick={() => handleSend(prompt)}
-                    className="text-left text-xs text-zinc-300 rounded-xl border border-white/5 bg-white/[0.03] px-3.5 py-2.5 hover:bg-white/[0.07] hover:border-white/10 transition-colors cursor-pointer"
+                    className="text-left text-xs text-zinc-700 bg-zinc-50 border border-zinc-200/90 hover:bg-zinc-100 hover:border-zinc-300 dark:text-zinc-300 dark:border-white/5 dark:bg-white/[0.03] dark:hover:bg-white/[0.07] dark:hover:border-white/10 rounded-xl px-3.5 py-2.5 transition-colors cursor-pointer"
                   >
                     {prompt}
                   </button>
@@ -352,8 +352,8 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
                     <div
                       className={`text-sm leading-relaxed ${
                         isUser
-                          ? "bg-[#27272a] text-white rounded-2xl px-4 py-2.5 max-w-[85%]"
-                          : "text-zinc-200 max-w-[95%] py-1"
+                          ? "bg-zinc-100 text-zinc-900 border border-zinc-200/80 dark:border-transparent dark:bg-[#27272a] dark:text-white rounded-2xl px-4 py-2.5 max-w-[85%]"
+                          : "text-zinc-800 dark:text-zinc-200 max-w-[95%] py-1"
                       }`}
                     >
                       {formatMarkdown(msg.content)}
@@ -435,14 +435,14 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
           )}
         </div>
 
-        {/* Clean, Rounded Input Bar (Zero Blue) */}
-        <div className="p-3 sm:p-4 bg-[#121214] shrink-0 border-t border-white/5">
+        {/* Clean, Rounded Input Bar (Zero Blue, Full Light & Dark Support) */}
+        <div className="p-3 sm:p-4 bg-white dark:bg-[#121214] shrink-0 border-t border-zinc-200/80 dark:border-white/5">
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleSend();
             }}
-            className="flex items-center gap-2 rounded-full border border-white/10 bg-[#212124] px-4 py-1.5 focus-within:border-white/20 transition-all shadow-md"
+            className="flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100/90 dark:border-white/10 dark:bg-[#212124] px-4 py-1.5 focus-within:border-zinc-400 dark:focus-within:border-white/20 transition-all shadow-sm dark:shadow-md"
           >
             <input
               ref={inputRef}
@@ -451,13 +451,13 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask anything about Daksh..."
               disabled={isGenerating}
-              className="flex-1 bg-transparent text-base sm:text-sm text-white placeholder:text-zinc-500 outline-none disabled:opacity-50"
+              className="flex-1 bg-transparent text-base sm:text-sm text-zinc-900 placeholder:text-zinc-400 dark:text-white dark:placeholder:text-zinc-500 outline-none disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={!input.trim() || isGenerating}
               aria-label="Send message"
-              className="inline-flex size-8 items-center justify-center rounded-full bg-white text-black hover:bg-zinc-200 disabled:opacity-30 disabled:hover:bg-white transition-all shrink-0 cursor-pointer disabled:cursor-not-allowed"
+              className="inline-flex size-8 items-center justify-center rounded-full bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 disabled:opacity-30 disabled:hover:bg-zinc-900 dark:disabled:hover:bg-white transition-all shrink-0 cursor-pointer disabled:cursor-not-allowed"
             >
               <ArrowUp className="size-4 stroke-[2.5]" />
             </button>
