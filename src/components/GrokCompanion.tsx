@@ -24,9 +24,44 @@ export function GrokCompanion() {
   const eyesGroupRef = useRef<SVGGElement>(null);
   const headContainerRef = useRef<HTMLDivElement>(null);
 
+  // Cached center coordinates to prevent layout thrashing
+  const centerPosRef = useRef({ x: 0, y: 0 });
+
+  const updateCenter = useCallback(() => {
+    if (!botRef.current) return;
+    const rect = botRef.current.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      centerPosRef.current = {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      };
+    }
+  }, []);
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Update center when mounted and listen for resize and scroll
+  useEffect(() => {
+    if (!mounted) return;
+
+    updateCenter();
+    const t1 = setTimeout(updateCenter, 50);
+    const t2 = setTimeout(updateCenter, 200);
+    const t3 = setTimeout(updateCenter, 700);
+
+    window.addEventListener("resize", updateCenter, { passive: true });
+    window.addEventListener("scroll", updateCenter, { passive: true });
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      window.removeEventListener("resize", updateCenter);
+      window.removeEventListener("scroll", updateCenter);
+    };
+  }, [mounted, updateCenter]);
 
   // Natural eyelid blinking
   const triggerBlink = useCallback(() => {
@@ -51,19 +86,31 @@ export function GrokCompanion() {
     return () => clearTimeout(timeoutId);
   }, [triggerBlink]);
 
-  // Ultra-lightweight cursor eye tracking: live viewport coordinates in RAF (never drops tracking)
+  // Ultra-lightweight cursor eye tracking (zero reflow, 120fps fluid, always tracks)
   useEffect(() => {
     let rafId: number;
 
-    const handlePointerMove = (e: MouseEvent | PointerEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        if (!botRef.current) return;
-        const rect = botRef.current.getBoundingClientRect();
-        if (!rect.width || !rect.height) return;
+        let botCenterX = centerPosRef.current.x;
+        let botCenterY = centerPosRef.current.y;
 
-        const botCenterX = rect.left + rect.width / 2;
-        const botCenterY = rect.top + rect.height / 2;
+        // If not initialized yet, calculate immediately from DOM or bottom-right screen fallback
+        if (!botCenterX || !botCenterY) {
+          if (botRef.current) {
+            const rect = botRef.current.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+              botCenterX = rect.left + rect.width / 2;
+              botCenterY = rect.top + rect.height / 2;
+              centerPosRef.current = { x: botCenterX, y: botCenterY };
+            }
+          }
+          if (!botCenterX || !botCenterY) {
+            botCenterX = window.innerWidth - 56;
+            botCenterY = window.innerHeight - 56;
+          }
+        }
 
         const deltaX = e.clientX - botCenterX;
         const deltaY = e.clientY - botCenterY;
@@ -97,12 +144,9 @@ export function GrokCompanion() {
       });
     };
 
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("mousemove", handlePointerMove, { passive: true });
-
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("mousemove", handlePointerMove);
+      window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(rafId);
     };
   }, []);

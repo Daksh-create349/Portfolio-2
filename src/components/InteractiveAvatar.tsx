@@ -4,18 +4,44 @@ import React, { useEffect, useRef } from "react";
 
 export function InteractiveAvatar() {
   const containerRef = useRef<SVGSVGElement>(null);
+  const centerXRef = useRef(0);
 
-  // Update CSS custom property --look directly via RAF (zero React re-renders, 120fps fluid)
+  // Cache center X on mount, resize, and scroll to prevent layout thrashing
+  useEffect(() => {
+    const updateCenter = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      centerXRef.current = rect.left + rect.width / 2;
+    };
+
+    updateCenter();
+    window.addEventListener("resize", updateCenter, { passive: true });
+    window.addEventListener("scroll", updateCenter, { passive: true });
+
+    return () => {
+      window.removeEventListener("resize", updateCenter);
+      window.removeEventListener("scroll", updateCenter);
+    };
+  }, []);
+
+  // Update CSS custom property --look directly via RAF (zero React re-renders for fluid 120fps)
   useEffect(() => {
     let rafId: number;
 
-    const handlePointerMove = (e: MouseEvent | PointerEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
         if (!containerRef.current) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        if (!rect.width) return;
-        const centerX = rect.left + rect.width / 2;
+        let centerX = centerXRef.current;
+        if (!centerX) {
+          const rect = containerRef.current.getBoundingClientRect();
+          if (rect.width > 0) {
+            centerX = rect.left + rect.width / 2;
+            centerXRef.current = centerX;
+          } else {
+            centerX = window.innerWidth / 2;
+          }
+        }
 
         const deltaX = (e.clientX - centerX) / (window.innerWidth / 2);
         const clampedLook = Math.max(-1, Math.min(1, deltaX));
@@ -23,12 +49,9 @@ export function InteractiveAvatar() {
       });
     };
 
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("mousemove", handlePointerMove, { passive: true });
-
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("mousemove", handlePointerMove);
+      window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(rafId);
     };
   }, []);
