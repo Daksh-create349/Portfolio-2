@@ -7,6 +7,7 @@ const SECTIONS = [
   { id: "work", label: "Works" },
   { id: "opensource", label: "Open Source" },
   { id: "about", label: "Get in touch" },
+  { id: "resume", label: "Curriculum Vitae" },
   { id: "stack", label: "My Stack" },
 ];
 
@@ -47,7 +48,7 @@ export function PreviewRail() {
     <div className="isolate overflow-visible pointer-events-none fixed left-4 top-1/2 z-40 hidden min-h-0 w-80 -translate-y-1/2 min-[1440px]:flex">
       <nav
         aria-label="Sections on this page"
-        style={{ gridTemplateRows: "repeat(5, 28px)" }}
+        style={{ gridTemplateRows: "repeat(6, 28px)" }}
         className="relative z-10 grid shrink-0 w-12 content-center pointer-events-auto"
       >
         {SECTIONS.map((sec) => {

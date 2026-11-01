@@ -8,6 +8,7 @@ import {
   Layers,
   Sun,
   Moon,
+  FileText,
 } from "lucide-react";
 import { GithubIcon } from "./Icons";
 import { CURSOR_COLORS } from "./FigmaCursor";
@@ -55,7 +56,7 @@ export function FloatingHeader({
     // Scroll spy for active item
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const sections = ["home", "work", "opensource", "about", "stack"];
+      const sections = ["home", "work", "opensource", "about", "resume", "stack"];
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el && scrollY >= el.offsetTop - 220) {
@@ -95,6 +96,7 @@ export function FloatingHeader({
     { id: "work", label: "Work", icon: BriefcaseBusiness },
     { id: "opensource", label: "Open Source", icon: GithubIcon },
     { id: "about", label: "About", icon: UserRound },
+    { id: "resume", label: "CV", icon: FileText },
     { id: "stack", label: "Stack", icon: Layers },
   ];
 

@@ -12,6 +12,7 @@ import { InitiativesCarousel } from "@/components/InitiativesCarousel";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { BentoWall } from "@/components/BentoWall";
 import { AboutAndJourneySection } from "@/components/AboutAndJourneySection";
+import { ResumeSection } from "@/components/ResumeSection";
 import { StackSection } from "@/components/StackSection";
 import { Footer } from "@/components/Footer";
 import { ContactModal } from "@/components/ContactModal";
@@ -77,11 +78,14 @@ export default function Home() {
         {/* Section 5: Ask Me Anything, Bio & Academic Journey */}
         <AboutAndJourneySection />
 
-        {/* Section 6: Tech Stack */}
+        {/* Section 6: Interactive Curriculum Vitae & Official Vector Document */}
+        <ResumeSection />
+
+        {/* Section 7: Tech Stack */}
         <StackSection />
       </main>
 
-      {/* Section 7: Footer with Live Mumbai Clock */}
+      {/* Section 8: Footer with Live Mumbai Clock */}
       <Footer />
 
       {/* Interactive Contact & Booking Dialog */}
