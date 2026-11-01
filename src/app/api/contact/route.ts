@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Referer: "https://dakshsportfolio.vercel.app/",
+        Referer: "https://dakshsrivastava.vercel.app/",
       },
       body: JSON.stringify(payload),
     });

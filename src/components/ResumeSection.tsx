@@ -26,7 +26,7 @@ Full-stack Developer & CS Undergraduate · AI-Powered Applications · DevSecOps 
 Mumbai, India | dakshshrivastav56@gmail.com | +91-9588415901
 LinkedIn: linkedin.com/in/daksh-srivastava-2ba851344
 GitHub: github.com/Daksh-create349
-Portfolio: dakshsportfolio.vercel.app
+Portfolio: dakshsrivastava.vercel.app
 
 TECHNICAL SKILLS
 - Languages: Python, JavaScript, TypeScript, SQL, HTML, CSS

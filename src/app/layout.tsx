@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://dakshsportfolio.vercel.app",
+    url: "https://dakshsrivastava.vercel.app",
     title: "Daksh Srivastava — Full-Stack & AI Systems Engineer",
     description:
       "Full-stack Developer & CS Undergraduate. Engineering high-precision AI, Audio DSP, and DevSecOps applications.",
