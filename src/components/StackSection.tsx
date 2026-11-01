@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { TECH_STACK, TechItem } from "@/data/portfolioData";
 import { ScrollReveal } from "./ScrollReveal";
 import {
@@ -23,7 +23,7 @@ import {
   MongoDBLogo,
   FirebaseLogo,
 } from "./TechLogos";
-import { Layers, CheckCircle2, Cpu } from "lucide-react";
+import { Layers, Cpu } from "lucide-react";
 
 const LOGO_COMPONENTS: Record<string, React.ComponentType<{ className?: string }>> = {
   react: ReactLogo,
@@ -46,33 +46,44 @@ const LOGO_COMPONENTS: Record<string, React.ComponentType<{ className?: string }
   firebase: FirebaseLogo,
 };
 
-const STACK_CATEGORIES = [
-  "All",
-  "Frontend",
-  "Backend",
-  "AI / LLM",
-  "Database",
-  "DevOps",
-] as const;
+function StackCard({ tech }: { tech: TechItem }) {
+  const LogoComponent = LOGO_COMPONENTS[tech.logoKey] || Layers;
+
+  return (
+    <div className="group relative flex items-center gap-4 rounded-[24px] border border-border/80 bg-secondary/35 px-5 py-4 min-w-[280px] sm:min-w-[320px] max-w-[340px] h-[92px] sm:h-[100px] backdrop-blur-md transition-all duration-300 hover:bg-secondary/70 hover:border-foreground/30 hover:scale-[1.02] shadow-xs cursor-default select-none shrink-0">
+      {/* Big Crisp Official Vector Logo Container */}
+      <span className="flex size-14 sm:size-15 shrink-0 items-center justify-center rounded-2xl bg-background border border-border/80 p-3 shadow-2xs group-hover:scale-105 group-hover:border-foreground/40 transition-all duration-300">
+        <LogoComponent className="size-full" />
+      </span>
+
+      {/* Tech Details: Name & Category + Role */}
+      <div className="min-w-0 flex-1 space-y-1">
+        <div className="flex items-center justify-between gap-2">
+          <h4 className="font-bold text-base sm:text-lg text-foreground tracking-tight truncate group-hover:text-primary transition-colors">
+            {tech.name}
+          </h4>
+        </div>
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="inline-block px-2.5 py-0.5 rounded-full bg-background border border-border/60 text-[10px] font-mono font-medium text-muted-foreground uppercase tracking-wider shrink-0">
+            {tech.category}
+          </span>
+          <span className="text-[11px] font-mono text-muted-foreground/80 truncate">
+            {tech.proficiency}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function StackSection() {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [hoveredTech, setHoveredTech] = useState<string | null>(null);
+  const mid = Math.ceil(TECH_STACK.length / 2);
+  const row1 = TECH_STACK.slice(0, mid);
+  const row2 = TECH_STACK.slice(mid);
 
-  const filteredStack = TECH_STACK.filter((tech) => {
-    if (activeCategory === "All") return true;
-    if (activeCategory === "Frontend")
-      return tech.category === "Frontend" || tech.category === "Framework" || tech.category === "Styling";
-    if (activeCategory === "Backend")
-      return tech.category === "Backend" || tech.category === "Language" || tech.category === "Audio DSP";
-    if (activeCategory === "AI / LLM")
-      return tech.category === "AI / LLM" || tech.category === "Machine Learning";
-    if (activeCategory === "Database")
-      return tech.category === "Database" || tech.category === "Distributed";
-    if (activeCategory === "DevOps")
-      return tech.category === "DevOps" || tech.category === "DevSecOps" || tech.category === "Geospatial" || tech.category === "Cloud Services";
-    return true;
-  });
+  // Repeat for continuous seamless infinite marquee looping
+  const marqueeRow1 = [...row1, ...row1, ...row1];
+  const marqueeRow2 = [...row2, ...row2, ...row2];
 
   return (
     <section id="stack" aria-labelledby="stack-title" className="overflow-x-clip px-6 md:px-10 py-16">
@@ -104,71 +115,34 @@ export function StackSection() {
               </p>
             </div>
 
-            {/* Filter Pills */}
-            <div role="group" aria-label="Filter technologies" className="flex flex-wrap gap-2">
-              {STACK_CATEGORIES.map((cat) => {
-                const isSelected = activeCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    type="button"
-                    onClick={() => setActiveCategory(cat)}
-                    className={`inline-flex h-9 items-center justify-center rounded-full px-4 text-xs font-medium outline-none transition-all cursor-pointer ${
-                      isSelected
-                        ? "bg-foreground text-background shadow-xs font-semibold"
-                        : "bg-background text-foreground/80 hover:bg-secondary border border-border/70 hover:text-foreground"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                );
-              })}
+            {/* Info Pill */}
+            <div className="flex items-center gap-2">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl border border-border/80 bg-secondary/35 text-xs font-mono text-muted-foreground backdrop-blur-sm">
+                <span className="font-semibold text-foreground">{TECH_STACK.length} Technologies</span>
+                <span>&middot;</span>
+                <span>Hover to pause</span>
+              </div>
             </div>
           </div>
         </ScrollReveal>
       </div>
 
-      {/* Grid of Verified Tech with Real Vector Logos */}
-      <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 px-4 pb-28 pt-8 md:px-10">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {filteredStack.map((tech, idx) => {
-            const LogoComponent = LOGO_COMPONENTS[tech.logoKey] || Layers;
-            const isHovered = hoveredTech === tech.name;
+      {/* Dual Opposing Direction Infinite Marquee */}
+      <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 px-2 pb-28 pt-4 sm:px-6">
+        <div className="relative w-full overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
+          {/* Top Row: Sliding Left */}
+          <div className="flex gap-4 sm:gap-6 animate-marquee-left py-2">
+            {marqueeRow1.map((tech, idx) => (
+              <StackCard key={`row1-${tech.name}-${idx}`} tech={tech} />
+            ))}
+          </div>
 
-            return (
-              <ScrollReveal key={tech.name} delay={idx * 30}>
-                <div
-                  onMouseEnter={() => setHoveredTech(tech.name)}
-                  onMouseLeave={() => setHoveredTech(null)}
-                  className={`group relative flex flex-col justify-between gap-5 rounded-[22px] border p-5 transition-all duration-300 ease-out cursor-default h-full ${
-                    isHovered
-                      ? "bg-background border-foreground/30 -translate-y-2 shadow-xl"
-                      : "bg-secondary/30 border-border/60 hover:bg-secondary/50"
-                  }`}
-                >
-                  {/* Top Bar: Official Vector Logo & Category Badge */}
-                  <div className="flex items-center justify-between">
-                    <span className="flex size-10 items-center justify-center rounded-xl bg-background border border-border/80 p-2 shadow-2xs group-hover:scale-110 transition-transform duration-300">
-                      <LogoComponent className="size-full" />
-                    </span>
-                    <span className="text-[10px] font-mono text-muted-foreground px-2 py-0.5 rounded-full bg-background border border-border/40">
-                      {tech.category}
-                    </span>
-                  </div>
-
-                  {/* Bottom: Name & Proficiency Tag */}
-                  <div className="space-y-1">
-                    <h4 className="font-semibold text-sm text-foreground tracking-tight group-hover:text-primary transition-colors">
-                      {tech.name}
-                    </h4>
-                    <p className="text-[11px] font-mono text-muted-foreground">
-                      {tech.proficiency}
-                    </p>
-                  </div>
-                </div>
-              </ScrollReveal>
-            );
-          })}
+          {/* Bottom Row: Sliding Right */}
+          <div className="flex gap-4 sm:gap-6 animate-marquee-right py-2 mt-2">
+            {marqueeRow2.map((tech, idx) => (
+              <StackCard key={`row2-${tech.name}-${idx}`} tech={tech} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
