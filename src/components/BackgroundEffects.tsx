@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import PatternWaves from "./PatternWaves";
 
 export function BackgroundEffects() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,7 +35,7 @@ export function BackgroundEffects() {
       alpha: number;
     }
 
-    const count = Math.min(Math.floor(width / 50), 28);
+    const count = Math.min(Math.floor(width / 50), 24);
     const particles: Particle[] = [];
 
     for (let i = 0; i < count; i++) {
@@ -77,7 +78,6 @@ export function BackgroundEffects() {
           const dist = dx * dx + dy * dy;
 
           if (dist < 10000) {
-            // dist < 100
             const opacity = (1 - Math.sqrt(dist) / 100) * 0.08;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
@@ -103,7 +103,26 @@ export function BackgroundEffects() {
 
   return (
     <>
-      {/* Top Header Ambient Blur (Single, hardware-accelerated layer) */}
+      {/* Interactive WebGL PatternWaves Ambient Surface across entire portfolio */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-20 overflow-hidden"
+      >
+        <PatternWaves
+          preset="silk"
+          color="#ffffff"
+          backgroundColor="transparent"
+          fade="edges"
+          fadeSize={0.4}
+          opacity={0.16}
+          interactive={true}
+          cursorSize={55}
+          cursorStrength={0.5}
+          speed={0.25}
+        />
+      </div>
+
+      {/* Top Header Ambient Blur */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-x-0 top-0 z-40 h-20 bg-gradient-to-b from-background/80 to-transparent backdrop-blur-md"

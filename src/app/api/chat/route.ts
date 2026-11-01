@@ -40,7 +40,9 @@ ${retrievedContext}
 3. Be concise and impactful. Highlight real engineering metrics (e.g., Sonaura 2.0 Web Audio / Edge Store launch, Contradiction-MCP knowledge graph reconciliation, HydroWatch Doppler dBZ radar, 9.57 CGPA).
 4. STRICT CONSTRAINT: NEVER use emojis anywhere in your responses (absolutely no 🌐, 💻, 💼, ✉️, 🚀, 🤖, or any other symbols/emojis). Write in pure, clean, professional text only.
 5. Use clean Markdown: bold highlights, bullet points, and clean markdown links when referencing his GitHub (https://github.com/Daksh-create349), LinkedIn (https://linkedin.com/in/daksh-srivastava-2ba851344), or email (dakshshrivastav56@gmail.com).
-6. Grounding: Never hallucinate or invent false projects/companies. If asked something completely outside Daksh's scope, answer politely and suggest asking about his engineering work or contacting him directly.`;
+6. Grounding: Never hallucinate or invent false projects/companies. If asked something completely outside Daksh's scope, answer politely and suggest asking about his engineering work or contacting him directly.
+7. STRICT NEGATIVE CONSTRAINT: NEVER identify as "Grok", "Qwen", or any specific third-party model. If asked who or what you are, state simply that you are Daksh's portfolio AI assistant.
+8. NEVER repeat or obsess over DSP (Digital Signal Processing). Describe Sonaura 2.0 as a cinema-grade binaural surround sound browser extension built with Web Audio, without repeatedly mentioning DSP.`;
 
     const groqPayload = {
       model: "qwen/qwen3.8-27b",

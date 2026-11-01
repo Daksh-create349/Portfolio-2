@@ -82,19 +82,21 @@ const MONTH_NAMES = [
 
 export function GithubContributionGraph() {
   const [selectedYear, setSelectedYear] = useState<string>("2026");
-  const [selectedTheme, setSelectedTheme] = useState<keyof typeof THEMES>("monochrome");
+  const [selectedTheme, setSelectedTheme] = useState<keyof typeof THEMES>("emerald");
   const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
   const [activeOnly, setActiveOnly] = useState<boolean>(false);
   const [liveData, setLiveData] = useState(rawContributions);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<string>("Just now");
 
-  // Load user saved theme if any
+  // Load user saved theme if any (default emerald)
   useEffect(() => {
     try {
       const saved = localStorage.getItem("github_palette_theme") as keyof typeof THEMES | null;
-      if (saved && THEMES[saved]) {
+      if (saved && THEMES[saved] && saved !== "monochrome") {
         setSelectedTheme(saved);
+      } else {
+        setSelectedTheme("emerald");
       }
     } catch {}
   }, []);
