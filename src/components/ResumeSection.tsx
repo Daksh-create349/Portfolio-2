@@ -595,3 +595,4 @@ export function ResumeSection() {
     </section>
   );
 }
+
