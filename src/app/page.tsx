@@ -39,7 +39,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground antialiased selection:bg-foreground selection:text-background max-w-full overflow-x-hidden">
+    <div className="relative min-h-screen text-foreground antialiased selection:bg-foreground selection:text-background max-w-full overflow-x-hidden">
       {/* Lenis Smooth Momentum Scrolling */}
       <SmoothScroll />
 
@@ -49,50 +49,53 @@ export default function Home() {
       {/* Signature Site Opener Counter */}
       <SiteLoader />
 
-      {/* Atmospheric Aurora, Particle Nodes, and Glass Blur Masks */}
+      {/* Atmospheric Interactive PatternWaves Background Canvas */}
       <BackgroundEffects />
 
-      {/* Floating Center Dock Navigation with Minimal Cursor Color Selector */}
-      <FloatingHeader
-        onOpenContact={() => setIsContactOpen(true)}
-        cursorColor={cursorColor}
-        onSelectCursorColor={handleSelectCursorColor}
-      />
+      {/* Main Content Layers (z-10 so they float above the interactive WebGL waves) */}
+      <div className="relative z-10">
+        {/* Floating Center Dock Navigation with Minimal Cursor Color Selector */}
+        <FloatingHeader
+          onOpenContact={() => setIsContactOpen(true)}
+          cursorColor={cursorColor}
+          onSelectCursorColor={handleSelectCursorColor}
+        />
 
-      {/* Desktop Left Preview Rail */}
-      <PreviewRail />
+        {/* Desktop Left Preview Rail */}
+        <PreviewRail />
 
-      {/* Main Content Sections */}
-      <main className="relative isolate">
-        {/* Section 1: Hero Section */}
-        <HeroSection onHoldAbout={() => setIsContactOpen(true)} />
+        {/* Main Content Sections */}
+        <main className="relative isolate">
+          {/* Section 1: Hero Section */}
+          <HeroSection onHoldAbout={() => setIsContactOpen(true)} />
 
-        {/* Section 2: Associated Organizations & Initiatives Carousel */}
-        <InitiativesCarousel />
+          {/* Section 2: Associated Organizations & Initiatives Carousel */}
+          <InitiativesCarousel />
 
-        {/* Section 3: Flagship Works & Deep Case Studies */}
-        <ProjectShowcase />
+          {/* Section 3: Flagship Works & Deep Case Studies */}
+          <ProjectShowcase />
 
-        {/* Section 4: Popular GitHub Repositories & Open Source */}
-        <BentoWall />
+          {/* Section 4: Popular GitHub Repositories & Open Source */}
+          <BentoWall />
 
-        {/* Section 5: Ask Me Anything, Bio & Academic Journey */}
-        <AboutAndJourneySection />
+          {/* Section 5: Ask Me Anything, Bio & Academic Journey */}
+          <AboutAndJourneySection />
 
-        {/* Section 6: Interactive Curriculum Vitae & Official Vector Document */}
-        <ResumeSection />
+          {/* Section 6: Interactive Curriculum Vitae & Official Vector Document */}
+          <ResumeSection />
 
-        {/* Section 7: Tech Stack */}
-        <StackSection />
-      </main>
+          {/* Section 7: Tech Stack */}
+          <StackSection />
+        </main>
 
-      {/* Section 8: Footer with Live Mumbai Clock */}
-      <Footer />
+        {/* Section 8: Footer with Live Mumbai Clock */}
+        <Footer />
+      </div>
 
       {/* Interactive Contact & Booking Dialog */}
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
 
-      {/* Interactive Grok Companion */}
+      {/* Interactive Companion Bot */}
       <GrokCompanion />
     </div>
   );

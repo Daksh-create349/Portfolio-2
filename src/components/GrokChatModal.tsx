@@ -104,7 +104,8 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [thinkingBlink, setThinkingBlink] = useState(1);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const userScrolledUpRef = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Focus input when opened
@@ -125,6 +126,14 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
+  // Track if user manually scrolled up
+  const handleScrollAreaScroll = () => {
+    if (!scrollAreaRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current;
+    const isNearBottom = scrollHeight - scrollTop - clientHeight < 70;
+    userScrolledUpRef.current = !isNearBottom;
+  };
+
   // Blink the mini bot while thinking
   useEffect(() => {
     if (!isGenerating) return;
@@ -135,10 +144,10 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     return () => clearInterval(interval);
   }, [isGenerating]);
 
-  // Scroll to bottom on new content
+  // Scroll to bottom only if user hasn't scrolled up
   useEffect(() => {
-    if (isOpen) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (isOpen && !userScrolledUpRef.current && scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
   }, [messages, isGenerating, isOpen]);
 
@@ -146,6 +155,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     const textToSend = (userText || input).trim();
     if (!textToSend || isGenerating) return;
 
+    userScrolledUpRef.current = false;
     setInput("");
     const userMsgId = `user-${Date.now()}`;
     const botMsgId = `assistant-${Date.now()}`;
@@ -240,6 +250,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
     <div
       role="dialog"
       aria-modal="true"
+      data-lenis-prevent="true"
       className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-6"
     >
       {/* Dimmed Clean Backdrop */}
@@ -249,7 +260,10 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
       />
 
       {/* Clean, Normal Centered Window */}
-      <div className="relative z-10 flex flex-col w-full max-w-2xl h-[600px] max-h-[92vh] sm:h-[580px] sm:max-h-[88vh] rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      <div
+        data-lenis-prevent="true"
+        className="relative z-10 flex flex-col w-full max-w-2xl h-[600px] max-h-[92vh] sm:h-[580px] sm:max-h-[88vh] rounded-2xl border border-white/10 bg-[#121214] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+      >
         
         {/* Minimal Clean Header: Only "Chat" */}
         <div className="flex items-center justify-between border-b border-white/5 px-4 py-3 bg-[#121214]">
@@ -279,8 +293,13 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
           </div>
         </div>
 
-        {/* Conversation Area */}
-        <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+        {/* Conversation Area with isolated smooth scrolling */}
+        <div
+          ref={scrollAreaRef}
+          onScroll={handleScrollAreaScroll}
+          data-lenis-prevent="true"
+          className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-6 sm:px-6"
+        >
           {/* Empty State */}
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center px-4">
@@ -397,8 +416,6 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
                   </div>
                 </div>
               )}
-
-              <div ref={messagesEndRef} />
             </div>
           )}
         </div>
