@@ -154,3 +154,4 @@ export function FloatingHeader({ onOpenContact }: FloatingHeaderProps) {
     </header>
   );
 }
+

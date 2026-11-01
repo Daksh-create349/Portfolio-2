@@ -339,3 +339,4 @@ export const TECH_STACK = [
   { name: "MongoDB", category: "Database", icon: "🍃" },
   { name: "Firebase", category: "Cloud Services", icon: "🔥" },
 ];
+

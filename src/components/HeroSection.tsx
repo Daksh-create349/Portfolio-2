@@ -5,10 +5,10 @@ import { ArrowUpRight } from "lucide-react";
 import { InteractiveAvatar } from "./InteractiveAvatar";
 
 const TITLES = [
-  "Full-Stack Developer",
-  "AI Systems Engineer",
-  "DevSecOps Specialist",
-  "Geospatial AI Builder",
+  { line1: "Full-Stack", line2: "Developer" },
+  { line1: "AI Systems", line2: "Engineer" },
+  { line1: "DevSecOps", line2: "Specialist" },
+  { line1: "Geospatial AI", line2: "Builder" },
 ];
 
 const ACCORDIONS = [
@@ -84,37 +84,44 @@ export function HeroSection({ onHoldAbout }: HeroSectionProps) {
   return (
     <section
       id="home"
-      className="mx-auto grid min-h-svh w-full max-w-7xl items-center gap-10 px-6 pb-16 pt-32 md:px-10 lg:grid-cols-[minmax(0,1.1fr)_auto_minmax(0,1.1fr)] lg:gap-14"
+      className="mx-auto grid min-h-svh w-full max-w-7xl items-center gap-10 px-6 pb-16 pt-28 md:px-10 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-14"
     >
       {/* Left Column: Rotating Title & CTA */}
-      <div className="flex flex-col items-start gap-8">
+      <div className="flex flex-col items-start gap-8 min-w-0">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-foreground/10 bg-secondary/50 text-xs font-mono text-muted-foreground">
           <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
           <span>Available for AI &amp; Software Roles · Mumbai</span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight">
-          <span className="block text-muted-foreground font-normal text-2xl sm:text-3xl mb-2">
+        <div className="space-y-2">
+          <p className="text-xl sm:text-2xl font-mono text-muted-foreground font-normal">
             Daksh Srivastava
-          </span>
-          <span className="relative block h-[1.3em] overflow-hidden">
-            {TITLES.map((title, idx) => {
-              const isCurrent = idx === currentTitleIndex;
-              return (
-                <span
-                  key={title}
-                  className={`absolute left-0 top-0 whitespace-nowrap transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    isCurrent
-                      ? "opacity-100 translate-y-0 filter-none"
-                      : "opacity-0 -translate-y-8 blur-sm pointer-events-none"
-                  }`}
-                >
-                  {title}
-                </span>
-              );
-            })}
-          </span>
-        </h1>
+          </p>
+
+          <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-semibold leading-[1.05] tracking-tight">
+            <span className="sr-only">
+              Full-Stack Developer, AI Systems Engineer, DevSecOps Specialist, Geospatial AI Builder
+            </span>
+            <span aria-hidden="true" className="grid">
+              {TITLES.map((t, idx) => {
+                const isCurrent = idx === currentTitleIndex;
+                return (
+                  <span
+                    key={`${t.line1}-${t.line2}`}
+                    className={`col-start-1 row-start-1 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                      isCurrent
+                        ? "opacity-100 translate-y-0 filter-none"
+                        : "opacity-0 -translate-y-8 blur-sm pointer-events-none"
+                    }`}
+                  >
+                    <span className="block whitespace-nowrap">{t.line1}</span>
+                    <span className="block whitespace-nowrap text-foreground/90">{t.line2}</span>
+                  </span>
+                );
+              })}
+            </span>
+          </h1>
+        </div>
 
         <div className="flex flex-wrap items-center gap-3">
           {/* Liquid "About me" Hold Button */}

@@ -44,7 +44,7 @@ export function PreviewRail() {
   };
 
   return (
-    <div className="isolate overflow-visible pointer-events-none fixed left-3 top-1/2 z-40 hidden min-h-0 w-80 -translate-y-1/2 min-[1360px]:flex">
+    <div className="isolate overflow-visible pointer-events-none fixed left-4 top-1/2 z-40 hidden min-h-0 w-80 -translate-y-1/2 min-[1440px]:flex">
       <nav
         aria-label="Sections on this page"
         style={{ gridTemplateRows: "repeat(5, 28px)" }}
@@ -71,19 +71,15 @@ export function PreviewRail() {
                   isActive
                     ? "w-12 text-foreground font-semibold"
                     : isHovered
-                    ? "w-9 text-foreground"
-                    : "w-5 text-muted-foreground/60"
+                    ? "w-8 text-foreground"
+                    : "w-4 text-muted-foreground/40"
                 }`}
               />
 
-              {/* Tooltip on hover / active */}
-              {(isHovered || isActive) && (
+              {/* Tooltip on hover only */}
+              {isHovered && (
                 <span
-                  className={`pointer-events-none absolute left-14 whitespace-nowrap font-mono text-xs tracking-wide px-2 py-0.5 rounded transition-all duration-200 ${
-                    isActive
-                      ? "text-foreground font-medium opacity-100 translate-x-0"
-                      : "text-muted-foreground opacity-80 translate-x-0"
-                  }`}
+                  className="pointer-events-none absolute left-14 whitespace-nowrap font-mono text-xs tracking-wide px-2 py-0.5 rounded bg-background/90 border border-border shadow-sm text-foreground transition-all duration-200"
                 >
                   {sec.label}
                 </span>
