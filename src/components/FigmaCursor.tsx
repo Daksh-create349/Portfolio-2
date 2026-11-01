@@ -97,31 +97,31 @@ export function FigmaCursor() {
     >
       <div
         className={`relative flex items-start transition-transform duration-150 ease-out ${
-          isMouseDown ? "scale-90" : isHoveringClickable ? "scale-105" : "scale-100"
+          isMouseDown ? "scale-95" : isHoveringClickable ? "scale-110" : "scale-100"
         }`}
       >
-        {/* Iconic Figma Cursor Arrow */}
+        {/* Iconic Figma Cursor Arrow (Enlarged) */}
         <svg
-          width="20"
-          height="20"
+          width="26"
+          height="26"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="drop-shadow-[0_2px_4px_rgba(0,0,0,0.35)]"
+          className="drop-shadow-[0_3px_6px_rgba(0,0,0,0.4)]"
         >
           <path
             d="M5.65376 12.3673H5.46026L5.31717 12.4976L0.500002 16.8829L0.500002 1.19841L11.7841 12.3673H5.65376Z"
             fill="#0D99FF"
             stroke="#FFFFFF"
-            strokeWidth="1.5"
+            strokeWidth="1.8"
             strokeLinejoin="round"
           />
         </svg>
 
-        {/* Figma Multiplayer User Name Tag */}
-        <div className="ml-1 -mt-1 flex items-center gap-1.5 rounded-full bg-[#0D99FF] px-2.5 py-0.5 text-[11px] font-semibold tracking-tight text-white shadow-[0_2px_8px_rgba(13,153,255,0.4)] border border-white/30 whitespace-nowrap">
-          <span className="size-1.5 rounded-full bg-white animate-pulse" />
-          <span className="font-mono text-[10px] leading-tight">{actionLabel}</span>
+        {/* Figma Multiplayer User Name Tag (Enlarged) */}
+        <div className="ml-1.5 -mt-0.5 flex items-center gap-1.5 rounded-full bg-[#0D99FF] px-3 py-1 text-xs font-semibold tracking-tight text-white shadow-[0_2px_10px_rgba(13,153,255,0.45)] border border-white/35 whitespace-nowrap">
+          <span className="size-2 rounded-full bg-white animate-pulse" />
+          <span className="font-mono text-[11px] font-medium leading-none">{actionLabel}</span>
         </div>
       </div>
     </div>
