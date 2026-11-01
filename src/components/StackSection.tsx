@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { TECH_STACK, TechItem } from "@/data/portfolioData";
 import { ScrollReveal } from "./ScrollReveal";
 import {
@@ -46,31 +46,100 @@ const LOGO_COMPONENTS: Record<string, React.ComponentType<{ className?: string }
   firebase: FirebaseLogo,
 };
 
-function StackCard({ tech }: { tech: TechItem }) {
-  const LogoComponent = LOGO_COMPONENTS[tech.logoKey] || Layers;
+interface MarqueeStripProps {
+  items: TechItem[];
+  direction?: "left" | "right";
+}
+
+function MarqueeStrip({ items, direction = "left" }: MarqueeStripProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const offsetRef = useRef(0);
+  const speedRef = useRef(direction === "left" ? 1.05 : -1.05);
+  const targetSpeedRef = useRef(direction === "left" ? 1.05 : -1.05);
+
+  // Smoothly slow down on hover (from normal 1.05 to gentle 0.22)
+  useEffect(() => {
+    const baseSpeed = direction === "left" ? 1.05 : -1.05;
+    targetSpeedRef.current = isHovered ? baseSpeed * 0.2 : baseSpeed;
+  }, [isHovered, direction]);
+
+  useEffect(() => {
+    let animId: number;
+
+    const loop = () => {
+      // Smooth interpolation for inertia deceleration / acceleration
+      speedRef.current += (targetSpeedRef.current - speedRef.current) * 0.05;
+      offsetRef.current += speedRef.current;
+
+      if (contentRef.current) {
+        const halfWidth = contentRef.current.scrollWidth / 2;
+        if (halfWidth > 0) {
+          if (offsetRef.current >= halfWidth) {
+            offsetRef.current -= halfWidth;
+          } else if (offsetRef.current < 0) {
+            offsetRef.current += halfWidth;
+          }
+          contentRef.current.style.transform = `translate3d(${-offsetRef.current}px, 0, 0)`;
+        }
+      }
+
+      animId = requestAnimationFrame(loop);
+    };
+
+    animId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  // Repeat for continuous seamless wrapping
+  const repeatedItems = [...items, ...items, ...items, ...items];
 
   return (
-    <div className="group relative flex items-center gap-4 rounded-[24px] border border-border/80 bg-secondary/35 px-5 py-4 min-w-[280px] sm:min-w-[320px] max-w-[340px] h-[92px] sm:h-[100px] backdrop-blur-md transition-all duration-300 hover:bg-secondary/70 hover:border-foreground/30 hover:scale-[1.02] shadow-xs cursor-default select-none shrink-0">
-      {/* Big Crisp Official Vector Logo Container */}
-      <span className="flex size-14 sm:size-15 shrink-0 items-center justify-center rounded-2xl bg-background border border-border/80 p-3 shadow-2xs group-hover:scale-105 group-hover:border-foreground/40 transition-all duration-300">
-        <LogoComponent className="size-full" />
-      </span>
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative w-full overflow-hidden border-y border-border/60 bg-secondary/20 py-4.5 sm:py-5.5 select-none [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+    >
+      <div
+        ref={contentRef}
+        className="flex items-center gap-10 sm:gap-14 w-max will-change-transform py-1"
+      >
+        {repeatedItems.map((tech, idx) => {
+          const LogoComponent = LOGO_COMPONENTS[tech.logoKey] || Layers;
 
-      {/* Tech Details: Name & Category + Role */}
-      <div className="min-w-0 flex-1 space-y-1">
-        <div className="flex items-center justify-between gap-2">
-          <h4 className="font-bold text-base sm:text-lg text-foreground tracking-tight truncate group-hover:text-primary transition-colors">
-            {tech.name}
-          </h4>
-        </div>
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="inline-block px-2.5 py-0.5 rounded-full bg-background border border-border/60 text-[10px] font-mono font-medium text-muted-foreground uppercase tracking-wider shrink-0">
-            {tech.category}
-          </span>
-          <span className="text-[11px] font-mono text-muted-foreground/80 truncate">
-            {tech.proficiency}
-          </span>
-        </div>
+          return (
+            <div
+              key={`${tech.name}-${idx}`}
+              className="flex items-center gap-4.5 shrink-0 group transition-opacity duration-200"
+            >
+              {/* Big, Crisp Authentic Brand Logo */}
+              <span className="flex size-10 sm:size-12 shrink-0 items-center justify-center group-hover:scale-115 transition-transform duration-300">
+                <LogoComponent className="size-full" />
+              </span>
+
+              {/* Typography: Bold Name and Subtext */}
+              <div className="flex items-baseline gap-2.5">
+                <span className="font-bold text-lg sm:text-2xl text-foreground tracking-tight whitespace-nowrap group-hover:text-primary transition-colors">
+                  {tech.name}
+                </span>
+                <span className="text-xs sm:text-sm font-mono text-muted-foreground/80 whitespace-nowrap">
+                  {tech.category}
+                </span>
+                <span className="text-[11px] font-mono text-muted-foreground/50 hidden sm:inline whitespace-nowrap">
+                  &middot; {tech.proficiency}
+                </span>
+              </div>
+
+              {/* Strip Divider */}
+              <span
+                className="text-foreground/20 font-mono text-lg ml-6 sm:ml-8"
+                aria-hidden="true"
+              >
+                &middot;
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -80,10 +149,6 @@ export function StackSection() {
   const mid = Math.ceil(TECH_STACK.length / 2);
   const row1 = TECH_STACK.slice(0, mid);
   const row2 = TECH_STACK.slice(mid);
-
-  // Repeat for continuous seamless infinite marquee looping
-  const marqueeRow1 = [...row1, ...row1, ...row1];
-  const marqueeRow2 = [...row2, ...row2, ...row2];
 
   return (
     <section id="stack" aria-labelledby="stack-title" className="overflow-x-clip px-6 md:px-10 py-16">
@@ -100,49 +165,30 @@ export function StackSection() {
         </div>
 
         {/* Section Header */}
-        <ScrollReveal className="px-4 pb-10 pt-20 md:px-10 lg:pt-28">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground">
-                <Cpu className="size-3.5 text-blue-500" />
-                <span>Verified Tooling &amp; SDKs</span>
-              </div>
-              <h2 id="stack-title" className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
-                My Stack.
-              </h2>
-              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
-                Official languages, distributed databases, cloud orchestration, and AI model SDKs used in daily engineering and production releases.
-              </p>
+        <ScrollReveal className="px-4 pb-12 pt-20 md:px-10 lg:pt-28">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground">
+              <Cpu className="size-3.5 text-blue-500" />
+              <span>Verified Tooling &amp; SDKs</span>
             </div>
-
-            {/* Info Pill */}
-            <div className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl border border-border/80 bg-secondary/35 text-xs font-mono text-muted-foreground backdrop-blur-sm">
-                <span className="font-semibold text-foreground">{TECH_STACK.length} Technologies</span>
-                <span>&middot;</span>
-                <span>Hover to pause</span>
-              </div>
-            </div>
+            <h2 id="stack-title" className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
+              My Stack.
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
+              Official languages, distributed databases, cloud orchestration, and AI model SDKs used in daily engineering and production releases.
+            </p>
           </div>
         </ScrollReveal>
       </div>
 
-      {/* Dual Opposing Direction Infinite Marquee */}
-      <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 px-2 pb-28 pt-4 sm:px-6">
-        <div className="relative w-full overflow-hidden py-4 [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
-          {/* Top Row: Sliding Left */}
-          <div className="flex gap-4 sm:gap-6 animate-marquee-left py-2">
-            {marqueeRow1.map((tech, idx) => (
-              <StackCard key={`row1-${tech.name}-${idx}`} tech={tech} />
-            ))}
-          </div>
+      {/* Dual Continuous Opposing Marquee Strips */}
+      <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 pb-28 pt-2">
+        <div className="space-y-4">
+          {/* Strip 1: Moving Left */}
+          <MarqueeStrip items={row1} direction="left" />
 
-          {/* Bottom Row: Sliding Right */}
-          <div className="flex gap-4 sm:gap-6 animate-marquee-right py-2 mt-2">
-            {marqueeRow2.map((tech, idx) => (
-              <StackCard key={`row2-${tech.name}-${idx}`} tech={tech} />
-            ))}
-          </div>
+          {/* Strip 2: Half below moving Right */}
+          <MarqueeStrip items={row2} direction="right" />
         </div>
       </div>
     </section>
