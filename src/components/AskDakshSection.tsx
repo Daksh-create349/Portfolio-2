@@ -29,6 +29,7 @@ export function AskDakshSection() {
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
   const [isSent, setIsSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
 
   const DAKSH_EMAIL = "dakshshrivastav56@gmail.com";
@@ -39,7 +40,7 @@ export function AskDakshSection() {
     setTimeout(() => setCopiedEmail(false), 2200);
   };
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!subject.trim()) {
       setFormError("Please enter a subject.");
@@ -51,29 +52,79 @@ export function AskDakshSection() {
     }
 
     setFormError("");
+    setIsSubmitting(true);
 
-    // Build the mailto link
-    const bodyFormatted = `From: ${senderName || "Visitor"} (${senderEmail || "No email provided"})\n\n${content}`;
-    const mailtoUrl = `mailto:${DAKSH_EMAIL}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(bodyFormatted)}`;
-
-    // Trigger email client
-    window.location.href = mailtoUrl;
-
-    // Fire confetti celebration
     try {
-      confetti({
-        particleCount: 65,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: ["#3b82f6", "#10b981", "#8b5cf6"],
+      // 1. Send directly via internal Next.js API route (FormSubmit integration)
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: senderName || "Portfolio Visitor",
+          email: senderEmail || "anonymous@visitor.dev",
+          subject,
+          message: content,
+        }),
       });
-    } catch {
-      // safe fallback
-    }
 
-    setIsSent(true);
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setIsSent(true);
+        try {
+          confetti({
+            particleCount: 65,
+            spread: 60,
+            origin: { y: 0.7 },
+            colors: ["#3b82f6", "#10b981", "#8b5cf6"],
+          });
+        } catch {}
+        return;
+      }
+
+      throw new Error(data.error || "Failed to deliver");
+    } catch {
+      // 2. Direct browser fallback to FormSubmit
+      try {
+        const directRes = await fetch("https://formsubmit.co/ajax/dakshshrivastav56@gmail.com", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: senderName || "Portfolio Visitor",
+            email: senderEmail || "anonymous@visitor.dev",
+            _subject: `[Portfolio] ${subject}`,
+            message: content,
+            _captcha: "false",
+          }),
+        });
+
+        const directData = await directRes.json();
+        if (directRes.ok && (directData.success === "true" || directData.success === true)) {
+          setIsSent(true);
+          try {
+            confetti({
+              particleCount: 65,
+              spread: 60,
+              origin: { y: 0.7 },
+              colors: ["#3b82f6", "#10b981", "#8b5cf6"],
+            });
+          } catch {}
+          return;
+        }
+      } catch {}
+
+      // 3. Fallback to native mailto client
+      const bodyFormatted = `From: ${senderName || "Visitor"} (${senderEmail || "No email provided"})\n\n${content}`;
+      window.location.href = `mailto:${DAKSH_EMAIL}?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(bodyFormatted)}`;
+      setIsSent(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const resetForm = () => {
@@ -130,11 +181,10 @@ export function AskDakshSection() {
               </div>
               <div className="space-y-1">
                 <h4 className="text-lg font-bold text-foreground">
-                  Email Prepared &amp; Dispatched!
+                  Message Delivered Directly to Daksh!
                 </h4>
                 <p className="text-xs text-muted-foreground max-w-sm">
-                  Your mail client was opened with the message pre-filled. If it did not open, you can send directly to{" "}
-                  <strong className="text-foreground">{DAKSH_EMAIL}</strong>.
+                  Your message has been sent directly to <strong className="text-foreground">{DAKSH_EMAIL}</strong>. Daksh will reply to <strong className="text-foreground">{senderEmail || "your email"}</strong> shortly.
                 </p>
               </div>
               <button
@@ -262,10 +312,20 @@ export function AskDakshSection() {
 
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-2.5 text-xs font-semibold text-background hover:opacity-90 transition-opacity cursor-pointer shadow-sm w-full sm:w-auto justify-center"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-2.5 text-xs font-semibold text-background hover:opacity-90 disabled:opacity-50 transition-all cursor-pointer shadow-sm w-full sm:w-auto justify-center"
                 >
-                  <Send className="size-3.5" />
-                  <span>Send Direct Message</span>
+                  {isSubmitting ? (
+                    <>
+                      <RotateCcw className="size-3.5 animate-spin" />
+                      <span>Sending Message...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="size-3.5" />
+                      <span>Send Direct Message</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>

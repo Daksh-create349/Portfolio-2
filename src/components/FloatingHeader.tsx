@@ -17,7 +17,7 @@ interface FloatingHeaderProps {
 
 export function FloatingHeader({ onOpenContact }: FloatingHeaderProps) {
   const [activeItem, setActiveItem] = useState("home");
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     // Check initial theme
