@@ -24,29 +24,8 @@ export function GrokCompanion() {
   const eyesGroupRef = useRef<SVGGElement>(null);
   const headContainerRef = useRef<HTMLDivElement>(null);
 
-  // Cached center coordinates to prevent layout thrashing (zero getBoundingClientRect in mousemove)
-  const centerPosRef = useRef({ x: 0, y: 0 });
-
   useEffect(() => {
     setMounted(true);
-
-    const updateCenter = () => {
-      if (!botRef.current) return;
-      const rect = botRef.current.getBoundingClientRect();
-      centerPosRef.current = {
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2,
-      };
-    };
-
-    updateCenter();
-    window.addEventListener("resize", updateCenter, { passive: true });
-    window.addEventListener("scroll", updateCenter, { passive: true });
-
-    return () => {
-      window.removeEventListener("resize", updateCenter);
-      window.removeEventListener("scroll", updateCenter);
-    };
   }, []);
 
   // Natural eyelid blinking
@@ -72,16 +51,19 @@ export function GrokCompanion() {
     return () => clearTimeout(timeoutId);
   }, [triggerBlink]);
 
-  // Ultra-lightweight cursor eye tracking (zero reflow, 120fps fluid)
+  // Ultra-lightweight cursor eye tracking: live viewport coordinates in RAF (never drops tracking)
   useEffect(() => {
     let rafId: number;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handlePointerMove = (e: MouseEvent | PointerEvent) => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        const botCenterX = centerPosRef.current.x;
-        const botCenterY = centerPosRef.current.y;
-        if (!botCenterX && !botCenterY) return;
+        if (!botRef.current) return;
+        const rect = botRef.current.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+
+        const botCenterX = rect.left + rect.width / 2;
+        const botCenterY = rect.top + rect.height / 2;
 
         const deltaX = e.clientX - botCenterX;
         const deltaY = e.clientY - botCenterY;
@@ -115,9 +97,12 @@ export function GrokCompanion() {
       });
     };
 
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("mousemove", handlePointerMove, { passive: true });
+
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("mousemove", handlePointerMove);
       cancelAnimationFrame(rafId);
     };
   }, []);
