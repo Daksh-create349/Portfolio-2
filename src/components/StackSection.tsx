@@ -182,33 +182,46 @@ function MarqueeStrip({ items, direction = "left", startOffsetAlternate = false 
 
 export function StackSection() {
   return (
-    <section id="stack" aria-labelledby="stack-title" className="overflow-x-clip px-4 sm:px-6 md:px-10 py-16">
-      <div className="mx-auto w-full max-w-[1240px]">
-        {/* Editorial Top Eyebrow with Signature Figma Blue Accent Square & Hairline Rule */}
-        <ScrollReveal className="pb-6">
-          <div className="flex items-center gap-2.5">
-            <span className="size-2 bg-[#0D99FF] inline-block shrink-0" aria-hidden="true" />
+    <section id="stack" aria-labelledby="stack-title" className="overflow-x-clip px-6 md:px-10 py-16">
+      <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5">
+        {/* Top Decorative Line with Dot Caps */}
+        <div aria-hidden="true" className="pointer-events-none relative h-px">
+          <div className="absolute -inset-x-[129px] top-0 h-px bg-foreground/10" />
+          <span className="absolute top-0 grid size-5 -translate-y-1/2 place-items-center rounded-full bg-background left-0 -translate-x-1/2">
+            <span className="size-1 rounded-full bg-foreground" />
+          </span>
+          <span className="absolute top-0 grid size-5 -translate-y-1/2 place-items-center rounded-full bg-background right-0 translate-x-1/2">
+            <span className="size-1 rounded-full bg-foreground" />
+          </span>
+        </div>
+
+        {/* Section Header */}
+        <ScrollReveal className="flex flex-col gap-6 px-4 pb-12 pt-20 md:px-10 lg:pt-28">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground">
+              <Layers className="size-3.5 text-blue-500" />
+              <span>Toolchains &amp; Systems</span>
+            </div>
             <h2
               id="stack-title"
-              className="font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground font-semibold"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground"
             >
-              THE STACK
+              The Stack.
             </h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
+              Production languages, distributed runtimes, and engineering primitives leveraged across real-time AI, geospatial analysis, and forensic systems.
+            </p>
           </div>
-          <div className="mt-4 h-px w-full bg-border/70" aria-hidden="true" />
         </ScrollReveal>
 
         {/* Dual Opposing Continuous Infinite Marquee Strips */}
-        <div className="py-2 space-y-2 sm:space-y-4">
+        <div className="py-4 space-y-4 sm:space-y-6 pb-20">
           {/* Row 1: Moving Left */}
           <MarqueeStrip items={ROW_ONE} direction="left" />
 
           {/* Row 2: Moving Right with Alternating Diamond Offset */}
           <MarqueeStrip items={ROW_TWO} direction="right" startOffsetAlternate />
         </div>
-
-        {/* Bottom Hairline Rule */}
-        <div className="mt-4 h-px w-full bg-border/70" aria-hidden="true" />
       </div>
     </section>
   );

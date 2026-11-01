@@ -8,7 +8,7 @@ const SECTIONS = [
   { id: "opensource", label: "Open Source" },
   { id: "about", label: "Get in touch" },
   { id: "resume", label: "Curriculum Vitae" },
-  { id: "stack", label: "My Stack" },
+  { id: "stack", label: "The Stack" },
 ];
 
 export function PreviewRail() {

@@ -22,7 +22,7 @@ export function InitiativesCarousel() {
 
   return (
     <section aria-label="Led impactful initiatives at" className="overflow-x-clip px-6 md:px-10">
-      <div className="mx-auto w-full max-w-[1176px] border-x border-foreground/5 py-6">
+      <div className="mx-auto w-full max-w-[1240px] border-x border-foreground/5 py-6">
         {/* Decorative Divider Line with Dot Caps */}
         <div aria-hidden="true" className="pointer-events-none relative h-px">
           <div className="absolute -inset-x-[129px] top-0 h-px bg-foreground/10" />

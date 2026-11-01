@@ -33,13 +33,19 @@ export function AboutAndJourneySection() {
           </span>
         </div>
 
-        <ScrollReveal className="px-4 pb-8 pt-20 md:px-10 lg:pt-28">
-          <h2 id="about-title" className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
-            Get in touch.
-          </h2>
-          <p className="text-base sm:text-lg text-muted-foreground mt-3 max-w-2xl">
-            Send a direct message to my personal inbox or explore my engineering background, university achievements, and milestones.
-          </p>
+        <ScrollReveal className="flex flex-col gap-6 px-4 pb-12 pt-20 md:px-10 lg:pt-28">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/80 bg-secondary/50 text-xs font-mono text-muted-foreground">
+              <Sparkles className="size-3.5 text-blue-500" />
+              <span>Direct Channel &amp; Story</span>
+            </div>
+            <h2 id="about-title" className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
+              Get in touch.
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl">
+              Send a direct message to my personal inbox or explore my engineering background, university achievements, and milestones.
+            </p>
+          </div>
         </ScrollReveal>
       </div>
 
