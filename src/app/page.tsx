@@ -16,6 +16,7 @@ import { ResumeSection } from "@/components/ResumeSection";
 import { StackSection } from "@/components/StackSection";
 import { Footer } from "@/components/Footer";
 import { ContactModal } from "@/components/ContactModal";
+import { GrokCompanion } from "@/components/GrokCompanion";
 
 export default function Home() {
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -90,6 +91,9 @@ export default function Home() {
 
       {/* Interactive Contact & Booking Dialog */}
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+
+      {/* Interactive Grok Companion */}
+      <GrokCompanion />
     </div>
   );
 }
