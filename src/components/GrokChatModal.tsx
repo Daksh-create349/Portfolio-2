@@ -21,6 +21,65 @@ const STARTER_PROMPTS = [
   "How can I contact or hire Daksh?",
 ];
 
+const CLAUDE_THINKING_VERBS = [
+  "Flummoxing…",
+  "Discombobulating…",
+  "Lollygagging…",
+  "Prestidigitating…",
+  "Razzle-dazzling…",
+  "Whatchamacalliting…",
+  "Hullaballooing…",
+  "Tomfoolering…",
+];
+
+function ThinkingTypewriter() {
+  const [verbs] = useState(() => {
+    return [...CLAUDE_THINKING_VERBS].sort(() => Math.random() - 0.5);
+  });
+  const [index, setIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentWord = verbs[index % verbs.length];
+    let timer: NodeJS.Timeout;
+
+    if (!isDeleting) {
+      if (displayedText.length < currentWord.length) {
+        // Slow typeout: 85ms per character
+        timer = setTimeout(() => {
+          setDisplayedText(currentWord.slice(0, displayedText.length + 1));
+        }, 85);
+      } else {
+        // Full word typed: pause so user can comfortably read it
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 1100);
+      }
+    } else {
+      if (displayedText.length > 0) {
+        // Backspacing: 40ms per character
+        timer = setTimeout(() => {
+          setDisplayedText(currentWord.slice(0, displayedText.length - 1));
+        }, 40);
+      } else {
+        // Word cleared: cycle to next verb
+        setIsDeleting(false);
+        setIndex((prev) => (prev + 1) % verbs.length);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [displayedText, isDeleting, index, verbs]);
+
+  return (
+    <span className="inline-flex items-center text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 font-normal tracking-normal select-none">
+      <span>{displayedText}</span>
+      <span className="inline-block w-1.5 h-3.5 ml-1 bg-zinc-400 dark:bg-zinc-500 animate-pulse align-middle rounded-xs" />
+    </span>
+  );
+}
+
 // Helper to format clean text with bold, bullet points, and markdown links (zero emojis, zero blue)
 function formatMarkdown(text: string) {
   const cleanText = text.replace(
@@ -103,6 +162,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
   const [thinkingBlink, setThinkingBlink] = useState(1);
   const conversationRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -178,6 +238,10 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
 
     setMessages(newMessages);
     setIsGenerating(true);
+    setIsThinking(true);
+
+    const minThinkingTime = 3200; // ~3.2s suspenseful delay so user experiences the Claude-style typewriter
+    const startTime = Date.now();
 
     try {
       const response = await fetch("/api/chat", {
@@ -195,46 +259,91 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
         throw new Error(`Chat error (${response.status})`);
       }
 
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedText = "";
+      let buffer = "";
+      let streamEnded = false;
+
+      // Start stream consumption in background while thinking delay ticks
+      const streamPromise = (async () => {
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split("\n");
+            buffer = lines.pop() || "";
+
+            for (const line of lines) {
+              const trimmed = line.trim();
+              if (!trimmed.startsWith("data:")) continue;
+              const dataStr = trimmed.slice(5).trim();
+              if (dataStr === "[DONE]") continue;
+
+              try {
+                const parsed = JSON.parse(dataStr);
+                if (parsed.content) {
+                  accumulatedText += parsed.content;
+                }
+              } catch {
+                // Ignore partial JSON
+              }
+            }
+          }
+        } finally {
+          streamEnded = true;
+        }
+      })();
+
+      // Enforce the Claude-style thinking delay
+      const elapsed = Date.now() - startTime;
+      if (elapsed < minThinkingTime) {
+        await new Promise((r) => setTimeout(r, minThinkingTime - elapsed));
+      }
+
+      // Finish thinking phase
+      setIsThinking(false);
+
+      // Add empty assistant message
       setMessages((prev) => [
         ...prev,
         { id: botMsgId, role: "assistant", content: "" },
       ]);
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let accumulated = "";
-      let buffer = "";
+      // Smooth progressive streaming typewriter
+      let revealedLength = 0;
+      while (revealedLength < accumulatedText.length || !streamEnded) {
+        if (revealedLength < accumulatedText.length) {
+          const remaining = accumulatedText.length - revealedLength;
+          const chunkSize = remaining > 120 ? 8 : remaining > 30 ? 4 : 2;
+          revealedLength = Math.min(revealedLength + chunkSize, accumulatedText.length);
+          const currentText = accumulatedText.slice(0, revealedLength);
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed.startsWith("data:")) continue;
-          const dataStr = trimmed.slice(5).trim();
-          if (dataStr === "[DONE]") continue;
-
-          try {
-            const parsed = JSON.parse(dataStr);
-            if (parsed.content) {
-              accumulated += parsed.content;
-              setMessages((prev) =>
-                prev.map((m) =>
-                  m.id === botMsgId ? { ...m, content: accumulated } : m
-                )
-              );
-            }
-          } catch {
-            // Partial chunk
-          }
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === botMsgId ? { ...m, content: currentText } : m
+            )
+          );
+          await new Promise((r) => setTimeout(r, 16));
+        } else {
+          // Waiting for additional streaming chunks from network
+          await new Promise((r) => setTimeout(r, 35));
         }
       }
+
+      // Ensure final full text is set
+      await streamPromise;
+      if (accumulatedText) {
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === botMsgId ? { ...m, content: accumulatedText } : m
+          )
+        );
+      }
     } catch (err: unknown) {
+      setIsThinking(false);
       console.error("Chat error:", err);
       setMessages((prev) => [
         ...prev,
@@ -246,6 +355,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
         },
       ]);
     } finally {
+      setIsThinking(false);
       setIsGenerating(false);
     }
   };
@@ -253,6 +363,8 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
   const handleReset = () => {
     setMessages([]);
     setInput("");
+    setIsThinking(false);
+    setIsGenerating(false);
     userScrolledUpRef.current = false;
   };
 
@@ -362,14 +474,14 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
                 );
               })}
 
-              {/* Minimal Bot Icon while generating */}
-              {isGenerating && (
-                <div className="flex items-center gap-2 py-2">
-                  <div className="relative size-7 shrink-0">
+              {/* Claude-style dynamic thinking status with Titanium Bot (No Pill) */}
+              {isThinking && (
+                <div className="flex items-center gap-2.5 py-2 px-1 animate-in fade-in duration-200">
+                  <div className="relative size-6 shrink-0 opacity-85">
                     <svg
                       viewBox="-125 -125 250 250"
                       aria-hidden="true"
-                      className="size-full animate-pulse"
+                      className="size-full"
                     >
                       <mask
                         id="thinking-bot-mask"
@@ -429,6 +541,9 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
                       </g>
                     </svg>
                   </div>
+
+                  {/* Normal Claude-style slow typewriter text (No Pill) */}
+                  <ThinkingTypewriter />
                 </div>
               )}
             </div>
