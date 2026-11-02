@@ -75,7 +75,8 @@ export function AboutAndJourneySection() {
                 low-latency Web Audio API spatial processing to planetary-scale satellite radar pipelines.
               </p>
               <p>
-                As a <strong className="text-foreground font-semibold">Google Student Ambassador</strong>,
+                As a <strong className="text-foreground font-semibold">Google Student Ambassador</strong> and{" "}
+                <strong className="text-foreground font-semibold">Co-Lead of the R&amp;D Club</strong> at ITM Skills University,
                 I lead campus developer workshops covering Google Cloud, Workspace APIs, and Gemini models.
                 I have shipped production software on the Microsoft Edge Store, won Hacktoberfest x MLH Hack Day,
                 and ranked in the Top 3 across the national 100x Applied AI cohort.

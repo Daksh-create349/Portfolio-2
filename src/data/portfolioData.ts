@@ -489,6 +489,14 @@ export const INITIATIVES = [
 
 export const JOURNEY = [
   {
+    role: "Co-Lead, Research & Development Club",
+    org: "ITM Skills University",
+    location: "Navi Mumbai, India",
+    period: "2025 – Present",
+    tag: "Campus Leadership",
+    summary: "Spearheading student-led research initiatives, technical prototyping, AI & systems experimentation, and university-wide engineering workshops.",
+  },
+  {
     role: "Google Student Ambassador",
     org: "Google",
     location: "Mumbai, India",

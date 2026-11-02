@@ -57,7 +57,9 @@ PROJECTS
   React 19 · TypeScript · Google Gemini 2.5 API · Tailwind CSS · Recharts · ReactFlow · Vite
   Adaptive education platform on Gemini 2.5 Flash/Pro with Concept Tutor, Debate Mode, dynamic Recharts & ReactFlow mind maps, and Gemini Live real-time audio sessions.
 
-EXPERIENCE
+EXPERIENCE & LEADERSHIP
+- Co-Lead, Research & Development Club — ITM Skills University (2025 – Present)
+  Spearheading student-led research initiatives, technical prototyping, AI & systems experimentation, and university-wide engineering workshops.
 - AI Engineer Intern — Sahajta AI (Remote)
 - Google Student Ambassador — Google (2025 – Present)
   Lead Google Cloud, Workspace, and AI/ML developer workshops on campus; bridge GDSC and Google programs with the university ecosystem.
@@ -474,6 +476,22 @@ export function ResumeSection() {
                   </h4>
 
                   <div className="space-y-4">
+                    {/* Research & Development Club */}
+                    <div className="p-5 rounded-2xl border border-border/60 bg-secondary/25 space-y-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div className="flex items-center gap-2">
+                          <h5 className="font-bold text-sm text-foreground">Co-Lead &mdash; Research &amp; Development Club</h5>
+                          <span className="px-2 py-0.5 rounded-full bg-secondary border border-border/60 text-[10px] font-mono text-foreground font-semibold">
+                            ITM Skills University
+                          </span>
+                        </div>
+                        <span className="font-mono text-xs text-muted-foreground">2025 &ndash; Present</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        Spearheading student-led research initiatives, open-source technical prototyping, AI &amp; systems experimentation, and university-wide engineering workshops.
+                      </p>
+                    </div>
+
                     {/* Sahajta AI */}
                     <div className="p-5 rounded-2xl border border-border/60 bg-secondary/25 space-y-1.5">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">

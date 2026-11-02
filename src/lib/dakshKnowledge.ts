@@ -31,14 +31,16 @@ Email: dakshshrivastav56@gmail.com
     id: "key-initiatives",
     category: "experience",
     title: "Roles & Leadership Initiatives",
-    keywords: ["google", "ambassador", "sahajta", "intern", "internship", "experience", "work", "job", "lead"],
+    keywords: ["google", "ambassador", "sahajta", "intern", "internship", "experience", "work", "job", "lead", "co-lead", "r&d", "research", "development", "club", "itm"],
     content: `
 Key Roles and Leadership:
-1. Google Student Ambassador (Google, Mumbai, India | 2025 – Present):
+1. Co-Lead, Research and Development Club (ITM Skills University, Navi Mumbai | 2025 – Present):
+   - Spearheading student-driven research initiatives, open-source technical prototypes, AI/systems experimentation, and campus-wide engineering workshops.
+2. Google Student Ambassador (Google, Mumbai, India | 2025 – Present):
    - Leading university developer workshops on Google Cloud, Google Workspace APIs, and Google Gemini multimodal AI models.
-2. AI Engineer Intern (Sahajta AI | 2025 – Present):
+3. AI Engineer Intern (Sahajta AI | 2025 – Present):
    - Architecting agentic AI pipelines, prompt evaluations, and low-latency multimodal application services.
-3. Student Ambassador (LetsUpgrade | Sep 2025 – Dec 2025):
+4. Student Ambassador (LetsUpgrade | Sep 2025 – Dec 2025):
    - Organized technical upskilling workshops and peer coding tournaments for university students.
     `.trim(),
   },
