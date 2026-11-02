@@ -344,7 +344,7 @@ export function GrokChatModal({ isOpen, onClose }: GrokChatModalProps) {
       }
     } catch (err: unknown) {
       setIsThinking(false);
-      console.error("Chat error:", err);
+      console.warn("Chat error:", err);
       setMessages((prev) => [
         ...prev,
         {
